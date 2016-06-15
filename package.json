@@ -1,0 +1,45 @@
+{
+  "name": "offer-selector",
+  "description": "Library to select an ODRL offer from a set of options",
+  "version": "0.0.0",
+  "main": "src/main.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/openpermissions/offer-selector.git"
+  },
+  "dependencies": {
+    "jsonld": "^0.4.8",
+    "riot": "2.0.15",
+    "riotify": "0.0.9"
+  },
+  "devDependencies": {
+    "babel": "5.1.11",
+    "babel-runtime": "5.3.1",
+    "babelify": "6.0.2",
+    "browserify": "9.0.8",
+    "browserify-versionify": "1.0.4",
+    "eslint": "^2.11.1",
+    "eslint-plugin-riot": "^0.1.5",
+    "uglify-js": "2.4.20",
+    "watchify": "3.1.2"
+  },
+  "scripts": {
+    "build": "browserify src/main.js --s OfferSelector -o dist/offer-selector.js --debug",
+    "build:watch": "watchify src/main.js --s OfferSelector -v -o dist/offer-selector.js --debug",
+    "build:min": "browserify src/main.js --s OfferSelector | uglifyjs -c -m > dist/offer-selector.min.js"
+  },
+  "browserify": {
+    "transform": [
+      [
+        "babelify",
+        {
+          "optional": [
+            "runtime"
+          ]
+        }
+      ],
+      "riotify",
+      "browserify-versionify"
+    ]
+  }
+}
