@@ -1,0 +1,235 @@
+*{
+  margin:0;
+  padding:0;
+}
+
+body{
+  background: #77AAAD;
+  width:100%;
+
+}
+/* The little white line below the title. It's useless but cute design wise. */
+.all{
+  border-top: solid 1px #D8E6E7;
+  width:100%;
+  height:100%;
+  margin: 0 auto;
+
+}
+/* Container class for swiper */
+.swiper-container {
+    width: 100%;
+    height: 80vh;
+    margin: 0 auto;
+}
+/* Container class for swiper slider */
+.swiper-slide {
+    width: 100%;
+    /* Center slide text vertically */
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    -webkit-justify-content: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+}
+/* Title */
+h1{
+  text-align:center;
+  margin-top:20px;
+  color: #D8E6EF;
+  font-size: 5vh;
+  font-family: 'Lato', sans-serif; font-weight: 400; line-height: 58px;
+  margin-bottom:15px;
+
+}
+/* Media queries for different screen sizes to stop showing the Swiper classes in case someone **really** wants to resize the window continuosly */
+@media screen and (max-width: 320px)
+{
+    .swiper-button-prev {
+        display:none;
+    }
+    .swiper-button-next {
+        display:none;
+    }
+}
+
+@media screen and (max-width: 415px)
+{
+  .swiper2 {
+      display:none;
+  }
+  .swiper3 {
+      display:none;
+  }
+  .swiper4 {
+      display:none;
+  }
+}
+
+@media screen and (min-width: 416px) and (max-width:1000px)
+{
+  .swiper {
+      display:none;
+  }
+  .swiper3 {
+      display:none;
+  }
+  .swiper4 {
+      display:none;
+  }
+}
+
+@media screen and (min-width: 1000px) and (max-width:1700px)
+{
+  .swiper4 {
+      display:none;
+  }
+  .swiper2 {
+      display:none;
+  }
+  .swiper {
+      display:none;
+  }
+}
+
+@media screen and (min-width: 1700px)
+{
+
+  .swiper3 {
+      display:none;
+  }
+  .swiper2 {
+      display:none;
+  }
+  .swiper {
+      display:none;
+  }
+}
+/* Class for the card */
+.card_table {
+  position:relative;
+  width:250px;
+  height:400px;
+  background: #fff;
+
+  -webkit-box-shadow: 2px 2px 9px rgba(0,0,0,0.3);
+     -moz-box-shadow: 2px 2px 9px rgba(0,0,0,0.3);
+          box-shadow: 2px 2px 9px rgba(0,0,0,0.3);
+}
+/* Centered version for Swiper */
+.card_table#mobile{
+    margin:0 auto;
+
+}
+/* Responsive version for Desktop */
+.card_table#desk {
+  float:left;
+  margin-top:50px;
+  margin-left:50px;
+  margin-bottom:50px;
+}
+.card_table ul {
+  list-style-type: none;
+}
+.type{
+  color:#96281B;
+  font-size:20px;
+  position: relative;
+  margin-left: 10px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+   font-family: 'Lato', sans-serif; font-weight: 300; line-height: 58px;
+}
+.usage{
+  font-family: 'Lucida Sans', Arial, sans-serif;
+  font-size: 16px;
+  line-height: 26px;
+  margin-left: 10px;
+}
+.price{
+  position: absolute;
+  bottom:50px;
+}
+.color1 {
+  background: #D64541; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(#D64541, #E08283); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#D64541, #E08283); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#D64541, #E08283); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#D64541, #E08283); /* Standard syntax */
+}
+.button {
+    display: inline-block;
+    position: relative;
+    color: #fff;
+    margin: 10px;
+    padding: 0 20px;
+    text-align: center;
+    text-decoration: none;
+    font: bold 12px/35px Arial, sans-serif;
+    -webkit-box-shadow: 1px 1px 1px rgba(0,0,0, .29), inset 1px 1px 1px rgba(255,255,255, .44);
+    -moz-box-shadow: 1px 1px 1px rgba(0,0,0, .29), inset 1px 1px 1px rgba(255,255,255, .44);
+    box-shadow: 1px 1px 1px rgba(0,0,0, .29), inset 1px 1px 1px rgba(255,255,255, .44);
+}
+.color1:hover {
+  color: #fff;
+  background: #F1A9A0; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(#F1A9A0, #E08283); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#F1A9A0, #E08283); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#F1A9A0, #E08283); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#F1A9A0, #E08283); /* Standard syntax */
+}
+.color2 {
+  background: #369E95;
+  background: -webkit-linear-gradient(#369E95, #86E2D5); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#369E95, #86E2D5); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#369E95, #86E2D5); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#369E95, #86E2D5); /* Standard syntax */
+}
+.color2:hover {
+  background: #369E95;
+  background: -webkit-linear-gradient(#A2DED0, #86E2D5); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(#A2DED0, #86E2D5); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(#A2DED0, #86E2D5); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(#A2DED0, #86E2D5); /* Standard syntax */
+}
+.logo{
+  background: #2A2A28;
+  width:250px;
+  height:50px;
+}
+.no2{
+  background: #DB4923;
+}
+
+.logo img{
+  width:220px;
+  height:40px;
+  display:block;
+  margin: 0 auto;
+  padding-top: 7px;
+}
+.footer-logo{
+  position:absolute;
+  height:40px;
+  width:250px;
+  bottom: 0;
+  border-top: solid 1px;
+  border-color: #6C7A89;
+  background: #DADFE1;
+}
+.footer-logo img{
+  height:40px;
+  float:left;
+}
+.footer-logo p{
+  float:left;
+  margin-top:15px;
+  margin-left:10px;
+}
