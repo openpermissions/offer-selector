@@ -1,140 +1,23 @@
 <html>
   <head>
-    <link rel="stylesheet" type="text/css" href="./styles/style.css">
-     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
-      <link rel="stylesheet" href="./bower_components/swiper/dist/css/swiper.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+    <script type="text/javascript" src="../dist/offer-selector.js"></script>
+
     <meta charset="UTF-8">
     <title>Example Offer</title>
   </head>
   <body>
-    <offers></offers>
-    <!--<h1>OPP Licence Offers</h1> -->
-    <!-- Template for carousel -->
-    <!--
-    <div class="all">
-    <div class="swiper-container">
-       <div class="swiper-wrapper">
-           <div class="swiper-slide"><div class="card_table" id="mobile">
-             <div class="logo">
-               <img src="mirrorpix-logo.png"></img>
-             </div>
-             <ul>
-               <li class="type"> Non-commercial website </li>
-               <li class="usage"> Personal Use - Website - Webpage (no advertising) - Internet Website </li>
-               <li class="price"> <a href="#" class="button color1"> Buy for £6.00 </a></li>
-             </ul>
-             <div class="footer-logo">
-               <p>Powered by </p> <img src="opp-logo.png"></img>
-             </div>
-           </div>
-         </div>
-         <div class="swiper-slide"><div class="card_table" id="mobile">
-           <div class="logo no2">
-             <img src="exampleco-logo.png"></img>
-           </div>
-           <ul>
-             <li class="type"> Commercial website </li>
-             <li class="usage"> Personal Use - Website - Webpage (no advertising) - Internet Website </li>
-             <li class="price"> <a href="#" class="button color2"> Buy for £10.00 </a></li>
-           </ul>
-           <div class="footer-logo">
-             <p>Powered by </p> <img src="opp-logo.png"></img>
-           </div>
-         </div>
-       </div>
-       <div class="swiper-slide"><div class="card_table" id="mobile">
-         <div class="logo">
-           <img src="mirrorpix-logo.png"></img>
-         </div>
-         <ul>
-           <li class="type"> Non-commercial website </li>
-           <li class="usage"> Personal Use - Website - Webpage (no advertising) - Internet Website </li>
-           <li class="price"> <a href="#" class="button color1"> Buy for £6.00 </a></li>
-         </ul>
-         <div class="footer-logo">
-           <p>Powered by </p> <img src="opp-logo.png"></img>
-         </div>
-       </div>
-     </div>
-
-       </div>
-
-       <div class="swiper-pagination swiper-pagination-white"></div>
-       <div class="swiper-button-next swiper-button-white"></div>
-        <div class="swiper-button-prev swiper-button-white"></div>
-   </div>
- -->
- <!-- Template for Desktop -->
- <!--
-      <div class="card_table" id="desk">
-        <div class="logo">
-          <img src="mirrorpix-logo.png"></img>
-        </div>
-        <ul>
-          <li class="type"> Non-commercial website </li>
-          <li class="usage"> Personal Use - Website - Webpage (no advertising) - Internet Website </li>
-          <li class="price"> <a href="#" class="button color1"> Buy for £6.00 </a></li>
-        </ul>
-        <div class="footer-logo">
-          <p>Powered by </p> <img src="opp-logo.png"></img>
-        </div>
-      </div>
-      <div class="card_table" id="desk">
-        <div class="logo no2">
-          <img src="exampleco-logo.png"></img>
-        </div>
-        <ul>
-          <li class="type"> Commercial website </li>
-          <li class="usage"> Personal Use - Website - Webpage (no advertising) - Internet Website </li>
-          <li class="price"> <a href="#" class="button color2"> Buy for £10.00 </a></li>
-        </ul>
-        <div class="footer-logo">
-          <p>Powered by </p> <img src="opp-logo.png"></img>
-        </div>
-      </div>
-      <div class="card_table" id="desk">
-        <div class="logo">
-          <img src="mirrorpix-logo.png"></img>
-        </div>
-        <ul>
-          <li class="type"> Social Media Account </li>
-          <li class="usage"> Personal Use - Website - Webpage or App - Internet Website </li>
-          <li class="price"> <a href="#" class="button color1"> Buy for £6.00 </a></li>
-        </ul>
-        <div class="footer-logo">
-          <p>Powered by </p> <img src="opp-logo.png"></img>
-        </div>
-      </div>
-      <div class="card_table" id="desk">
-        <div class="logo">
-          <img src="mirrorpix-logo.png"></img>
-        </div>
-        <ul>
-          <li class="type"> Commercial website </li>
-          <li class="usage"> Personal Use - Website - Webpage (no advertising) - Internet Website </li>
-          <li class="price"> <a href="#" class="button color1"> Buy for £10.00 </a></li>
-        </ul>
-        <div class="footer-logo">
-          <p>Powered by </p> <img src="opp-logo.png"></img>
-        </div>
-      </div>
-    </div>
--->
-
-    <script src="./bower_components/swiper/dist/js/swiper.min.js"></script>
-<!--
-    <script>
-    var swiper = new Swiper('.swiper-container', {
-        pagination: '.swiper-pagination',
-        slidesPerView:1,
-        paginationClickable: true,
-        nextButton: '.swiper-button-next',
-        prevButton: '.swiper-button-prev',
-        spaceBetween: 30,
-        centeredSlides: true,
-    });
-    </script>
-  -->
-
   </body>
+  <script>
+    let offerSelector = new OfferSelector();
+    let source_ids = [{
+      source_id_type: 'hub_key',
+      source_id: "https://copyrighthub.org/s0/hub1/creation/exampleco/examplecopictureid/1400"
+    },
+    {
+      source_id_type: 'examplecopictureid',
+      source_id: "140"
+    }]
+    offerSelector.loadOffers(source_ids);
+  </script>
 </html>

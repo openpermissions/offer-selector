@@ -1,5 +1,5 @@
 /**
- * Offer viewer
+ * Offer Selector
  *
  * Copyright 2016 Open Permissions Platform Coalition
  *
@@ -16,7 +16,59 @@
  */
 
 'use strict';
-const riot = require('riot');
-require('./templates/offers.tag');
+const defaults = require('lodash.defaults');
+const jsonld = require('jsonld');
+const ldPromises = jsonld.promises;
+require('whatwg-fetch');
 
 
+class OfferSelector {
+  constructor(options) {
+    this.version = '__VERSION__';
+    this.options = defaults(options || {}, {
+      query: 'https://query.copyrighthub.org/v1/query/search/offers',
+      tag: 'offer-selector'
+    });
+  }
+
+  parseOffers(response) {
+    let data = response.data || [];
+    let offers = data.map(d => d['offers']);
+    offers = [].concat.apply([], offers);
+    const offerPromises = offers.map(offer => ldPromises.expand(offer));
+    return Promise.all(offerPromises);
+  }
+
+  displayOffers(offers) {
+    offers.forEach(offer => { console.log(offer)})
+  }
+
+  loadOffers(sourceIds) {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    const init = {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(sourceIds)
+    };
+
+    fetch(this.options.query, init)
+      .then(response => {
+        if (response.status == 200) {
+          return response.json();
+        } else {
+          var error = new Error(response.statusText);
+          error.response = response;
+          throw error
+        }
+      })
+      .then(this.parseOffers)
+      .then(this.displayOffers)
+      .catch(err => {
+        var error = new Error(err);
+        throw error
+      })
+  }
+}
+
+module.exports = OfferSelector;
