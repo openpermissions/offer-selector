@@ -6,19 +6,18 @@
 
         <div class="swiper-container swiper" id="container">
           <div class="swiper-wrapper" id="wrapper">
-            <div each = { items } class="swiper-slide">
+            <div each = {items} class="swiper-slide">
               <div class="card_table" id="mobile">
-
                 <div class="logo">
-                  <img src="mirrorpix-logo.png"></img>
+                  <img src="../src/templates/logos/mirrorpix-logo.png"></img>
                 </div>
                 <ul>
-                  <li class="type"> {type}</li>
+                  <li class="type">{type}</li>
                   <li class="usage"> Personal Use - Website - Webpage (no advertising) - Internet Website </li>
                   <li class="price"> <a href="#" class={"button " + color}> Buy for £6.00 </a></li>
                 </ul>
                 <div class="footer-logo">
-                  <p>Powered by </p> <img src="opp-logo.png"></img>
+                  <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
                 </div>
               </div>
             </div>
@@ -32,19 +31,19 @@
 
         <div class="swiper-container swiper2" id="container">
           <div class="swiper-wrapper" id="wrapper">
-            <div each = { items } class="swiper-slide">
+            <div each = {items} class="swiper-slide">
               <div class="card_table" id="mobile">
 
                 <div class="logo">
-                  <img src="mirrorpix-logo.png"></img>
+                  <img src="../src/templates/logos/mirrorpix-logo.png"></img>
                 </div>
                 <ul>
-                  <li class="type"> {type}</li>
+                  <li class="type">{type}</li>
                   <li class="usage"> Personal Use - Website - Webpage (no advertising) - Internet Website </li>
                   <li class="price"> <a href="#" class={"button " + color}> Buy for £6.00 </a></li>
                 </ul>
                 <div class="footer-logo">
-                  <p>Powered by </p> <img src="opp-logo.png"></img>
+                  <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
                 </div>
               </div>
             </div>
@@ -58,11 +57,11 @@
 
         <div class="swiper-container swiper3" id="container">
           <div class="swiper-wrapper" id="wrapper">
-            <div each = { items } class="swiper-slide">
+            <div each = {items} class="swiper-slide">
               <div class="card_table" id="mobile">
 
                 <div class="logo">
-                  <img src="mirrorpix-logo.png"></img>
+                  <img src="../src/templates/logos/mirrorpix-logo.png"></img>
                 </div>
                 <ul>
                   <li class="type"> {type}</li>
@@ -70,7 +69,7 @@
                   <li class="price"> <a href="#" class={"button " + color}> Buy for £6.00 </a></li>
                 </ul>
                 <div class="footer-logo">
-                  <p>Powered by </p> <img src="opp-logo.png"></img>
+                  <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
                 </div>
               </div>
             </div>
@@ -84,11 +83,11 @@
 
         <div class="swiper-container swiper4" id="container">
           <div class="swiper-wrapper" id="wrapper">
-            <div each = { items } class="swiper-slide">
+            <div each = {items} class="swiper-slide">
               <div class="card_table" id="mobile">
 
                 <div class="logo">
-                  <img src="mirrorpix-logo.png"></img>
+                  <img src="../src/templates/logos/mirrorpix-logo.png"></img>
                 </div>
                 <ul>
                   <li class="type"> {type}</li>
@@ -96,7 +95,7 @@
                   <li class="price"> <a href="#" class={"button " + color}> Buy for £6.00 </a></li>
                 </ul>
                 <div class="footer-logo">
-                  <p>Powered by </p> <img src="opp-logo.png"></img>
+                  <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
                 </div>
               </div>
             </div>
@@ -107,16 +106,23 @@
         </div>
       </div>
   </div>
+
   <script>
-    require('swiper');
+    //require('swiper');
 
-
+    console.log("here script");
     /* Pass dummy array to Riot */
     this.items = opts.items;
+    //console.log(opts.items);
 
+    debugme(value, value2){
+      console.log("here " + value2 , value);
+      return value;
+    }
     render_swiper() {
 
         var width = window.innerWidth;
+
         if(width<415) {
 
         var swiper = new Swiper('.swiper', {
@@ -174,18 +180,18 @@
 
 /* Call the render_swiper function every time screen gets resized */
 
-window.onresize = render_swiper;
+window.onresize = this.render_swiper;
 
 /* Add swiper when mounting elements */
 
 this.on('mount', function(){
-    render_swiper();
+    this.render_swiper();
   });
 
 /* After page is updated (used for window resizing) */
 
 this.on('updated', function(){
-  render_swiper();
+  this.render_swiper();
 });
 
 
