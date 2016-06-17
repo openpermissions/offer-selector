@@ -13,8 +13,10 @@
                 </div>
                 <ul>
                   <li class="type">{type}</li>
-                  <li class="usage"> Personal Use - Website - Webpage (no advertising) - Internet Website </li>
-                  <li class="price"> <a href="#" class={"button " + color}> Buy for £6.00 </a></li>
+                  <button id="up"><img src="../ui_elem/caret-bottom.svg"></img></button>
+                  <div class="container" id="scroller"><div class="content"><li class="usage"><raw content="{description}"></raw></li></div></div>
+                  <button id="down"><img src="../ui_elem/caret-bottom.svg"></img></button>
+                  <li class="price"> <a href="#" class="button { color }"> Buy for £6.00 </a></li>
                 </ul>
                 <div class="footer-logo">
                   <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
@@ -39,7 +41,7 @@
                 </div>
                 <ul>
                   <li class="type">{type}</li>
-                  <li class="usage"> Personal Use - Website - Webpage (no advertising) - Internet Website </li>
+                  <li class="usage">{description}</li>
                   <li class="price"> <a href="#" class={"button " + color}> Buy for £6.00 </a></li>
                 </ul>
                 <div class="footer-logo">
@@ -65,7 +67,7 @@
                 </div>
                 <ul>
                   <li class="type"> {type}</li>
-                  <li class="usage"> Personal Use - Website - Webpage (no advertising) - Internet Website </li>
+                  <li class="usage">{description}</li>
                   <li class="price"> <a href="#" class={"button " + color}> Buy for £6.00 </a></li>
                 </ul>
                 <div class="footer-logo">
@@ -91,7 +93,7 @@
                 </div>
                 <ul>
                   <li class="type"> {type}</li>
-                  <li class="usage"> Personal Use - Website - Webpage (no advertising) - Internet Website </li>
+                  <li class="usage">{description}</li>
                   <li class="price"> <a href="#" class={"button " + color}> Buy for £6.00 </a></li>
                 </ul>
                 <div class="footer-logo">
@@ -113,7 +115,7 @@
     console.log("here script");
     /* Pass dummy array to Riot */
     this.items = opts.items;
-    //console.log(opts.items);
+    console.log(opts.items);
 
     debugme(value, value2){
       console.log("here " + value2 , value);
@@ -178,6 +180,7 @@
 
 
 
+
 /* Call the render_swiper function every time screen gets resized */
 
 window.onresize = this.render_swiper;
@@ -193,8 +196,17 @@ this.on('mount', function(){
 this.on('updated', function(){
   this.render_swiper();
 });
-
-
-
   </script>
 </offers>
+
+riot.tag('raw', '<span></span>', function (opts) {
+    this.updateContent = function () {
+        this.root.innerHTML = opts.content;
+    };
+
+    this.on('update', function() {
+        this.updateContent();
+    });
+
+    this.updateContent();
+});

@@ -9,6 +9,11 @@ body{
 
 }
 /* The little white line below the title. It's useless but cute design wise. */
+br
+{   content: "A" !important;
+    display: block !important;
+    margin-bottom: 0.5em !important;
+}
 .all{
   border-top: solid 1px #D8E6E7;
   width:100%;
@@ -134,6 +139,13 @@ h1{
   margin-top:50px;
   margin-left:50px;
   margin-bottom:50px;
+}
+button {
+  float:right;
+}
+.card_table .container {
+  height:150px;
+  overflow: scroll;
 }
 .card_table ul {
   list-style-type: none;
