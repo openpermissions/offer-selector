@@ -10,6 +10,7 @@
   "dependencies": {
     "jsonld": "^0.4.8",
     "lodash.defaults": "4.0.1",
+    "lodash.uniq": "^4.3.0",
     "riot": "2.0.15",
     "riotify": "0.0.9",
     "swiper": "3.3.1",

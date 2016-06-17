@@ -16,17 +16,19 @@
  */
 
 'use strict';
-const defaults = require('lodash.defaults');
+const _defaults = require('lodash.defaults');
+const _uniq = require('lodash.uniq');
 const jsonld = require('jsonld');
 const ldPromises = jsonld.promises;
 require('whatwg-fetch');
-
+const helper = require('./helper');
 
 class OfferSelector {
   constructor(options) {
     this.version = '__VERSION__';
-    this.options = defaults(options || {}, {
-      query: 'https://query.copyrighthub.org/v1/query/search/offers',
+    this.options = _defaults(options || {}, {
+      offers: 'https://query.copyrighthub.org/v1/query/search/offers',
+      organisations: 'https://acc.copyrighthub.org/v1/accounts/organisations',
       tag: 'offer-selector'
     });
   }
@@ -38,6 +40,32 @@ class OfferSelector {
     const offerPromises = offers.map(offer => ldPromises.expand(offer));
     return Promise.all(offerPromises);
   }
+
+  retrieveOrganisations(offers) {
+    return new Promise((resolve, reject) => {
+      offers = offers.map(offer => {
+        return {"offer": offer, "organisation": helper.getAssigner(offer)}
+      });
+
+      let organisationIds = offers.map(offer => offer.organisation);
+      organisationIds = _uniq(organisationIds.filter(value => value !== undefined));
+
+      let orgPromises = organisationIds.map(org => {
+        return new Promise((resolve, reject) => {
+          fetch(`${this.options.organisations}/${org}`)
+            .then(response => helper.parseResponse(response))
+            .then(response => resolve(response.data));
+        });
+      });
+
+      Promise.all(orgPromises).then(organisations => {
+        offers.forEach(offer => {
+          offer.organisation = organisations.find(org => org.id == offer.organisation) || {};
+        });
+        resolve(offers);
+      });
+    });
+  };
 
   displayOffers(offers) {
     offers.forEach(offer => { console.log(offer)})
@@ -52,18 +80,11 @@ class OfferSelector {
       body: JSON.stringify(sourceIds)
     };
 
-    fetch(this.options.query, init)
-      .then(response => {
-        if (response.status == 200) {
-          return response.json();
-        } else {
-          var error = new Error(response.statusText);
-          error.response = response;
-          throw error
-        }
-      })
-      .then(this.parseOffers)
-      .then(this.displayOffers)
+    fetch(this.options.offers, init)
+      .then(val => helper.parseResponse(val))
+      .then(val => this.parseOffers(val))
+      .then(val => this.retrieveOrganisations(val))
+      .then(val => this.displayOffers(val))
       .catch(err => {
         var error = new Error(err);
         throw error
