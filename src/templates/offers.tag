@@ -9,13 +9,13 @@
             <div each = {items} class="swiper-slide">
               <div class="card_table" id="mobile">
                 <div class="logo">
-                  <img src="../src/templates/logos/mirrorpix-logo.png"></img>
+                  <img src={logo}></img>
                 </div>
                 <ul>
                   <li class="type">{type}</li>
-                  <button id="up"><img src="../ui_elem/caret-bottom.svg"></img></button>
+                  <span class="button_span up"><img src="../ui_elem/caret-top.svg"></img></span>
                   <div class="container" id="scroller"><div class="content"><li class="usage"><raw content="{description}"></raw></li></div></div>
-                  <button id="down"><img src="../ui_elem/caret-bottom.svg"></img></button>
+                  <span class="button_span down"><img src="../ui_elem/caret-bottom.svg"></img></span>
                   <li class="price"> <a href="#" class="button { color }"> Buy for £6.00 </a></li>
                 </ul>
                 <div class="footer-logo">
@@ -35,14 +35,15 @@
           <div class="swiper-wrapper" id="wrapper">
             <div each = {items} class="swiper-slide">
               <div class="card_table" id="mobile">
-
                 <div class="logo">
-                  <img src="../src/templates/logos/mirrorpix-logo.png"></img>
+                  <img src={logo}></img>
                 </div>
                 <ul>
                   <li class="type">{type}</li>
-                  <li class="usage">{description}</li>
-                  <li class="price"> <a href="#" class={"button " + color}> Buy for £6.00 </a></li>
+                  <span class="button_span up"><img src="../ui_elem/caret-top.svg"></img></span>
+                  <div class="container" id="scroller"><div class="content"><li class="usage"><raw content="{description}"></raw></li></div></div>
+                  <span class="button_span down"><img src="../ui_elem/caret-bottom.svg"></img></span>
+                  <li class="price"> <a href="#" class="button { color }"> Buy for £6.00 </a></li>
                 </ul>
                 <div class="footer-logo">
                   <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
@@ -63,12 +64,14 @@
               <div class="card_table" id="mobile">
 
                 <div class="logo">
-                  <img src="../src/templates/logos/mirrorpix-logo.png"></img>
+                  <img src={logo}></img>
                 </div>
                 <ul>
-                  <li class="type"> {type}</li>
-                  <li class="usage">{description}</li>
-                  <li class="price"> <a href="#" class={"button " + color}> Buy for £6.00 </a></li>
+                  <li class="type">{type}</li>
+                  <span class="button_span up"><img src="../ui_elem/caret-top.svg"></img></span>
+                  <div class="container" id="scroller"><div class="content"><li class="usage"><raw content="{description}"></raw></li></div></div>
+                  <span class="button_span down"><img src="../ui_elem/caret-bottom.svg"></img></span>
+                  <li class="price"> <a href="#" class="button { color }"> Buy for £6.00 </a></li>
                 </ul>
                 <div class="footer-logo">
                   <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
@@ -89,12 +92,14 @@
               <div class="card_table" id="mobile">
 
                 <div class="logo">
-                  <img src="../src/templates/logos/mirrorpix-logo.png"></img>
+                  <img src={logo}></img>
                 </div>
                 <ul>
-                  <li class="type"> {type}</li>
-                  <li class="usage">{description}</li>
-                  <li class="price"> <a href="#" class={"button " + color}> Buy for £6.00 </a></li>
+                  <li class="type">{type}</li>
+                  <span class="button_span up"><img src="../ui_elem/caret-top.svg"></img></span>
+                  <div class="container" id="scroller"><div class="content"><li class="usage"><raw content="{description}"></raw></li></div></div>
+                  <span class="button_span down"><img src="../ui_elem/caret-bottom.svg"></img></span>
+                  <li class="price"> <a href="#" class="button { color }"> Buy for £6.00 </a></li>
                 </ul>
                 <div class="footer-logo">
                   <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
@@ -190,24 +195,29 @@ window.onresize = this.render_swiper;
 
 this.on('mount', function(){
     this.render_swiper();
-    
-    $("#up").hide();
+     console.log("content: " + $('.content').height() );
+     console.log("container: " + $('.container').height());
+    $(".up").addClass('hiding');
         if ($('.content').height() > $('.container').height()) {
 
-            $("#up").click(function () {
-                 $('.container').animate({scrollTop: '-=150'}, "fast");
-                 if ($('.content').height() <  $('.container').height()+150) {
-                   $("#down").show();
+            $(".up").click(function () {
+                 $('.container').animate({scrollTop: '-=140'}, "fast");
+                 console.log("content: " + $('.content').height() );
+                 console.log("container: " + $('.container').height());
+                 if ($('.content').height() <  $('.container').height()+141) {
+
+                   $(".down").show();
+                   $(".up").addClass('hiding');
                  }
-
-
             });
 
-            $("#down").click(function () {
-                 $('.container').animate({scrollTop: '+=150'}, "fast");
-                 $("#up").show();
-                 if ($('.content').height() <  $('.container').height()+150) {
-                   $("#down").hide();
+            $(".down").click(function () {
+              console.log("content: " + $('.content').height() );
+              console.log("container: " + $('.container').height());
+                 $('.container').animate({scrollTop: '+=140'}, "fast");
+                 $(".up").removeClass("hiding");
+                 if ($('.content').height() <  $('.container').height()+141) {
+                   $(".down").hide();
 
                  }
             });
