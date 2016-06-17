@@ -185,10 +185,34 @@
 
 window.onresize = this.render_swiper;
 
+
 /* Add swiper when mounting elements */
 
 this.on('mount', function(){
     this.render_swiper();
+    
+    $("#up").hide();
+        if ($('.content').height() > $('.container').height()) {
+
+            $("#up").click(function () {
+                 $('.container').animate({scrollTop: '-=150'}, "fast");
+                 if ($('.content').height() <  $('.container').height()+150) {
+                   $("#down").show();
+                 }
+
+
+            });
+
+            $("#down").click(function () {
+                 $('.container').animate({scrollTop: '+=150'}, "fast");
+                 $("#up").show();
+                 if ($('.content').height() <  $('.container').height()+150) {
+                   $("#down").hide();
+
+                 }
+            });
+        }
+
   });
 
 /* After page is updated (used for window resizing) */

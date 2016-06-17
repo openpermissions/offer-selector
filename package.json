@@ -9,9 +9,12 @@
   },
   "dependencies": {
     "jsonld": "^0.4.8",
+    "lodash.defaults": "4.0.1",
+    "lodash.uniq": "^4.3.0",
     "riot": "2.0.15",
     "riotify": "0.0.9",
-    "swiper" : "3.3.1"
+    "swiper": "3.3.1",
+    "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
     "babel": "5.1.11",
@@ -19,15 +22,31 @@
     "babelify": "6.0.2",
     "browserify": "9.0.8",
     "browserify-versionify": "1.0.4",
+    "expect.js": "0.3.1",
     "eslint": "^2.11.1",
     "eslint-plugin-riot": "^0.1.5",
     "uglify-js": "2.4.20",
-    "watchify": "3.1.2"
+    "watchify": "3.1.2",
+    "mocha": "2.2.4",
+    "karma": "0.12.31",
+    "karma-browserify": "4.1.2",
+    "karma-mocha": "0.1.10",
+    "karma-spec-reporter": "0.0.19",
+    "karma-chrome-launcher": "0.1.10",
+    "karma-detect-browsers": "2.0.0",
+    "karma-firefox-launcher": "0.1.6",
+    "karma-ie-launcher": "0.1.5",
+    "karma-opera-launcher": "0.1.0",
+    "karma-phantomjs-launcher": "0.1.4",
+    "karma-safari-launcher": "0.1.1",
+    "sinon": "1.12.2",
+    "sinon-as-promised": "3.0.0"
   },
   "scripts": {
     "build": "browserify src/main.js --s OfferSelector -o dist/offer-selector.js --debug",
     "build:watch": "watchify src/main.js --s OfferSelector -v -o dist/offer-selector.js --debug",
-    "build:min": "browserify src/main.js --s OfferSelector | uglifyjs -c -m > dist/offer-selector.min.js"
+    "build:min": "browserify src/main.js --s OfferSelector | uglifyjs -c -m > dist/offer-selector.min.js",
+    "test": "node_modules/karma/bin/karma start karma-conf.js"
   },
   "browserify": {
     "transform": [
