@@ -17,7 +17,6 @@ module.exports = {
       return undefined;
     }
     assigner = assigner['http://openpermissions.org/ns/op/1.1/provider'][0]['@value'];
-
     return assigner;
   },
   
