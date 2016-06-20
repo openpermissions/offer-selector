@@ -67,7 +67,6 @@ h1{
         display:none;
     }
 }
-
 @media screen and (max-width: 415px)
 {
   .swiper2 {
@@ -148,6 +147,8 @@ h1{
    position: relative;
    left: -50%; /* or right 50% */
    text-align: left;
+   border: none;
+   background-color:white;
 }
 .button_span.down {
   top:10px;
@@ -157,6 +158,7 @@ h1{
   /*border: solid 1px;*/
   width:100%;
   overflow: hidden;
+
 }
 .card_table ul {
   list-style-type: none;
@@ -171,7 +173,10 @@ h1{
   position: relative;
   margin-left: 10px;
   margin-top:15px;
-   font-family: 'Lato', sans-serif; font-weight: 300; line-height: 35px;
+  font-family: 'Signika', sans-serif; line-height: 35px;
+}
+.message {
+  margin-top:10px;
 }
 .usage{
   font-family: 'Lucida Sans', Arial, sans-serif;
@@ -182,12 +187,8 @@ h1{
   position: absolute;
   bottom:50px;
 }
-.color1 {
+.color {
   background: #D64541; /* For browsers that do not support gradients */
-  background: -webkit-linear-gradient(#D64541, #E08283); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(#D64541, #E08283); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#D64541, #E08283); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#D64541, #E08283); /* Standard syntax */
 }
 .button {
     display: inline-block;
@@ -202,28 +203,13 @@ h1{
     -moz-box-shadow: 1px 1px 1px rgba(0,0,0, .29), inset 1px 1px 1px rgba(255,255,255, .44);
     box-shadow: 1px 1px 1px rgba(0,0,0, .29), inset 1px 1px 1px rgba(255,255,255, .44);
 }
-.color1:hover {
-  color: #fff;
-  background: #F1A9A0; /* For browsers that do not support gradients */
-  background: -webkit-linear-gradient(#F1A9A0, #E08283); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(#F1A9A0, #E08283); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#F1A9A0, #E08283); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#F1A9A0, #E08283); /* Standard syntax */
+
+.color:hover {
+  -moz-box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
+   -webkit-box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
+   box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
 }
-.color2 {
-  background: #369E95;
-  background: -webkit-linear-gradient(#369E95, #86E2D5); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(#369E95, #86E2D5); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#369E95, #86E2D5); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#369E95, #86E2D5); /* Standard syntax */
-}
-.color2:hover {
-  background: #369E95;
-  background: -webkit-linear-gradient(#A2DED0, #86E2D5); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(#A2DED0, #86E2D5); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#A2DED0, #86E2D5); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#A2DED0, #86E2D5); /* Standard syntax */
-}
+
 .logo{
   background: #2A2A28;
   width:250px;

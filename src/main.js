@@ -57,7 +57,8 @@ var items = [];
             var current_policy = j[policy][0]['@value'];
             //current_policy = current_policy.replace(/(<|&lt;)br\s*\/*(>|&gt;)/g,'\n');
             //console.log(current_policy);
-            items[z] = { "type" : current_title, "description": current_policy , color: "color1", "logo" : i.organisation.logo};
+            items[z] = { "id": z, "type" : current_title, "description": current_policy , color: "color1", "logo" : i.organisation.logo,
+                        "title-color": "#FFFFFF", "logo-color" : "#FFFFFF", "btn-text-color": "#FFFFFF", "primary-color": "#FFFFFF", "secondary-color":"#FFFFFF"};
             z = z +1;
           }
         })

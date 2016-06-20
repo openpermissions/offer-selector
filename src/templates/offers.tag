@@ -8,15 +8,16 @@
           <div class="swiper-wrapper" id="wrapper">
             <div each = {items} class="swiper-slide">
               <div class="card_table" id="mobile">
-                <div class="logo">
+                <div class="logo" id={id}>
                   <img src={logo}></img>
                 </div>
                 <ul>
-                  <li class="type">{type}</li>
-                  <span class="button_span up"><img src="../ui_elem/caret-top.svg"></img></span>
-                  <div class="container" id="scroller"><div class="content"><li class="usage"><raw content="{description}"></raw></li></div></div>
-                  <span class="button_span down"><img src="../ui_elem/caret-bottom.svg"></img></span>
-                  <li class="price"> <a href="#" class="button { color }"> Buy for £6.00 </a></li>
+                  <li class="type" id={id}>{type}</li>
+                  <li class="usage message">Rotate for description </li>
+                  <button class="button_span up" id={id}><img src="../ui_elem/caret-top.svg"></img></button>
+                  <div class="container" id={id}><div class="content" id={id}><li class="usage"><raw content="{description}"></raw></li></div></div>
+                  <button class="button_span down" id={id}><img src="../ui_elem/caret-bottom.svg"></img></button>
+                  <li class="price"> <a href="#" class="button color" id={id}> Buy for £6.00 </a></li>
                 </ul>
                 <div class="footer-logo">
                   <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
@@ -35,15 +36,16 @@
           <div class="swiper-wrapper" id="wrapper">
             <div each = {items} class="swiper-slide">
               <div class="card_table" id="mobile">
-                <div class="logo">
+                <div class="logo" id={id}>
                   <img src={logo}></img>
                 </div>
                 <ul>
-                  <li class="type">{type}</li>
-                  <span class="button_span up"><img src="../ui_elem/caret-top.svg"></img></span>
-                  <div class="container" id="scroller"><div class="content"><li class="usage"><raw content="{description}"></raw></li></div></div>
-                  <span class="button_span down"><img src="../ui_elem/caret-bottom.svg"></img></span>
-                  <li class="price"> <a href="#" class="button { color }"> Buy for £6.00 </a></li>
+                  <li class="type" id={id}>{type}</li>
+                  <li class="usage message">Rotate for description </li>
+                  <button class="button_span up" id={id}><img src="../ui_elem/caret-top.svg"></img></button>
+                  <div class="container" id={id}><div class="content" id={id}><li class="usage"><raw content="{description}"></raw></li></div></div>
+                  <button class="button_span down" id={id}><img src="../ui_elem/caret-bottom.svg"></img></button>
+                  <li class="price"> <a href="#" class="button color" id={id}> Buy for £6.00 </a></li>
                 </ul>
                 <div class="footer-logo">
                   <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
@@ -63,15 +65,16 @@
             <div each = {items} class="swiper-slide">
               <div class="card_table" id="mobile">
 
-                <div class="logo">
+                <div class="logo" id={id}>
                   <img src={logo}></img>
                 </div>
                 <ul>
-                  <li class="type">{type}</li>
-                  <span class="button_span up"><img src="../ui_elem/caret-top.svg"></img></span>
-                  <div class="container" id="scroller"><div class="content"><li class="usage"><raw content="{description}"></raw></li></div></div>
-                  <span class="button_span down"><img src="../ui_elem/caret-bottom.svg"></img></span>
-                  <li class="price"> <a href="#" class="button { color }"> Buy for £6.00 </a></li>
+                  <li class="type" id={id}>{type}</li>
+                  <li class="usage message">Rotate for description </li>
+                  <button class="button_span up" id={id}><img src="../ui_elem/caret-top.svg"></img></button>
+                  <div class="container" id={id}><div class="content" id={id}><li class="usage"><raw content="{description}"></raw></li></div></div>
+                  <button class="button_span down" id={id}><img src="../ui_elem/caret-bottom.svg"></img></button>
+                  <li class="price"> <a href="#" class="button color" id={id}> Buy for £6.00 </a></li>
                 </ul>
                 <div class="footer-logo">
                   <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
@@ -91,15 +94,16 @@
             <div each = {items} class="swiper-slide">
               <div class="card_table" id="mobile">
 
-                <div class="logo">
+                <div class="logo" id={id}>
                   <img src={logo}></img>
                 </div>
                 <ul>
-                  <li class="type">{type}</li>
-                  <span class="button_span up"><img src="../ui_elem/caret-top.svg"></img></span>
-                  <div class="container" id="scroller"><div class="content"><li class="usage"><raw content="{description}"></raw></li></div></div>
-                  <span class="button_span down"><img src="../ui_elem/caret-bottom.svg"></img></span>
-                  <li class="price"> <a href="#" class="button { color }"> Buy for £6.00 </a></li>
+                  <li class="type" id={id}>{type}</li>
+                  <li class="usage message">Rotate for description </li>
+                  <button class="button_span up" id={id}><img src="../ui_elem/caret-top.svg"></img></button>
+                  <div class="container" id={id}><div class="content" id={id}><li class="usage"><raw content="{description}"></raw></li></div></div>
+                  <button class="button_span down" id={id}><img src="../ui_elem/caret-bottom.svg"></img></button>
+                  <li class="price"> <a href="#" class="button color" id={id}> Buy for £6.00 </a></li>
                 </ul>
                 <div class="footer-logo">
                   <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
@@ -115,20 +119,52 @@
   </div>
 
   <script>
-    //require('swiper');
 
-    console.log("here script");
     /* Pass dummy array to Riot */
     this.items = opts.items;
-    console.log(opts.items);
 
-    debugme(value, value2){
-      console.log("here " + value2 , value);
-      return value;
+    change_color(id, title_color, logo_color, btn_text_color, primary_color, secondary_color) {
+
+      var id_tag = "#" + id;
+      console.log(id_tag);
+      //Change title color
+      $(id_tag + '.type').css('color',title_color);
+
+      //Change Logo color
+      $(id_tag + '.logo').css('background',logo_color);
+
+      //Change button text change_color
+      $(id_tag + '.button').css('color',btn_text_color);
+
+      // Create css for gradient button
+      var primary_color_1 = { "background" : primary_color,
+                              "background" : "-webkit-gradient(linear,left top,left bottom,from("+ primary_color +"),to(" + secondary_color +"))",
+                              "background" : "-webkit-linear-gradient("+ primary_color +","+ secondary_color +")",
+                              "background" : "-moz-linear-gradient("+ primary_color +","+ secondary_color +")",
+                              "background" : " -o-linear-gradient("+ primary_color +","+ secondary_color +")",
+                              "background" : "linear-gradient("+ primary_color +","+ secondary_color +")"};
+      $(id_tag + '.color').css(primary_color_1);
     }
+
     render_swiper() {
 
         var width = window.innerWidth;
+        var height = window.innerHeight;
+
+        $('.message').hide();
+        if(height <= 420)
+        {
+          $('.card_table').css('height',"250px");
+          $('.container').hide();
+          $('.button_span').hide();
+          $('.message').show();
+        }
+        else {
+          $('.card_table').css('height',"400px");
+          $('.container').show();
+          $('.button_span').show();
+          $('.message').hide();
+        }
 
         if(width<415) {
 
@@ -151,7 +187,7 @@
           paginationClickable: true,
           nextButton: '.swiper-button-next',
           prevButton: '.swiper-button-prev',
-          spaceBetween: 10,
+          spaceBetween: 5,
 
         });
         }
@@ -164,7 +200,7 @@
           paginationClickable: true,
           nextButton: '.swiper-button-next',
           prevButton: '.swiper-button-prev',
-          spaceBetween: 10,
+          spaceBetween: 5,
 
         });
         }
@@ -181,10 +217,8 @@
 
         });
      }
+
  }
-
-
-
 
 /* Call the render_swiper function every time screen gets resized */
 
@@ -195,33 +229,65 @@ window.onresize = this.render_swiper;
 
 this.on('mount', function(){
     this.render_swiper();
-     console.log("content: " + $('.content').height() );
-     console.log("container: " + $('.container').height());
+    this.change_color("0","#379392","#353866","white","#CE6D39","#F17F42");
+
+    //Hide all up buttons initially
     $(".up").addClass('hiding');
-        if ($('.content').height() > $('.container').height()) {
+
+    //array for card heights
+    var container_height = Array.apply(null, new Array(10)).map(Number.prototype.valueOf,0);
+
 
             $(".up").click(function () {
-                 $('.container').animate({scrollTop: '-=140'}, "fast");
-                 console.log("content: " + $('.content').height() );
-                 console.log("container: " + $('.container').height());
-                 if ($('.content').height() <  $('.container').height()+141) {
+              //Get id of current card
+              var button_id = $(this).attr("id");
+              var array_id = button_id;
+              button_id = "#" + button_id;
 
-                   $(".down").show();
-                   $(".up").addClass('hiding');
+              //Animation for up
+              $(button_id + '.container').animate({scrollTop: '-=140'}, "fast");
+
+              //When pressing up container scrolls up
+              container_height[array_id] -=140;
+
+              //Check height of container
+              var check_height=$(button_id + '.container').height();
+              check_height += container_height[array_id];
+
+              //if the height is the same value as container, we hide the up button as we ar at the top
+              if(check_height<=145){
+                 $(button_id + ".up").addClass('hiding');
+               }
+
+              //show down button if there is any content left
+              if ($(button_id + '.content').height() >  check_height) {
+
+                   $(button_id + ".down").show();
+
                  }
             });
 
             $(".down").click(function () {
-              console.log("content: " + $('.content').height() );
-              console.log("container: " + $('.container').height());
-                 $('.container').animate({scrollTop: '+=140'}, "fast");
-                 $(".up").removeClass("hiding");
-                 if ($('.content').height() <  $('.container').height()+141) {
-                   $(".down").hide();
+              // Get id of current card
+              var button_id = $(this).attr("id");
+              var array_id = button_id;
+              button_id = "#" + button_id;
 
+              //When pressing down container scrolls lower
+              container_height[array_id] +=140;
+
+              //Animation for down
+              $(button_id + '.container').animate({scrollTop: '+=140'}, "fast");
+
+              //Up button is now made visible
+              $(button_id + ".up").removeClass("hiding");
+
+              //Check if there is still content left, if not, hide down button as we've reached end of overflowing text
+
+              if ($(button_id + '.content').height() <  $(button_id + '.container').height()+container_height[array_id]+5) {
+                   $(button_id + ".down").hide();
                  }
             });
-        }
 
   });
 
