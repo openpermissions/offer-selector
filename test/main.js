@@ -152,15 +152,34 @@ describe('Offer Selector retrieveOrganisations', () => {
       new Response('{"status": 200, "data": {"id": "orgid2", "name": "Organisation 2"}}', {status: 200})
     );
 
+    window.fetch.withArgs('https://my-orgs/orgid5').resolves(
+      new Response('{"status": 500, "errormsg": Internal server error}}', {status: 500, statusText: "Internal server error"})
+    );
+
+    window.fetch.withArgs('https://my-orgs/orgid6').rejects(new TypeError('Error Message'));
+
     helper.getAssigner.withArgs([{'@id': 'id1'}]).returns('orgid1');
     helper.getAssigner.withArgs([{'@id': 'id2'}]).returns('orgid2');
     helper.getAssigner.withArgs([{'@id': 'id3'}]).returns('orgid2');
-    helper.getAssigner.withArgs([{'@id': 'id4'}]).returns(undefined)
+    helper.getAssigner.withArgs([{'@id': 'id4'}]).returns(undefined);
+    helper.getAssigner.withArgs([{'@id': 'id5'}]).returns('orgid5');
+    helper.getAssigner.withArgs([{'@id': 'id6'}]).returns('orgid6');
   });
 
   afterEach(() => {
     helper.getAssigner.restore();
     window.fetch.restore();
+  });
+
+  it('should only make api calls for unique organisation ids', done => {
+    let offers = [[{'@id': 'id1'}], [{'@id': 'id2'}], [{'@id': 'id3'}], [{'@id': 'id4'}]];
+    selector.retrieveOrganisations(offers)
+      .then( result => {
+        expect(window.fetch.callCount).to.be(2);
+        expect(window.fetch.calledWithExactly('https://my-orgs/orgid1')).to.be(true);
+        expect(window.fetch.calledWithExactly('https://my-orgs/orgid2')).to.be(true);
+      })
+      .then(done, done)
   });
 
   it('should return an array of offers with their organisation objects', done => {
@@ -179,15 +198,17 @@ describe('Offer Selector retrieveOrganisations', () => {
       .then(done, done)
   });
 
-  it('should return offers with an empty organisation object if the offer does not have an assigner', done => {
-    let offers = [[{'@id': 'id1'}], [{'@id': 'id4'}]];
+
+  it('should return offers with an empty organisation if organisation query returns a non-200 status', done => {
+    let offers = [[{'@id': 'id1'}], [{'@id': 'id5'}]];
+
     selector.retrieveOrganisations(offers)
       .then( result => {
         expect(result).to.eql([{
           offer: [{'@id': 'id1'}],
           organisation: {"id": "orgid1", "name": "Organisation 1"}
-        },{
-          offer: [{'@id': 'id4'}],
+        }, {
+          offer: [{'@id': 'id5'}],
           organisation: {}
         }
         ]);
@@ -195,67 +216,21 @@ describe('Offer Selector retrieveOrganisations', () => {
       .then(done, done)
   });
 
-  it('should only make api calls for unique organisation ids', done => {
-    let offers = [[{'@id': 'id1'}], [{'@id': 'id2'}], [{'@id': 'id3'}], [{'@id': 'id4'}]];
-    selector.retrieveOrganisations(offers)
-      .then( result => {
-        expect(window.fetch.callCount).to.be(2);
-        expect(window.fetch.calledWithExactly('https://my-orgs/orgid1')).to.be(true);
-        expect(window.fetch.calledWithExactly('https://my-orgs/orgid2')).to.be(true);
-        expect(result).to.eql([{
-          offer: [{'@id': 'id1'}],
-          organisation: {"id": "orgid1", "name": "Organisation 1"}
-        },{
-          offer: [{'@id': 'id2'}],
-          organisation: {"id": "orgid2", "name": "Organisation 2"}
-        }, {
-          offer: [{'@id': 'id3'}],
-          organisation: {"id": "orgid2", "name": "Organisation 2"}
-        }, {
-          offer: [{'@id': 'id4'}],
-          organisation: {}
-        }
-        ]);
-      })
-      .then(done, done)
-  });
-  //
-  // it('should return offers with an empty organisation if organisation query returns a non-200 status', done => {
-  //   //TODO
-  //   let offers = [[{'@id': 'id1'}], [{'@id': 'id4'}]];
-  //   window.fetch.resolves(
-  //     new Response('{"status": 500, "errormsg": Internal server error}}', {status: 500, statusText: "Internal server error"})
-  //   );
-  //   selector.retrieveOrganisations(offers)
-  //     .then( result => {
-  //       expect(result).to.eql([{
-  //         offer: [{'@id': 'id1'}],
-  //         organisation: {}
-  //       }, {
-  //         offer: [{'@id': 'id4'}],
-  //         organisation: {}
-  //       }
-  //       ]);
-  //     })
-  //     .then(done, done)
-  // });
-  //
-  //   it('should return offers with an empty organisation if there is an error retrieving organisations', done => {
-  //   //TODO
-  //   let offers = [[{'@id': 'id1'}], [{'@id': 'id4'}]];
-  //   window.fetch.rejects(new TypeError('Error Message'));
-  //   selector.retrieveOrganisations(offers)
-  //     .then( result => {
-  //       expect(result).to.eql([{
-  //         offer: [{'@id': 'id1'}],
-  //         organisation: {}
-  //       }, {
-  //         offer: [{'@id': 'id4'}],
-  //         organisation: {}
-  //       }
-  //       ]);      })
-  //     .then(done, done)
-  // });
+    it('should return offers with an empty organisation if there is an error retrieving organisations', done => {
+      let offers = [[{'@id': 'id1'}], [{'@id': 'id6'}]];
+      selector.retrieveOrganisations(offers)
+        .then( result => {
+          expect(result).to.eql([{
+            offer: [{'@id': 'id1'}],
+            organisation: {"id": "orgid1", "name": "Organisation 1"}
+          }, {
+            offer: [{'@id': 'id6'}],
+            organisation: {}
+          }
+          ]);
+        })
+        .then(done, done)
+    });
 });
 
 describe('OfferSelector loadOffers', () => {

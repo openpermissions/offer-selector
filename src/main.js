@@ -54,18 +54,30 @@ class OfferSelector {
         return new Promise((resolve, reject) => {
           fetch(`${this.options.organisations}/${org}`)
             .then(response => helper.parseResponse(response))
-            .then(response => resolve(response.data));
+            .then(response => resolve(response.data))
+            .catch(err => {
+              console.log(err);
+              resolve({});
+            });
         });
       });
 
-      Promise.all(orgPromises).then(organisations => {
-        offers.forEach(offer => {
-          offer.organisation = organisations.find(org => org.id == offer.organisation) || {};
+      Promise.all(orgPromises).then(
+        organisations => {
+          offers.forEach(offer => {
+            offer.organisation = organisations.find(org => org.id == offer.organisation) || {};
+          });
+          resolve(offers);
+        },
+        reason => {
+          console.log(reason);
+          offers.forEach(offer => {
+            offer.organisation = {};
+          });
+          resolve(offers);
         });
-        resolve(offers);
-      });
     });
-  };
+  }
 
   displayOffers(offers) {
     offers.forEach(offer => { console.log(offer)})
