@@ -38,33 +38,48 @@ class OfferSelector {
 
 
 parseOffer(offerObj){
-var items = [];
-  var z = 0;
-  const title = 'http://purl.org/dc/terms/title';
-  const policy = 'http://openpermissions.org/ns/op/1.1/policyDescription';
+  if(offerObj)
+  {
+    console.log(offerObj);
+    var items = [];
+    var z = 0;
+    const title = 'http://purl.org/dc/terms/title';
+    const policy = 'http://openpermissions.org/ns/op/1.1/policyDescription';
 
-    offerObj.forEach(i => {
-      //console.log(i);
-      i.offer.forEach(j => {
-        const type = j['@type'];
+      offerObj.forEach(i => {
+        //console.log(i);
+        i.offer.forEach(j => {
+          const type = j['@type'];
 
-        //if(!=-1)
+          //if(!=-1)
 
-        type.forEach(elem => {
-          if(elem.indexOf('Offer')!=-1)
-          {
-            var current_title = j[title][0]['@value'];
-            var current_policy = j[policy][0]['@value'];
-            //current_policy = current_policy.replace(/(<|&lt;)br\s*\/*(>|&gt;)/g,'\n');
-            //console.log(current_policy);
-            items[z] = { "id": z, "type" : current_title, "description": current_policy , color: "color1", "logo" : i.organisation.logo,
-                        "title-color": "#FFFFFF", "logo-color" : "#FFFFFF", "btn-text-color": "#FFFFFF", "primary-color": "#FFFFFF", "secondary-color":"#FFFFFF"};
-            z = z +1;
-          }
+          type.forEach(elem => {
+            if(elem.indexOf('Offer')!=-1)
+            {
+              var current_title = j[title][0]['@value'];
+              var current_policy = j[policy][0]['@value'];
+              //current_policy = current_policy.replace(/(<|&lt;)br\s*\/*(>|&gt;)/g,'\n');
+              //console.log(current_policy);
+              items[z] = { "id": z, "type" : current_title, "description": current_policy , color: "color1", "logo" : i.organisation.logo,
+                          "title_color": "#379392", "logo_color" : "#353866", "btn_text_color": "white", "primary_color": "#CE6D39", "secondary_color":"#F17F42"};
+              z = z + 1;
+              console.log(items[z-1]);
+              /*
+              items[z] = { "id": z, "type" : current_title, "description": current_policy , color: "color1", "logo" : i.organisation.logo,
+                          "title_color": "#9B8281", "logo_color" : "#1f4e5f", "btn_text_color": "white", "primary_color": "#79a8a9", "secondary_color":"#aacfd0"};
+              z = z + 1;
+              */
+            }
+          })
         })
       })
-    })
-    return items;
+      return items;
+  }
+  else
+  {
+    var emptyarr = [];
+    return emptyarr;
+  }
  }
 
 
@@ -106,7 +121,7 @@ var items = [];
     //offers.forEach(offer => { console.log(offer)})
 
       riot.mount('offers', {
-        title: 'OPP License Offers',
+        title: 'OPP Licence Offers',
         items: this.parseOffer(offers)
       })
     }

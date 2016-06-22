@@ -4,23 +4,36 @@
 }
 
 body{
-  background: #77AAAD;
+  background-color: #566270;
   height:100%;
   width:100%;
-
 }
-/* The little white line below the title. It's useless but cute design wise. */
-br
+p {
+  color: #E0E3DA;
+}
+/*Remove everything above this */
+
+
+/* h1 is the only globally affected tag, it is just for the title but can easily be removed */
+h1{
+  height: 10%;
+  text-align:center;
+  color: #FFF;
+  font-size: 5vh;
+  font-family: 'Lato', sans-serif; font-weight: 400; line-height: 58px;
+}
+.all br
 {   content: "A" !important;
     display: block !important;
     margin-bottom: 0.5em !important;
 }
 .all{
-  border-top: solid 1px #D8E6E7;
+  border-top: solid 0.08em #FFF;
+  background-color: #9DC8C8;
+  border-bottom: solid 0.08em #FFF;
   width:100%;
-  height:90%;
+  height:470px;
   margin: 0 auto;
-
 }
 /* Container class for swiper */
 .swiper-container {
@@ -45,14 +58,7 @@ br
     -webkit-align-items: center;
     align-items: center;
 }
-/* Title */
-h1{
-  height: 10%;
-  text-align:center;
-  color: #FFF;
-  font-size: 5vh;
-  font-family: 'Lato', sans-serif; font-weight: 400; line-height: 58px;
-}
+
 .hiding{
   visibility: hidden;
 }
@@ -61,10 +67,10 @@ h1{
 {
 
     .swiper-button-prev {
-        display:none;
+        margin-left: -6px;
     }
     .swiper-button-next {
-        display:none;
+        margin-right: -6px;
     }
 }
 @media screen and (max-width: 415px)
@@ -80,7 +86,7 @@ h1{
   }
 }
 
-@media screen and (min-width: 416px) and (max-width:1000px)
+@media screen and (min-width: 416px) and (max-width:1025px)
 {
   .swiper {
       display:none;
@@ -93,7 +99,7 @@ h1{
   }
 }
 
-@media screen and (min-width: 1000px) and (max-width:1700px)
+@media screen and (min-width: 1025px) and (max-width:1700px)
 {
   .swiper4 {
       display:none;
@@ -185,7 +191,7 @@ h1{
 }
 .price{
   position: absolute;
-  bottom:50px;
+  bottom:60px;
 }
 .color {
   background: #D64541; /* For browsers that do not support gradients */
@@ -194,7 +200,7 @@ h1{
     display: inline-block;
     position: relative;
     color: #fff;
-    margin: 10px;
+    margin: 0px;
     padding: 0 20px;
     text-align: center;
     text-decoration: none;

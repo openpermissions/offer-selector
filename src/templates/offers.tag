@@ -1,6 +1,6 @@
 <offers>
   <div>
-      <h1> {opts.title} </h1>
+      <!--<h1> {opts.title} </h1>-->
       <div class="all">
         <!-- Container for smartphones -->
 
@@ -116,187 +116,37 @@
           <div class="swiper-button-prev swiper-button-white"></div>
         </div>
       </div>
+
   </div>
 
-  <script>
 
-    /* Pass dummy array to Riot */
-    this.items = opts.items;
+<script>
+  this.items = opts.items;
 
-    change_color(id, title_color, logo_color, btn_text_color, primary_color, secondary_color) {
+  const helper = require('../helper');
 
-      var id_tag = "#" + id;
-      console.log(id_tag);
-      //Change title color
-      $(id_tag + '.type').css('color',title_color);
+  window.onresize = helper.render_swiper;
 
-      //Change Logo color
-      $(id_tag + '.logo').css('background',logo_color);
+  this.on('mount', function(){
+    helper.render_swiper();
 
-      //Change button text change_color
-      $(id_tag + '.button').css('color',btn_text_color);
+    var item_length = opts.items.length;
 
-      // Create css for gradient button
-      var primary_color_1 = { "background" : primary_color,
-                              "background" : "-webkit-gradient(linear,left top,left bottom,from("+ primary_color +"),to(" + secondary_color +"))",
-                              "background" : "-webkit-linear-gradient("+ primary_color +","+ secondary_color +")",
-                              "background" : "-moz-linear-gradient("+ primary_color +","+ secondary_color +")",
-                              "background" : " -o-linear-gradient("+ primary_color +","+ secondary_color +")",
-                              "background" : "linear-gradient("+ primary_color +","+ secondary_color +")"};
-      $(id_tag + '.color').css(primary_color_1);
-    }
+    for(var i = 0 ; i<item_length; i++)
+    helper.change_color(opts.items[i].id,opts.items[i].title_color, opts.items[i].logo_color, opts.items[i].btn_text_color, opts.items[i].primary_color, opts.items[i].secondary_color);
 
-    render_swiper() {
+    /* This is just an example of how to change background colors on mobile */
+    var colors = ["#9DC8C8","#6E7783","#555273","#87314e"];
+    helper.background_changer(colors);
 
-        var width = window.innerWidth;
-        var height = window.innerHeight;
-
-        $('.message').hide();
-        if(height <= 420)
-        {
-          $('.card_table').css('height',"250px");
-          $('.container').hide();
-          $('.button_span').hide();
-          $('.message').show();
-        }
-        else {
-          $('.card_table').css('height',"400px");
-          $('.container').show();
-          $('.button_span').show();
-          $('.message').hide();
-        }
-
-        if(width<415) {
-
-        var swiper = new Swiper('.swiper', {
-          pagination: '.swiper-pagination',
-          slidesPerView:1,
-          paginationClickable: true,
-          nextButton: '.swiper-button-next',
-          prevButton: '.swiper-button-prev',
-          spaceBetween: 30,
-          centeredSlides: true,
-        });
-        }
-
-        if(width>=415&&width<1000) {
-
-        var swiper2 = new Swiper('.swiper2', {
-          pagination: '.swiper-pagination',
-          slidesPerView:2,
-          paginationClickable: true,
-          nextButton: '.swiper-button-next',
-          prevButton: '.swiper-button-prev',
-          spaceBetween: 5,
-
-        });
-        }
-
-        if(width>=1000&&width<=1700) {
-
-        var swiper3 = new Swiper('.swiper3', {
-          pagination: '.swiper-pagination',
-          slidesPerView:4,
-          paginationClickable: true,
-          nextButton: '.swiper-button-next',
-          prevButton: '.swiper-button-prev',
-          spaceBetween: 5,
-
-        });
-        }
-
-        if(width>=1700) {
-
-        var swiper3 = new Swiper('.swiper4', {
-          pagination: '.swiper-pagination',
-          slidesPerView:5,
-          paginationClickable: true,
-          nextButton: '.swiper-button-next',
-          prevButton: '.swiper-button-prev',
-          spaceBetween: 20,
-
-        });
-     }
-
- }
-
-/* Call the render_swiper function every time screen gets resized */
-
-window.onresize = this.render_swiper;
-
-
-/* Add swiper when mounting elements */
-
-this.on('mount', function(){
-    this.render_swiper();
-    this.change_color("0","#379392","#353866","white","#CE6D39","#F17F42");
-
-    //Hide all up buttons initially
-    $(".up").addClass('hiding');
-
-    //array for card heights
-    var container_height = Array.apply(null, new Array(10)).map(Number.prototype.valueOf,0);
-
-
-            $(".up").click(function () {
-              //Get id of current card
-              var button_id = $(this).attr("id");
-              var array_id = button_id;
-              button_id = "#" + button_id;
-
-              //Animation for up
-              $(button_id + '.container').animate({scrollTop: '-=140'}, "fast");
-
-              //When pressing up container scrolls up
-              container_height[array_id] -=140;
-
-              //Check height of container
-              var check_height=$(button_id + '.container').height();
-              check_height += container_height[array_id];
-
-              //if the height is the same value as container, we hide the up button as we ar at the top
-              if(check_height<=145){
-                 $(button_id + ".up").addClass('hiding');
-               }
-
-              //show down button if there is any content left
-              if ($(button_id + '.content').height() >  check_height) {
-
-                   $(button_id + ".down").show();
-
-                 }
-            });
-
-            $(".down").click(function () {
-              // Get id of current card
-              var button_id = $(this).attr("id");
-              var array_id = button_id;
-              button_id = "#" + button_id;
-
-              //When pressing down container scrolls lower
-              container_height[array_id] +=140;
-
-              //Animation for down
-              $(button_id + '.container').animate({scrollTop: '+=140'}, "fast");
-
-              //Up button is now made visible
-              $(button_id + ".up").removeClass("hiding");
-
-              //Check if there is still content left, if not, hide down button as we've reached end of overflowing text
-
-              if ($(button_id + '.content').height() <  $(button_id + '.container').height()+container_height[array_id]+5) {
-                   $(button_id + ".down").hide();
-                 }
-            });
-
+    /* Scroller */
+    helper.scroller();
   });
 
-/* After page is updated (used for window resizing) */
-
-this.on('updated', function(){
-  this.render_swiper();
-});
-  </script>
+  this.on('updated', function(){
+    helper.render_swiper();
+  });
+</script>
 </offers>
 
 riot.tag('raw', '<span></span>', function (opts) {
