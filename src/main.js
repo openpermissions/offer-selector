@@ -16,15 +16,15 @@
  */
 
 'use strict';
-const riot = require('riot');
+require('whatwg-fetch');
 require('./templates/offers.tag');
+
+const riot = require('riot');
 const _defaults = require('lodash.defaults');
 const _uniq = require('lodash.uniq');
 const jsonld = require('jsonld');
 const ldPromises = jsonld.promises;
-require('whatwg-fetch');
 const helper = require('./helper');
-
 
 class OfferSelector {
   constructor(options) {
@@ -37,51 +37,32 @@ class OfferSelector {
   }
 
 
-parseOffer(offerObj){
-  if(offerObj)
-  {
-    console.log(offerObj);
-    var items = [];
-    var z = 0;
+  parseOffer(offerObj, idx){
     const title = 'http://purl.org/dc/terms/title';
     const policy = 'http://openpermissions.org/ns/op/1.1/policyDescription';
 
-      offerObj.forEach(i => {
-        //console.log(i);
-        i.offer.forEach(j => {
-          const type = j['@type'];
+    const offer = offerObj.offer.find(o => o["@type"].indexOf("http://www.w3.org/ns/odrl/2/Offer") !== -1);
 
-          //if(!=-1)
-
-          type.forEach(elem => {
-            if(elem.indexOf('Offer')!=-1)
-            {
-              var current_title = j[title][0]['@value'];
-              var current_policy = j[policy][0]['@value'];
-              //current_policy = current_policy.replace(/(<|&lt;)br\s*\/*(>|&gt;)/g,'\n');
-              //console.log(current_policy);
-              items[z] = { "id": z, "type" : current_title, "description": current_policy , color: "color1", "logo" : i.organisation.logo,
-                          "title_color": "#379392", "logo_color" : "#353866", "btn_text_color": "white", "primary_color": "#CE6D39", "secondary_color":"#F17F42"};
-              z = z + 1;
-              console.log(items[z-1]);
-              /*
-              items[z] = { "id": z, "type" : current_title, "description": current_policy , color: "color1", "logo" : i.organisation.logo,
-                          "title_color": "#9B8281", "logo_color" : "#1f4e5f", "btn_text_color": "white", "primary_color": "#79a8a9", "secondary_color":"#aacfd0"};
-              z = z + 1;
-              */
-            }
-          })
-        })
-      })
-      return items;
-  }
-  else
-  {
-    var emptyarr = [];
-    return emptyarr;
-  }
- }
-
+    var current_title = offer[title][0]['@value'];
+    var current_policy = offer[policy][0]['@value'];
+    var offer_id = offer['@id'].split('/');
+    offer_id = offer_id[offer_id.length-1];
+    
+    return {
+      "id": idx,
+      "offer_id": offer_id,
+      "repository_id": offerObj['repository_id'],
+      "type": current_title,
+      "description": current_policy,
+      "color": "color1",
+      "logo": offerObj.organisation.logo,
+      "title_color": "#379392",
+      "logo_color": "#353866",
+      "btn_text_color": "white",
+      "primary_color": "#CE6D39",
+      "secondary_color": "#F17F42"
+    };
+  };
 
   parseOffers(response) {
     let data = response.data || [];
@@ -142,13 +123,12 @@ parseOffer(offerObj){
   }
 
   displayOffers(offers) {
-    //offers.forEach(offer => { console.log(offer)})
+    riot.mount('offers', {
+      title: 'OPP Licence Offers',
+      items: offers.map(this.parseOffer)
+    })
+  }
 
-      riot.mount('offers', {
-        title: 'OPP Licence Offers',
-        items: this.parseOffer(offers)
-      })
-    }
   loadOffers(sourceIds) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');

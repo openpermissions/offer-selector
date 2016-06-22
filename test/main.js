@@ -5,7 +5,7 @@ const OfferSelector = require('../src/main');
 const helper = require('../src/helper');
 const jsonld = require('jsonld');
 const ldPromises = jsonld.promises;
-
+require('swiper/dist/css/swiper.css')
 
 describe ('parseOffer', () => {
     it('should return empty array if empty array provided', () => {

@@ -13,6 +13,7 @@
                 </div>
                 <ul>
                   <li class="type" id={id}>{type}</li>
+                  <a href={parent.detailsUrl(repository_id,offer_id)}>More Offer Details...</a>
                   <li class="usage message">Rotate for description </li>
                   <button class="button_span up" id={id}><img src="../ui_elem/caret-top.svg"></img></button>
                   <div class="container" id={id}><div class="content" id={id}><li class="usage"><raw content="{description}"></raw></li></div></div>
@@ -41,6 +42,7 @@
                 </div>
                 <ul>
                   <li class="type" id={id}>{type}</li>
+                  <a href={parent.detailsUrl(repository_id,offer_id)}>More Offer Details...</a>
                   <li class="usage message">Rotate for description </li>
                   <button class="button_span up" id={id}><img src="../ui_elem/caret-top.svg"></img></button>
                   <div class="container" id={id}><div class="content" id={id}><li class="usage"><raw content="{description}"></raw></li></div></div>
@@ -70,6 +72,7 @@
                 </div>
                 <ul>
                   <li class="type" id={id}>{type}</li>
+                  <a href={parent.detailsUrl(repository_id,offer_id)}>More Offer Details...</a>
                   <li class="usage message">Rotate for description </li>
                   <button class="button_span up" id={id}><img src="../ui_elem/caret-top.svg"></img></button>
                   <div class="container" id={id}><div class="content" id={id}><li class="usage"><raw content="{description}"></raw></li></div></div>
@@ -99,6 +102,7 @@
                 </div>
                 <ul>
                   <li class="type" id={id}>{type}</li>
+                  <a href={parent.detailsUrl(repository_id,offer_id)}>More Offer Details...</a>
                   <li class="usage message">Rotate for description </li>
                   <button class="button_span up" id={id}><img src="../ui_elem/caret-top.svg"></img></button>
                   <div class="container" id={id}><div class="content" id={id}><li class="usage"><raw content="{description}"></raw></li></div></div>
@@ -126,6 +130,11 @@
   const helper = require('../helper');
 
   window.onresize = helper.render_swiper;
+
+  detailsUrl(repoId, offerId) {
+    var url = "http://offer.digicat.io?repository="+repoId+"&offer="+offerId;
+    return url
+  }
 
   this.on('mount', function(){
     helper.render_swiper();
