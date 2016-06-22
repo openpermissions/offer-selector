@@ -13,13 +13,13 @@
                 </div>
                 <ul>
                   <li class="type" id={id}>{type}</li>
-                  <a href={parent.detailsUrl(repository_id,offer_id)}>More Offer Details...</a>
+                  <a href={parent.detailsUrl(repository_id,offer_id)}>More Details...</a>
                   <li class="usage message">Rotate for description </li>
                   <button class="button_span up" id={id}><img src="../ui_elem/caret-top.svg"></img></button>
                   <div class="container" id={id}><div class="content" id={id}><li class="usage"><raw content="{description}"></raw></li></div></div>
                   <button class="button_span down" id={id}><img src="../ui_elem/caret-bottom.svg"></img></button>
-                  <li class="price"> <a href="#" class="button color" id={id}> Buy for £6.00 </a></li>
                 </ul>
+                <div class="price"> <a href="#" class="button color" id={id}> Buy for £6.00 </a></div>
                 <div class="footer-logo">
                   <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
                 </div>
@@ -42,13 +42,13 @@
                 </div>
                 <ul>
                   <li class="type" id={id}>{type}</li>
-                  <a href={parent.detailsUrl(repository_id,offer_id)}>More Offer Details...</a>
+                  <a href={parent.detailsUrl(repository_id,offer_id)}>More Details...</a>
                   <li class="usage message">Rotate for description </li>
                   <button class="button_span up" id={id}><img src="../ui_elem/caret-top.svg"></img></button>
                   <div class="container" id={id}><div class="content" id={id}><li class="usage"><raw content="{description}"></raw></li></div></div>
                   <button class="button_span down" id={id}><img src="../ui_elem/caret-bottom.svg"></img></button>
-                  <li class="price"> <a href="#" class="button color" id={id}> Buy for £6.00 </a></li>
                 </ul>
+                <div class="price"> <a href="#" class="button color" id={id}> Buy for £6.00 </a></div>
                 <div class="footer-logo">
                   <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
                 </div>
@@ -72,13 +72,13 @@
                 </div>
                 <ul>
                   <li class="type" id={id}>{type}</li>
-                  <a href={parent.detailsUrl(repository_id,offer_id)}>More Offer Details...</a>
+                  <a href={parent.detailsUrl(repository_id,offer_id)}>More Details...</a>
                   <li class="usage message">Rotate for description </li>
                   <button class="button_span up" id={id}><img src="../ui_elem/caret-top.svg"></img></button>
                   <div class="container" id={id}><div class="content" id={id}><li class="usage"><raw content="{description}"></raw></li></div></div>
                   <button class="button_span down" id={id}><img src="../ui_elem/caret-bottom.svg"></img></button>
-                  <li class="price"> <a href="#" class="button color" id={id}> Buy for £6.00 </a></li>
                 </ul>
+                <div class="price"> <a href="#" class="button color" id={id}> Buy for £6.00 </a></div>
                 <div class="footer-logo">
                   <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
                 </div>
@@ -102,13 +102,13 @@
                 </div>
                 <ul>
                   <li class="type" id={id}>{type}</li>
-                  <a href={parent.detailsUrl(repository_id,offer_id)}>More Offer Details...</a>
+                  <a href={parent.detailsUrl(repository_id,offer_id)}>More Details...</a>
                   <li class="usage message">Rotate for description </li>
                   <button class="button_span up" id={id}><img src="../ui_elem/caret-top.svg"></img></button>
                   <div class="container" id={id}><div class="content" id={id}><li class="usage"><raw content="{description}"></raw></li></div></div>
                   <button class="button_span down" id={id}><img src="../ui_elem/caret-bottom.svg"></img></button>
-                  <li class="price"> <a href="#" class="button color" id={id}> Buy for £6.00 </a></li>
                 </ul>
+                <div class="price"> <a href="#" class="button color" id={id}> Buy for £6.00 </a></div>
                 <div class="footer-logo">
                   <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
                 </div>

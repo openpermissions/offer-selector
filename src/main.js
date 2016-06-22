@@ -44,7 +44,12 @@ class OfferSelector {
     var description = offer['http://openpermissions.org/ns/op/1.1/policyDescription'][0]['@value'];
     var offerId = offer['@id'].split('/');
     offerId = offerId[offerId.length-1];
-    
+
+    //TODO:
+    // - Get price from offer
+    // - Get purchase link from organisation
+    // - Get colours from organisation
+
     return {
       "id": idx,
       "offer_id": offerId,
@@ -119,6 +124,12 @@ class OfferSelector {
   }
 
   displayOffers(offers) {
+    const nodes = document.getElementsByTagName(this.options.tag);
+    if (nodes.length == 0) {
+      throw Error(`Tag ${tag} not found in html`);
+    }
+    nodes[0].innerHTML = '<offers></offers>';
+    
     riot.mount('offers', {
       title: 'OPP Licence Offers',
       items: offers.map(this.parseOffer)
