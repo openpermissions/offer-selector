@@ -131,12 +131,12 @@
     helper.render_swiper();
 
     var item_length = opts.items.length;
-
+    //
     for(var i = 0 ; i<item_length; i++)
-    helper.change_color(opts.items[i].id,opts.items[i].title_color, opts.items[i].logo_color, opts.items[i].btn_text_color, opts.items[i].primary_color, opts.items[i].secondary_color);
+    helper.change_color(opts.items[i].id,opts.items[i].title_color, opts.items[i].logo_color, opts.items[i].btn_text_color, opts.items[i].primary_color, helper.gradient_Color(opts.items[i].primary_color,40));
 
     /* This is just an example of how to change background colors on mobile */
-    var colors = ["#9DC8C8","#6E7783","#555273","#87314e"];
+    var colors = ["#9DC8C8","#6E7783","#555273","#87314E"];
     helper.background_changer(colors);
 
     /* Scroller */

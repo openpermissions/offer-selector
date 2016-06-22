@@ -61,7 +61,7 @@ parseOffer(offerObj){
               //current_policy = current_policy.replace(/(<|&lt;)br\s*\/*(>|&gt;)/g,'\n');
               //console.log(current_policy);
               items[z] = { "id": z, "type" : current_title, "description": current_policy , color: "color1", "logo" : i.organisation.logo,
-                          "title_color": "#379392", "logo_color" : "#353866", "btn_text_color": "white", "primary_color": "#CE6D39", "secondary_color":"#F17F42"};
+                          "title_color": "#379392", "logo_color" : "#353866", "btn_text_color": "white", "primary_color": "#CE6D39"};
               z = z + 1;
               console.log(items[z-1]);
               /*
