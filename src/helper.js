@@ -1,3 +1,5 @@
+var Swiper = require('swiper');
+
 module.exports = {
 
   getAssigner: function (offer) {

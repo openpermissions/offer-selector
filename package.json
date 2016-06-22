@@ -13,7 +13,7 @@
     "lodash.uniq": "^4.3.0",
     "riot": "2.0.15",
     "riotify": "0.0.9",
-    "swiper": "3.3.1",
+    "swiper": "^3.3.1",
     "whatwg-fetch": "^1.0.0"
   },
   "devDependencies": {
