@@ -37,30 +37,26 @@ class OfferSelector {
   }
 
 
-  parseOffer(offerObj, idx){
-    const title = 'http://purl.org/dc/terms/title';
-    const policy = 'http://openpermissions.org/ns/op/1.1/policyDescription';
-
+  parseOffer(offerObj, idx) {
     const offer = offerObj.offer.find(o => o["@type"].indexOf("http://www.w3.org/ns/odrl/2/Offer") !== -1);
 
-    var current_title = offer[title][0]['@value'];
-    var current_policy = offer[policy][0]['@value'];
-    var offer_id = offer['@id'].split('/');
-    offer_id = offer_id[offer_id.length-1];
+    var title = offer['http://purl.org/dc/terms/title'][0]['@value'];
+    var description = offer['http://openpermissions.org/ns/op/1.1/policyDescription'][0]['@value'];
+    var offerId = offer['@id'].split('/');
+    offerId = offerId[offerId.length-1];
     
     return {
       "id": idx,
-      "offer_id": offer_id,
-      "repository_id": offerObj['repository_id'],
-      "type": current_title,
-      "description": current_policy,
+      "offer_id": offerId,
+      "repository_id": offerObj.repositoryId,
+      "type" : title,
+      "description": description ,
       "color": "color1",
-      "logo": offerObj.organisation.logo,
+      "logo" : offerObj.organisation.logo,
       "title_color": "#379392",
-      "logo_color": "#353866",
+      "logo_color" : "#353866",
       "btn_text_color": "white",
-      "primary_color": "#CE6D39",
-      "secondary_color": "#F17F42"
+      "primary_color": "#CE6D39"
     };
   };
 
@@ -70,8 +66,8 @@ class OfferSelector {
       return asset.offers.map( offer => {
         return {
           offer: offer,
-          repository_id: asset.repository.repository_id,
-          entity_id: asset.entity_id
+          repositoryId: asset.repository.repository_id,
+          entityId: asset.entity_id
         }
       });
     });
