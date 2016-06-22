@@ -1,24 +1,26 @@
 <offers>
   <div>
-      <h1> {opts.title} </h1>
+      <!--<h1> {opts.title} </h1>-->
       <div class="all">
         <!-- Container for smartphones -->
 
         <div class="swiper-container swiper" id="container">
           <div class="swiper-wrapper" id="wrapper">
-            <div each = { items } class="swiper-slide">
+            <div each = {items} class="swiper-slide">
               <div class="card_table" id="mobile">
-
-                <div class="logo">
-                  <img src="mirrorpix-logo.png"></img>
+                <div class="logo" id={id}>
+                  <img src={logo}></img>
                 </div>
                 <ul>
-                  <li class="type"> {type}</li>
-                  <li class="usage"> Personal Use - Website - Webpage (no advertising) - Internet Website </li>
-                  <li class="price"> <a href="#" class={"button " + color}> Buy for £6.00 </a></li>
+                  <li class="type" id={id}>{type}</li>
+                  <li class="usage message">Rotate for description </li>
+                  <button class="button_span up" id={id}><img src="../ui_elem/caret-top.svg"></img></button>
+                  <div class="container" id={id}><div class="content" id={id}><li class="usage"><raw content="{description}"></raw></li></div></div>
+                  <button class="button_span down" id={id}><img src="../ui_elem/caret-bottom.svg"></img></button>
+                  <li class="price"> <a href="#" class="button color" id={id}> Buy for £6.00 </a></li>
                 </ul>
                 <div class="footer-logo">
-                  <p>Powered by </p> <img src="opp-logo.png"></img>
+                  <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
                 </div>
               </div>
             </div>
@@ -32,19 +34,21 @@
 
         <div class="swiper-container swiper2" id="container">
           <div class="swiper-wrapper" id="wrapper">
-            <div each = { items } class="swiper-slide">
+            <div each = {items} class="swiper-slide">
               <div class="card_table" id="mobile">
-
-                <div class="logo">
-                  <img src="mirrorpix-logo.png"></img>
+                <div class="logo" id={id}>
+                  <img src={logo}></img>
                 </div>
                 <ul>
-                  <li class="type"> {type}</li>
-                  <li class="usage"> Personal Use - Website - Webpage (no advertising) - Internet Website </li>
-                  <li class="price"> <a href="#" class={"button " + color}> Buy for £6.00 </a></li>
+                  <li class="type" id={id}>{type}</li>
+                  <li class="usage message">Rotate for description </li>
+                  <button class="button_span up" id={id}><img src="../ui_elem/caret-top.svg"></img></button>
+                  <div class="container" id={id}><div class="content" id={id}><li class="usage"><raw content="{description}"></raw></li></div></div>
+                  <button class="button_span down" id={id}><img src="../ui_elem/caret-bottom.svg"></img></button>
+                  <li class="price"> <a href="#" class="button color" id={id}> Buy for £6.00 </a></li>
                 </ul>
                 <div class="footer-logo">
-                  <p>Powered by </p> <img src="opp-logo.png"></img>
+                  <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
                 </div>
               </div>
             </div>
@@ -58,19 +62,22 @@
 
         <div class="swiper-container swiper3" id="container">
           <div class="swiper-wrapper" id="wrapper">
-            <div each = { items } class="swiper-slide">
+            <div each = {items} class="swiper-slide">
               <div class="card_table" id="mobile">
 
-                <div class="logo">
-                  <img src="mirrorpix-logo.png"></img>
+                <div class="logo" id={id}>
+                  <img src={logo}></img>
                 </div>
                 <ul>
-                  <li class="type"> {type}</li>
-                  <li class="usage"> Personal Use - Website - Webpage (no advertising) - Internet Website </li>
-                  <li class="price"> <a href="#" class={"button " + color}> Buy for £6.00 </a></li>
+                  <li class="type" id={id}>{type}</li>
+                  <li class="usage message">Rotate for description </li>
+                  <button class="button_span up" id={id}><img src="../ui_elem/caret-top.svg"></img></button>
+                  <div class="container" id={id}><div class="content" id={id}><li class="usage"><raw content="{description}"></raw></li></div></div>
+                  <button class="button_span down" id={id}><img src="../ui_elem/caret-bottom.svg"></img></button>
+                  <li class="price"> <a href="#" class="button color" id={id}> Buy for £6.00 </a></li>
                 </ul>
                 <div class="footer-logo">
-                  <p>Powered by </p> <img src="opp-logo.png"></img>
+                  <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
                 </div>
               </div>
             </div>
@@ -84,19 +91,22 @@
 
         <div class="swiper-container swiper4" id="container">
           <div class="swiper-wrapper" id="wrapper">
-            <div each = { items } class="swiper-slide">
+            <div each = {items} class="swiper-slide">
               <div class="card_table" id="mobile">
 
-                <div class="logo">
-                  <img src="mirrorpix-logo.png"></img>
+                <div class="logo" id={id}>
+                  <img src={logo}></img>
                 </div>
                 <ul>
-                  <li class="type"> {type}</li>
-                  <li class="usage"> Personal Use - Website - Webpage (no advertising) - Internet Website </li>
-                  <li class="price"> <a href="#" class={"button " + color}> Buy for £6.00 </a></li>
+                  <li class="type" id={id}>{type}</li>
+                  <li class="usage message">Rotate for description </li>
+                  <button class="button_span up" id={id}><img src="../ui_elem/caret-top.svg"></img></button>
+                  <div class="container" id={id}><div class="content" id={id}><li class="usage"><raw content="{description}"></raw></li></div></div>
+                  <button class="button_span down" id={id}><img src="../ui_elem/caret-bottom.svg"></img></button>
+                  <li class="price"> <a href="#" class="button color" id={id}> Buy for £6.00 </a></li>
                 </ul>
                 <div class="footer-logo">
-                  <p>Powered by </p> <img src="opp-logo.png"></img>
+                  <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
                 </div>
               </div>
             </div>
@@ -106,89 +116,47 @@
           <div class="swiper-button-prev swiper-button-white"></div>
         </div>
       </div>
+
   </div>
-  <script>
-    require('swiper');
 
 
-    /* Pass dummy array to Riot */
-    this.items = opts.items;
+<script>
+  this.items = opts.items;
 
-    render_swiper() {
+  const helper = require('../helper');
 
-        var width = window.innerWidth;
-        if(width<415) {
+  window.onresize = helper.render_swiper;
 
-        var swiper = new Swiper('.swiper', {
-          pagination: '.swiper-pagination',
-          slidesPerView:1,
-          paginationClickable: true,
-          nextButton: '.swiper-button-next',
-          prevButton: '.swiper-button-prev',
-          spaceBetween: 30,
-          centeredSlides: true,
-        });
-        }
+  this.on('mount', function(){
+    helper.render_swiper();
 
-        if(width>=415&&width<1000) {
+    var item_length = opts.items.length;
 
-        var swiper2 = new Swiper('.swiper2', {
-          pagination: '.swiper-pagination',
-          slidesPerView:2,
-          paginationClickable: true,
-          nextButton: '.swiper-button-next',
-          prevButton: '.swiper-button-prev',
-          spaceBetween: 10,
+    for(var i = 0 ; i<item_length; i++)
+    helper.change_color(opts.items[i].id,opts.items[i].title_color, opts.items[i].logo_color, opts.items[i].btn_text_color, opts.items[i].primary_color, opts.items[i].secondary_color);
 
-        });
-        }
+    /* This is just an example of how to change background colors on mobile */
+    var colors = ["#9DC8C8","#6E7783","#555273","#87314e"];
+    helper.background_changer(colors);
 
-        if(width>=1000&&width<=1700) {
-
-        var swiper3 = new Swiper('.swiper3', {
-          pagination: '.swiper-pagination',
-          slidesPerView:4,
-          paginationClickable: true,
-          nextButton: '.swiper-button-next',
-          prevButton: '.swiper-button-prev',
-          spaceBetween: 10,
-
-        });
-        }
-
-        if(width>=1700) {
-
-        var swiper3 = new Swiper('.swiper4', {
-          pagination: '.swiper-pagination',
-          slidesPerView:5,
-          paginationClickable: true,
-          nextButton: '.swiper-button-next',
-          prevButton: '.swiper-button-prev',
-          spaceBetween: 20,
-
-        });
-     }
- }
-
-
-
-/* Call the render_swiper function every time screen gets resized */
-
-window.onresize = render_swiper;
-
-/* Add swiper when mounting elements */
-
-this.on('mount', function(){
-    render_swiper();
+    /* Scroller */
+    helper.scroller();
   });
 
-/* After page is updated (used for window resizing) */
-
-this.on('updated', function(){
-  render_swiper();
-});
-
-
-
-  </script>
+  this.on('updated', function(){
+    helper.render_swiper();
+  });
+</script>
 </offers>
+
+riot.tag('raw', '<span></span>', function (opts) {
+    this.updateContent = function () {
+        this.root.innerHTML = opts.content;
+    };
+
+    this.on('update', function() {
+        this.updateContent();
+    });
+
+    this.updateContent();
+});

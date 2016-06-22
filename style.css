@@ -4,22 +4,41 @@
 }
 
 body{
-  background: #77AAAD;
-  width:100%;
-
-}
-/* The little white line below the title. It's useless but cute design wise. */
-.all{
-  border-top: solid 1px #D8E6E7;
-  width:100%;
+  background-color: #566270;
   height:100%;
-  margin: 0 auto;
+  width:100%;
+}
+p {
+  color: #E0E3DA;
+}
+/*Remove everything above this */
 
+
+/* h1 is the only globally affected tag, it is just for the title but can easily be removed */
+h1{
+  height: 10%;
+  text-align:center;
+  color: #FFF;
+  font-size: 5vh;
+  font-family: 'Lato', sans-serif; font-weight: 400; line-height: 58px;
+}
+.all br
+{   content: "A" !important;
+    display: block !important;
+    margin-bottom: 0.5em !important;
+}
+.all{
+  border-top: solid 0.08em #FFF;
+  background-color: #9DC8C8;
+  border-bottom: solid 0.08em #FFF;
+  width:100%;
+  height:470px;
+  margin: 0 auto;
 }
 /* Container class for swiper */
 .swiper-container {
     width: 100%;
-    height: 80vh;
+    height: 100%;
     margin: 0 auto;
 }
 /* Container class for swiper slider */
@@ -39,27 +58,21 @@ body{
     -webkit-align-items: center;
     align-items: center;
 }
-/* Title */
-h1{
-  text-align:center;
-  margin-top:20px;
-  color: #D8E6EF;
-  font-size: 5vh;
-  font-family: 'Lato', sans-serif; font-weight: 400; line-height: 58px;
-  margin-bottom:15px;
 
+.hiding{
+  visibility: hidden;
 }
 /* Media queries for different screen sizes to stop showing the Swiper classes in case someone **really** wants to resize the window continuosly */
 @media screen and (max-width: 320px)
 {
+
     .swiper-button-prev {
-        display:none;
+        margin-left: -6px;
     }
     .swiper-button-next {
-        display:none;
+        margin-right: -6px;
     }
 }
-
 @media screen and (max-width: 415px)
 {
   .swiper2 {
@@ -73,7 +86,7 @@ h1{
   }
 }
 
-@media screen and (min-width: 416px) and (max-width:1000px)
+@media screen and (min-width: 416px) and (max-width:1025px)
 {
   .swiper {
       display:none;
@@ -86,7 +99,7 @@ h1{
   }
 }
 
-@media screen and (min-width: 1000px) and (max-width:1700px)
+@media screen and (min-width: 1025px) and (max-width:1700px)
 {
   .swiper4 {
       display:none;
@@ -135,40 +148,59 @@ h1{
   margin-left:50px;
   margin-bottom:50px;
 }
+.button_span {
+   float: right;
+   position: relative;
+   left: -50%; /* or right 50% */
+   text-align: left;
+   border: none;
+   background-color:white;
+}
+.button_span.down {
+  top:10px;
+}
+.card_table .container {
+  height:140px;
+  /*border: solid 1px;*/
+  width:100%;
+  overflow: hidden;
+
+}
 .card_table ul {
   list-style-type: none;
+}
+.card_table li {
+  margin-left:10px;
+  margin-right:10px;
 }
 .type{
   color:#96281B;
   font-size:20px;
   position: relative;
   margin-left: 10px;
-  margin-top: 20px;
-  margin-bottom: 10px;
-   font-family: 'Lato', sans-serif; font-weight: 300; line-height: 58px;
+  margin-top:15px;
+  font-family: 'Signika', sans-serif; line-height: 35px;
+}
+.message {
+  margin-top:10px;
 }
 .usage{
   font-family: 'Lucida Sans', Arial, sans-serif;
   font-size: 16px;
   line-height: 26px;
-  margin-left: 10px;
 }
 .price{
   position: absolute;
-  bottom:50px;
+  bottom:60px;
 }
-.color1 {
+.color {
   background: #D64541; /* For browsers that do not support gradients */
-  background: -webkit-linear-gradient(#D64541, #E08283); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(#D64541, #E08283); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#D64541, #E08283); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#D64541, #E08283); /* Standard syntax */
 }
 .button {
     display: inline-block;
     position: relative;
     color: #fff;
-    margin: 10px;
+    margin: 0px;
     padding: 0 20px;
     text-align: center;
     text-decoration: none;
@@ -177,28 +209,13 @@ h1{
     -moz-box-shadow: 1px 1px 1px rgba(0,0,0, .29), inset 1px 1px 1px rgba(255,255,255, .44);
     box-shadow: 1px 1px 1px rgba(0,0,0, .29), inset 1px 1px 1px rgba(255,255,255, .44);
 }
-.color1:hover {
-  color: #fff;
-  background: #F1A9A0; /* For browsers that do not support gradients */
-  background: -webkit-linear-gradient(#F1A9A0, #E08283); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(#F1A9A0, #E08283); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#F1A9A0, #E08283); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#F1A9A0, #E08283); /* Standard syntax */
+
+.color:hover {
+  -moz-box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
+   -webkit-box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
+   box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
 }
-.color2 {
-  background: #369E95;
-  background: -webkit-linear-gradient(#369E95, #86E2D5); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(#369E95, #86E2D5); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#369E95, #86E2D5); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#369E95, #86E2D5); /* Standard syntax */
-}
-.color2:hover {
-  background: #369E95;
-  background: -webkit-linear-gradient(#A2DED0, #86E2D5); /* For Safari 5.1 to 6.0 */
-  background: -o-linear-gradient(#A2DED0, #86E2D5); /* For Opera 11.1 to 12.0 */
-  background: -moz-linear-gradient(#A2DED0, #86E2D5); /* For Firefox 3.6 to 15 */
-  background: linear-gradient(#A2DED0, #86E2D5); /* Standard syntax */
-}
+
 .logo{
   background: #2A2A28;
   width:250px;
