@@ -35,18 +35,30 @@ class OfferSelector {
 
   parseOffers(response) {
     let data = response.data || [];
-    let offers = data.map(d => d['offers']);
+    let offers = data.map( asset => {
+      return asset.offers.map( offer => {
+        return {
+          offer: offer,
+          repository_id: asset.repository.repository_id,
+          entity_id: asset.entity_id
+        }
+      });
+    });
     offers = [].concat.apply([], offers);
-    const offerPromises = offers.map(offer => ldPromises.expand(offer));
+    const offerPromises = offers.map(offer => {
+      return new Promise((resolve, reject) => {
+        ldPromises.expand(offer.offer).then(expanded => {
+          offer.offer = expanded;
+          offer.organisation = helper.getAssigner(offer.offer);
+          resolve(offer);
+        })
+      });
+    });
     return Promise.all(offerPromises);
-  }
+  };
 
   retrieveOrganisations(offers) {
     return new Promise((resolve, reject) => {
-      offers = offers.map(offer => {
-        return {"offer": offer, "organisation": helper.getAssigner(offer)}
-      });
-
       let organisationIds = offers.map(offer => offer.organisation);
       organisationIds = _uniq(organisationIds.filter(value => value !== undefined));
 

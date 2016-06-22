@@ -3,6 +3,8 @@ const sinon = require('sinon');
 require('sinon-as-promised');
 const OfferSelector = require('../src/main');
 const helper = require('../src/helper');
+const jsonld = require('jsonld');
+const ldPromises = jsonld.promises;
 
 describe('OfferSelector constructor', () => {
   it('should initialise with default options if none provided', () => {
@@ -51,13 +53,28 @@ describe('OfferSelector constructor', () => {
 });
 
 describe('Offer Selector parseOffers', () => {
+   beforeEach(() => {
+    sinon.stub(helper, 'getAssigner');
+    sinon.stub(ldPromises, 'expand');
+
+    helper.getAssigner.returns('org1');
+    ldPromises.expand.resolves([{'id': 'id1'}])
+  });
+
+  afterEach(() => {
+    helper.getAssigner.restore();
+    ldPromises.expand.restore();
+  });
+
   it('should return a flattened array of expanded offers if single asset response', done => {
     const selector = new OfferSelector();
     const response = {
       "status": 200,
       "data": [{
-        "source_id": "140",
-        "entity_id": "91ede339f3df4450aff99a868a40074a",
+        "entity_id": "entity1",
+        "repository": {
+          "repository_id": "repo1"
+        },
         "offers": [{
           "@context": {},
           "@graph": []
@@ -70,7 +87,7 @@ describe('Offer Selector parseOffers', () => {
     };
 
     selector.parseOffers(response)
-      .then( result => {
+      .then(result => {
         expect(result).to.be.an('array');
         expect(result.length).to.equal(2);
       })
@@ -82,8 +99,10 @@ describe('Offer Selector parseOffers', () => {
     const response = {
       "status": 200,
       "data": [{
-        "source_id": "140",
-        "entity_id": "91ede339f3df4450aff99a868a40074a",
+        "entity_id": "entity1",
+        "repository": {
+          "repository_id": "repo1"
+        },
         "offers": [{
           "@context": {},
           "@graph": []
@@ -94,8 +113,10 @@ describe('Offer Selector parseOffers', () => {
         "source_id_type": "examplecopictureid"
       },
         {
-          "source_id": "141",
-          "entity_id": "91ede339f3df4450aff99a868a40074b",
+          "entity_id": "entity2",
+          "repository": {
+            "repository_id": "repo1"
+          },
           "offers": [{
             "@context": {},
             "@graph": []
@@ -108,7 +129,7 @@ describe('Offer Selector parseOffers', () => {
     };
 
     selector.parseOffers(response)
-      .then( result => {
+      .then(result => {
         expect(result).to.be.an('array');
         expect(result.length).to.equal(4)
       })
@@ -118,31 +139,91 @@ describe('Offer Selector parseOffers', () => {
 
   it('should return an empty array if no offers', done => {
     const selector = new OfferSelector();
-    selector.parseOffers({status: 200, data:[]})
-      .then( result => {
+    selector.parseOffers({status: 200, data: []})
+      .then(result => {
         expect(result).to.be.an('array');
         expect(result.length).to.equal(0);
       })
       .then(done, done)
   });
 
-  it('should return an empty array if no data key',  done => {
+  it('should return an empty array if no data key', done => {
     const selector = new OfferSelector();
     selector.parseOffers({status: 200})
-      .then( result => {
+      .then(result => {
         expect(result).to.be.an('array');
         expect(result.length).to.equal(0);
+      })
+      .then(done, done)
+  });
+
+  it('should return an offer object with expanded offer and other entity information', done => {
+    const selector = new OfferSelector();
+    const response = {
+      "status": 200,
+      "data": [{
+        "entity_id": "entity1",
+        "repository": {
+          "repository_id": "repo1"
+        },
+        "offers": [{
+          "@context": {},
+          "@graph": []
+        }, {
+          "@context": {},
+          "@graph": []
+        }],
+        "source_id_type": "examplecopictureid"
+      }, {
+        "entity_id": "entity2",
+        "repository": {
+          "repository_id": "repo2"
+        },
+        "offers": [{
+          "@context": {},
+          "@graph": []
+        }, {
+          "@context": {},
+          "@graph": []
+        }],
+        "source_id_type": "examplecopictureid"
+      }]
+    };
+
+    selector.parseOffers(response)
+      .then(result => {
+        expect(result).to.eql([{
+          offer: [{'id': 'id1'}],
+          entity_id: 'entity1',
+          repository_id: 'repo1',
+          organisation: 'org1'
+        }, {
+          offer: [{'id': 'id1'}],
+          entity_id: 'entity1',
+          repository_id: 'repo1',
+          organisation: 'org1'
+        }, {
+          offer: [{'id': 'id1'}],
+          entity_id: 'entity2',
+          repository_id: 'repo2',
+          organisation: 'org1'
+        }, {
+          offer: [{'id': 'id1'}],
+          entity_id: 'entity2',
+          repository_id: 'repo2',
+          organisation: 'org1'
+        }])
       })
       .then(done, done)
   });
 });
 
 
+
 describe('Offer Selector retrieveOrganisations', () => {
   const selector = new OfferSelector({organisations: 'https://my-orgs'});
 
   beforeEach(() => {
-    sinon.stub(helper, 'getAssigner');
     sinon.stub(window, 'fetch');
 
     window.fetch.withArgs('https://my-orgs/orgid1').resolves(
@@ -152,27 +233,18 @@ describe('Offer Selector retrieveOrganisations', () => {
       new Response('{"status": 200, "data": {"id": "orgid2", "name": "Organisation 2"}}', {status: 200})
     );
 
-    window.fetch.withArgs('https://my-orgs/orgid5').resolves(
-      new Response('{"status": 500, "errormsg": Internal server error}}', {status: 500, statusText: "Internal server error"})
-    );
-
-    window.fetch.withArgs('https://my-orgs/orgid6').rejects(new TypeError('Error Message'));
-
-    helper.getAssigner.withArgs([{'@id': 'id1'}]).returns('orgid1');
-    helper.getAssigner.withArgs([{'@id': 'id2'}]).returns('orgid2');
-    helper.getAssigner.withArgs([{'@id': 'id3'}]).returns('orgid2');
-    helper.getAssigner.withArgs([{'@id': 'id4'}]).returns(undefined);
-    helper.getAssigner.withArgs([{'@id': 'id5'}]).returns('orgid5');
-    helper.getAssigner.withArgs([{'@id': 'id6'}]).returns('orgid6');
   });
 
   afterEach(() => {
-    helper.getAssigner.restore();
     window.fetch.restore();
   });
 
   it('should only make api calls for unique organisation ids', done => {
-    let offers = [[{'@id': 'id1'}], [{'@id': 'id2'}], [{'@id': 'id3'}], [{'@id': 'id4'}]];
+    let offers = [
+      {offer: [{'@id': 'id1'}], organisation: 'orgid1'},
+      {offer: [{'@id': 'id2'}], organisation: 'orgid2'},
+      {offer: [{'@id': 'id3'}], organisation: 'orgid2'},
+      {offer: [{'@id': 'id4'}], organisation: undefined}];
     selector.retrieveOrganisations(offers)
       .then( result => {
         expect(window.fetch.callCount).to.be(2);
@@ -183,7 +255,10 @@ describe('Offer Selector retrieveOrganisations', () => {
   });
 
   it('should return an array of offers with their organisation objects', done => {
-    let offers = [[{'@id': 'id1'}], [{'@id': 'id2'}]];
+    let offers = [
+      {offer: [{'@id': 'id1'}], organisation: 'orgid1'},
+      {offer: [{'@id': 'id2'}], organisation: 'orgid2'}
+    ];
     selector.retrieveOrganisations(offers)
       .then( result => {
         expect(result).to.eql([{
@@ -200,8 +275,13 @@ describe('Offer Selector retrieveOrganisations', () => {
 
 
   it('should return offers with an empty organisation if organisation query returns a non-200 status', done => {
-    let offers = [[{'@id': 'id1'}], [{'@id': 'id5'}]];
-
+    window.fetch.withArgs('https://my-orgs/orgid5').resolves(
+      new Response('{"status": 500, "errormsg": Internal server error}}', {status: 500, statusText: "Internal server error"})
+    );
+    let offers = [
+      {offer: [{'@id': 'id1'}], organisation: 'orgid1'},
+      {offer: [{'@id': 'id5'}], organisation: 'orgid5'}
+    ];
     selector.retrieveOrganisations(offers)
       .then( result => {
         expect(result).to.eql([{
@@ -216,21 +296,26 @@ describe('Offer Selector retrieveOrganisations', () => {
       .then(done, done)
   });
 
-    it('should return offers with an empty organisation if there is an error retrieving organisations', done => {
-      let offers = [[{'@id': 'id1'}], [{'@id': 'id6'}]];
-      selector.retrieveOrganisations(offers)
-        .then( result => {
-          expect(result).to.eql([{
-            offer: [{'@id': 'id1'}],
-            organisation: {"id": "orgid1", "name": "Organisation 1"}
-          }, {
-            offer: [{'@id': 'id6'}],
-            organisation: {}
-          }
-          ]);
-        })
-        .then(done, done)
-    });
+  it('should return offers with an empty organisation if there is an error retrieving organisations', done => {
+    window.fetch.withArgs('https://my-orgs/orgid6').rejects(new TypeError('Error Message'));
+
+    let offers = [
+      {offer: [{'@id': 'id1'}], organisation: 'orgid1'},
+      {offer: [{'@id': 'id6'}], organisation: 'orgid6'}
+    ];
+    selector.retrieveOrganisations(offers)
+      .then( result => {
+        expect(result).to.eql([{
+          offer: [{'@id': 'id1'}],
+          organisation: {"id": "orgid1", "name": "Organisation 1"}
+        }, {
+          offer: [{'@id': 'id6'}],
+          organisation: {}
+        }
+        ]);
+      })
+      .then(done, done)
+  });
 });
 
 describe('OfferSelector loadOffers', () => {
