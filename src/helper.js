@@ -1,4 +1,6 @@
-var Swiper = require('swiper');
+import Swiper from 'swiper'
+import * as accounting from 'accounting'
+import {currencySymbols} from './constants'
 
 module.exports = {
 
@@ -268,5 +270,9 @@ module.exports = {
                       "background": fallback });
        }
        });
- }
+ },
+
+ formatMoney: function (value, currencyCode) {
+   return accounting.formatMoney(value, currencySymbols[currencyCode] || currencyCode);
+  }
 };

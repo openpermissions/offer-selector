@@ -8,6 +8,7 @@
     "url": "https://github.com/openpermissions/offer-selector.git"
   },
   "dependencies": {
+    "accounting": "^0.4.1",
     "jsonld": "^0.4.8",
     "lodash.defaults": "4.0.1",
     "lodash.uniq": "^4.3.0",

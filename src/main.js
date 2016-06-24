@@ -129,7 +129,7 @@ class OfferSelector {
       throw Error(`Tag ${tag} not found in html`);
     }
     nodes[0].innerHTML = '<offers></offers>';
-    
+
     riot.mount('offers', {
       title: 'OPP Licence Offers',
       items: offers.map(this.parseOffer)

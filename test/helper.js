@@ -23,7 +23,7 @@ describe('getAssigner', () => {
     let result = helper.getAssigner(offer);
     expect(result).to.be(undefined);
   });
-  
+
   it('should return undefined if offer has no assigner id', () => {
     let offer = [{
       '@type': ["http://www.w3.org/ns/odrl/2/Offer"],
@@ -32,7 +32,7 @@ describe('getAssigner', () => {
     let result = helper.getAssigner(offer);
     expect(result).to.be(undefined);
   });
-  
+
   it('should return undefined if offer has no assigner element', () => {
     let offer = [{
       '@type': ["http://www.w3.org/ns/odrl/2/Offer"],
@@ -75,4 +75,14 @@ describe('parseResponse', () => {
       expect(e.message).to.be('Internal Server Error');
     });
   })
+});
+
+describe('formatMoney', () => {
+    it('should return a string with the currency symbol', () => {
+        expect(helper.formatMoney(100, 'GBP')).to.be('£100.00');
+    });
+
+    it('should use the currency code if unrecognised 😸 ', () => {
+        expect(helper.formatMoney(100, '😸 ')).to.be('😸 100.00');
+    });
 });
