@@ -9,7 +9,7 @@
             <div each = {items} class="swiper-slide">
               <div class="card_table" id="mobile">
                 <div class="logo" id={id}>
-                  <img src={logo}></img>
+                  <img src={organisation.logo}></img>
                 </div>
                 <ul>
                   <li class="type" id={id}>{type}</li>
@@ -38,7 +38,7 @@
             <div each = {items} class="swiper-slide">
               <div class="card_table" id="mobile">
                 <div class="logo" id={id}>
-                  <img src={logo}></img>
+                  <img src={organisation.logo}></img>
                 </div>
                 <ul>
                   <li class="type" id={id}>{type}</li>
@@ -68,7 +68,7 @@
               <div class="card_table" id="mobile">
 
                 <div class="logo" id={id}>
-                  <img src={logo}></img>
+                  <img src={organisation.logo}></img>
                 </div>
                 <ul>
                   <li class="type" id={id}>{type}</li>
@@ -98,7 +98,7 @@
               <div class="card_table" id="mobile">
 
                 <div class="logo" id={id}>
-                  <img src={logo}></img>
+                  <img src={organisation.logo}></img>
                 </div>
                 <ul>
                   <li class="type" id={id}>{type}</li>

@@ -14,17 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 'use strict';
-require('whatwg-fetch');
-require('./templates/offers.tag');
 
-const riot = require('riot');
-const _defaults = require('lodash.defaults');
-const _uniq = require('lodash.uniq');
-const jsonld = require('jsonld');
-const ldPromises = jsonld.promises;
-const helper = require('./helper');
+import riot from 'riot'
+import _defaults from 'lodash.defaults'
+import fetch from 'isomorphic-fetch'
+
+import {parseOffers} from './offer'
+import './templates/offers.tag'
 
 class OfferSelector {
   constructor(options) {
@@ -32,94 +29,14 @@ class OfferSelector {
     this.options = _defaults(options || {}, {
       offers: 'https://query.copyrighthub.org/v1/query/search/offers',
       organisations: 'https://acc.copyrighthub.org/v1/accounts/organisations',
-      tag: 'offer-selector'
-    });
-  }
-
-
-  parseOffer(offerObj, idx) {
-    const offer = offerObj.offer.find(o => o["@type"].indexOf("http://www.w3.org/ns/odrl/2/Offer") !== -1);
-
-    var title = offer['http://purl.org/dc/terms/title'][0]['@value'];
-    var description = offer['http://openpermissions.org/ns/op/1.1/policyDescription'][0]['@value'];
-    var offerId = offer['@id'].split('/');
-    offerId = offerId[offerId.length-1];
-
-    //TODO:
-    // - Get price from offer
-    // - Get purchase link from organisation
-    // - Get colours from organisation
-
-    return {
-      "id": idx,
-      "offer_id": offerId,
-      "repository_id": offerObj.repositoryId,
-      "type" : title,
-      "description": description ,
-      "color": "color1",
-      "logo" : offerObj.organisation.logo,
-      "title_color": "#379392",
-      "logo_color" : "#353866",
-      "btn_text_color": "white",
-      "primary_color": "#CE6D39"
-    };
-  };
-
-  parseOffers(response) {
-    let data = response.data || [];
-    let offers = data.map( asset => {
-      return asset.offers.map( offer => {
-        return {
-          offer: offer,
-          repositoryId: asset.repository.repository_id,
-          entityId: asset.entity_id
-        }
-      });
-    });
-    offers = [].concat.apply([], offers);
-    const offerPromises = offers.map(offer => {
-      return new Promise((resolve, reject) => {
-        ldPromises.expand(offer.offer).then(expanded => {
-          offer.offer = expanded;
-          offer.organisation = helper.getAssigner(offer.offer);
-          resolve(offer);
-        })
-      });
-    });
-    return Promise.all(offerPromises);
-  };
-
-  retrieveOrganisations(offers) {
-    return new Promise((resolve, reject) => {
-      let organisationIds = offers.map(offer => offer.organisation);
-      organisationIds = _uniq(organisationIds.filter(value => value !== undefined));
-
-      let orgPromises = organisationIds.map(org => {
-        return new Promise((resolve, reject) => {
-          fetch(`${this.options.organisations}/${org}`)
-            .then(response => helper.parseResponse(response))
-            .then(response => resolve(response.data))
-            .catch(err => {
-              console.log(err);
-              resolve({});
-            });
-        });
-      });
-
-      Promise.all(orgPromises).then(
-        organisations => {
-          offers.forEach(offer => {
-            offer.organisation = organisations.find(org => org.id == offer.organisation) || {};
-          });
-          resolve(offers);
-        },
-        reason => {
-          console.log(reason);
-          offers.forEach(offer => {
-            offer.organisation = {};
-          });
-          resolve(offers);
-        });
+      tag: 'offer-selector',
+      defaults: {
+        color: 'color1',
+        title_color: '#379392',
+        logo_color : '#353866',
+        btn_text_color: 'white',
+        primary_color: '#CE6D39'
+      }
     });
   }
 
@@ -132,7 +49,7 @@ class OfferSelector {
 
     riot.mount('offers', {
       title: 'OPP Licence Offers',
-      items: offers.map(this.parseOffer)
+      items: offers
     })
   }
 
@@ -146,14 +63,12 @@ class OfferSelector {
     };
 
     fetch(this.options.offers, init)
-      .then(val => helper.parseResponse(val))
-      .then(val => this.parseOffers(val))
-      .then(val => this.retrieveOrganisations(val))
-      .then(val => this.displayOffers(val))
-      .catch(err => {
-        var error = new Error(err);
-        throw error
+      .then(response => {
+        if (!response.ok) { throw Error(response.statusText); }
+        return response.json();
       })
+      .then(response => parseOffers(response.data, this.options))
+      .then(val => this.displayOffers(val));
   }
 }
 
