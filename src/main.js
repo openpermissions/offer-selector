@@ -17,7 +17,7 @@
 'use strict';
 
 import riot from 'riot'
-import _defaults from 'lodash.defaults'
+import _defaultsDeep from 'lodash.defaultsdeep'
 import fetch from 'isomorphic-fetch'
 
 import {parseOffers} from './offer'
@@ -26,7 +26,7 @@ import './templates/offers.tag'
 class OfferSelector {
   constructor(options) {
     this.version = '__VERSION__';
-    this.options = _defaults(options || {}, {
+    this.options = _defaultsDeep(options || {}, {
       offers: 'https://query.copyrighthub.org/v1/query/search/offers',
       organisations: 'https://acc.copyrighthub.org/v1/accounts/organisations',
       tag: 'offer-selector',
@@ -35,7 +35,8 @@ class OfferSelector {
         title_color: '#379392',
         logo_color : '#353866',
         btn_text_color: 'white',
-        primary_color: '#CE6D39'
+        primary_color: '#CE6D39',
+        price: {unit: 'GBP'}
       }
     });
   }

@@ -19,7 +19,7 @@
                   <div class="container" id={id}><div class="content" id={id}><li class="usage"><raw content="{description}"></raw></li></div></div>
                   <button class="button_span down" id={id}><img src="../ui_elem/caret-bottom.svg"></img></button>
                 </ul>
-                <div class="price"> <a href="#" class="button color" id={id}> Buy for £6.00 </a></div>
+                <div class="price"> <a href="#" class="button color" id={id}> Buy for {parent.formatMoney(price.value, price.unit)}</a></div>
                 <div class="footer-logo">
                   <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
                 </div>
@@ -48,7 +48,7 @@
                   <div class="container" id={id}><div class="content" id={id}><li class="usage"><raw content="{description}"></raw></li></div></div>
                   <button class="button_span down" id={id}><img src="../ui_elem/caret-bottom.svg"></img></button>
                 </ul>
-                <div class="price"> <a href="#" class="button color" id={id}> Buy for £6.00 </a></div>
+                <div class="price"> <a href="#" class="button color" id={id}> Buy for {parent.formatMoney(price.value, price.unit)}</a></div>
                 <div class="footer-logo">
                   <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
                 </div>
@@ -78,7 +78,7 @@
                   <div class="container" id={id}><div class="content" id={id}><li class="usage"><raw content="{description}"></raw></li></div></div>
                   <button class="button_span down" id={id}><img src="../ui_elem/caret-bottom.svg"></img></button>
                 </ul>
-                <div class="price"> <a href="#" class="button color" id={id}> Buy for £6.00 </a></div>
+                <div class="price"> <a href="#" class="button color" id={id}> Buy for {parent.formatMoney(price.value, price.unit)}</a></div>
                 <div class="footer-logo">
                   <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
                 </div>
@@ -108,7 +108,7 @@
                   <div class="container" id={id}><div class="content" id={id}><li class="usage"><raw content="{description}"></raw></li></div></div>
                   <button class="button_span down" id={id}><img src="../ui_elem/caret-bottom.svg"></img></button>
                 </ul>
-                <div class="price"> <a href="#" class="button color" id={id}> Buy for £6.00 </a></div>
+                <div class="price"> <a href="#" class="button color" id={id}> Buy for {parent.formatMoney(price.value, price.unit)}</a></div>
                 <div class="footer-logo">
                   <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
                 </div>
@@ -128,6 +128,7 @@
   this.items = opts.items;
 
   const helper = require('../helper');
+  this.formatMoney = helper.formatMoney;
 
   window.onresize = helper.render_swiper;
 

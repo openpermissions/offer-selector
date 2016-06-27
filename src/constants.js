@@ -18,3 +18,17 @@ export const currencySymbols = {
     'GBP': '£',
     'USD': '$'
 };
+
+export const names = {
+  constraint: 'http://www.w3.org/ns/odrl/2/constraint',
+  provider: 'http://openpermissions.org/ns/op/1.1/provider',
+  title: 'http://purl.org/dc/terms/title',
+  description: 'http://openpermissions.org/ns/op/1.1/policyDescription',
+  assigner: 'http://www.w3.org/ns/odrl/2/assigner',
+  duty: 'http://www.w3.org/ns/odrl/2/duty',
+  action: 'http://www.w3.org/ns/odrl/2/action',
+  compensate:  'http://www.w3.org/ns/odrl/2/compensate',
+  payAmount: 'http://www.w3.org/ns/odrl/2/payAmount',
+  unit: 'http://www.w3.org/ns/odrl/2/unit',
+  offer: 'http://www.w3.org/ns/odrl/2/Offer'
+}
