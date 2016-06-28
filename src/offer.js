@@ -46,7 +46,9 @@ function getOrganisation(result, grouped, orgUrl) {
   }
 
   return request.then(response => {
-    result.organisation = response.data;
+    result.logo = response.data.logo || result.logo;
+    result.primary_color = response.data.primary_color || result.primary_color;
+    result.secondary_color = response.data.secondary_color || result.secondary_color;
     return result;
   });
 }

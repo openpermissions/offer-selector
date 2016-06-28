@@ -3,63 +3,10 @@ import * as accounting from 'accounting'
 import {currencySymbols} from './constants'
 
 module.exports = {
-
-  gradient_Color: function (col, amt) {
-
-    var usePound = false;
-
-    if (col[0] == "#") {
-        col = col.slice(1);
-        usePound = true;
-    }
-
-    var num = parseInt(col,16);
-
-    var r = (num >> 16) + amt;
-
-    if (r > 255) r = 255;
-    else if  (r < 0) r = 0;
-
-    var b = ((num >> 8) & 0x00FF) + amt;
-
-    if (b > 255) b = 255;
-    else if  (b < 0) b = 0;
-
-    var g = (num & 0x0000FF) + amt;
-
-    if (g > 255) g = 255;
-    else if (g < 0) g = 0;
-
-    return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
-
-  },
-  change_color: function (id, title_color, logo_color, btn_text_color, primary_color, secondary_color) {
-
-    var id_tag = "#" + id;
-    console.log(id_tag);
-    //Change title color
-    $(id_tag + '.type').css('color',title_color);
-
-    //Change Logo color
-    $(id_tag + '.logo').css('background',logo_color);
-
-    //Change button text change_color
-    $(id_tag + '.button').css('color',btn_text_color);
-
-    // Create css for gradient button
-    var primary_color_1 = { "background" : primary_color,
-                            "background" : "-webkit-gradient(linear,left top,left bottom,from("+ primary_color +"),to(" + secondary_color +"))",
-                            "background" : "-webkit-linear-gradient("+ primary_color +","+ secondary_color +")",
-                            "background" : "-moz-linear-gradient("+ primary_color +","+ secondary_color +")",
-                            "background" : " -o-linear-gradient("+ primary_color +","+ secondary_color +")",
-                            "background" : "linear-gradient("+ primary_color +","+ secondary_color +")"};
-    $(id_tag + '.color').css(primary_color_1);
-  },
   render_swiper: function() {
 
       var width = window.innerWidth;
       var height = window.innerHeight;
-      var fallback = "#9DC8C8";
 
       $('.message').hide();
 
@@ -95,9 +42,6 @@ module.exports = {
 
       if(width>=415&&width<1025)
       {
-      //Color fallback from mobile
-      $('.all').css({transition: 'background 1s ease-in-out',
-                        "background": fallback });
       var swiper2 = new Swiper('.swiper2', {
         pagination: '.swiper-pagination',
         slidesPerView:2,
@@ -111,9 +55,6 @@ module.exports = {
 
       if(width>=1025&&width<=1700)
       {
-      //Color fallback from mobile
-      $('.all').css({transition: 'background 1s ease-in-out',
-                        "background": fallback });
       var swiper3 = new Swiper('.swiper3', {
         pagination: '.swiper-pagination',
         slidesPerView:4,
@@ -127,9 +68,6 @@ module.exports = {
 
       if(width>=1700)
       {
-      // Color fallback from mobile
-      $('.all').css({transition: 'background 1s ease-in-out',
-                        "background": fallback });
       var swiper3 = new Swiper('.swiper4', {
         pagination: '.swiper-pagination',
         slidesPerView:5,
@@ -201,49 +139,19 @@ module.exports = {
         }
    });
  },
- background_changer: function(colors){
-
-   var fallback = "#9DC8C8";
-   if(colors == null)
-   {
-     colors = [fallback];
-   }
-   $(".swiper-button-next").click(function () {
-     var active = $('.swiper-slide-active .logo').attr('id');
-
-     if(active == null) active = 0;
-
-     if($(this).parents('.swiper').length > 0)
-     {
-       $('.all').css({transition: 'background 1s ease-in-out',
-                     "background": colors[active] });
-     }
-     else
-     {
-       $('.all').css({transition: 'background 1s ease-in-out',
-                    "background": fallback });
-     }
-      });
-
-     $(".swiper-button-prev").click(function () {
-       var active = $('.swiper-slide-active .logo').attr('id');
-
-       if(active == null) active = 0;
-
-       if($(this).parents('.swiper').length > 0)
-       {
-         $('.all').css({transition: 'background 1s ease-in-out',
-                       "background": colors[active] });
-       }
-       else
-       {
-         $('.all').css({transition: 'background 1s ease-in-out',
-                      "background": fallback });
-       }
-       });
- },
 
  formatMoney: function (value, currencyCode) {
    return accounting.formatMoney(value, currencySymbols[currencyCode] || currencyCode);
+ },
+
+  cssStyleRules(fg, bg){
+    var rules = [];
+    if(bg) { rules.push("background-color:" + bg); }
+    if(fg) { rules.push("color:" + fg); }
+    return rules.join(';');
+  },
+
+  formatDetailsUrl(repoId, offerId) {
+    return "http://offer.digicat.io?repository="+repoId+"&offer="+offerId;
   }
 };

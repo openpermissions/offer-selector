@@ -31,11 +31,8 @@ class OfferSelector {
       organisations: 'https://acc.copyrighthub.org/v1/accounts/organisations',
       tag: 'offer-selector',
       defaults: {
-        color: 'color1',
-        title_color: '#379392',
-        logo_color : '#353866',
-        btn_text_color: 'white',
-        primary_color: '#CE6D39',
+        primary_color: '#353866',
+        secondary_color: '#379392',
         price: {unit: 'GBP'}
       }
     });

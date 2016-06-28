@@ -6,14 +6,9 @@ h1{
   font-size: 5vh;
   font-family: 'Lato', sans-serif; font-weight: 400; line-height: 58px;
 }
-.all br
-{   content: "A" !important;
-    display: block !important;
-    margin-bottom: 0.5em !important;
-}
+
 .all{
   border-top: solid 0.08em #FFF;
-  background-color: #9DC8C8;
   border-bottom: solid 0.08em #FFF;
   width:100%;
   height:470px;
@@ -165,33 +160,30 @@ h1{
   margin-right:10px;
 }
 .type{
-  color:#96281B;
   font-size:20px;
   position: relative;
   margin-left: 10px;
   margin-top:15px;
   font-family: 'Signika', sans-serif; line-height: 35px;
 }
+
 .message {
   margin-top:10px;
 }
+
 .usage{
   font-family: 'Lucida Sans', Arial, sans-serif;
-  font-size: 16px;
-  line-height: 26px;
+  font-size: 14px;
 }
 .price{
   position: absolute;
   bottom: 60px;
   left: 50px;
 }
-.color {
-  background: #D64541; /* For browsers that do not support gradients */
-}
+
 .button {
     display: inline-block;
     position: relative;
-    color: #fff;
     margin: 0px;
     padding: 0 20px;
     text-align: center;
@@ -202,19 +194,10 @@ h1{
     box-shadow: 1px 1px 1px rgba(0,0,0, .29), inset 1px 1px 1px rgba(255,255,255, .44);
 }
 
-.color:hover {
-  -moz-box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
-   -webkit-box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
-   box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.3);
-}
-
 .logo{
   background: #2A2A28;
   width:250px;
   height:50px;
-}
-.no2{
-  background: #DB4923;
 }
 
 .logo img{
@@ -238,6 +221,8 @@ h1{
   float:left;
 }
 .footer-logo p{
+  font-family: 'Lucida Sans', Arial, sans-serif;
+  font-size: 12px;
   float:left;
   margin-top:15px;
   margin-left:10px;

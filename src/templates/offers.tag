@@ -8,18 +8,18 @@
           <div class="swiper-wrapper" id="wrapper">
             <div each = {items} class="swiper-slide">
               <div class="card_table" id="mobile">
-                <div class="logo" id={id}>
-                  <img src={organisation.logo}></img>
+                <div class="logo" style={parent.cssStyleRules(undefined, primary_color)} id={id}>
+                  <img src={logo}></img>
                 </div>
                 <ul>
-                  <li class="type" id={id}>{type}</li>
-                  <a href={parent.detailsUrl(repository_id,offer_id)}>More Details...</a>
+                  <li style={parent.cssStyleRules(secondary_color)} class="type" id={id}>{type}</li>
+                  <a href={parent.formatDetailsUrl(repository_id,offer_id)}>More Details...</a>
                   <li class="usage message">Rotate for description </li>
                   <button class="button_span up" id={id}><img src="../ui_elem/caret-top.svg"></img></button>
                   <div class="container" id={id}><div class="content" id={id}><li class="usage"><raw content="{description}"></raw></li></div></div>
                   <button class="button_span down" id={id}><img src="../ui_elem/caret-bottom.svg"></img></button>
                 </ul>
-                <div class="price"> <a href="#" class="button color" id={id}> Buy for {parent.formatMoney(price.value, price.unit)}</a></div>
+                <div class="price"> <a href="#" style={parent.cssStyleRules('#fff', primary_color)} class="button" id={id}> Buy for {parent.formatMoney(price.value, price.unit)}</a></div>
                 <div class="footer-logo">
                   <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
                 </div>
@@ -37,18 +37,18 @@
           <div class="swiper-wrapper" id="wrapper">
             <div each = {items} class="swiper-slide">
               <div class="card_table" id="mobile">
-                <div class="logo" id={id}>
-                  <img src={organisation.logo}></img>
+                <div class="logo" style={parent.cssStyleRules(undefined, primary_color)} id={id}>
+                  <img src={logo}></img>
                 </div>
                 <ul>
-                  <li class="type" id={id}>{type}</li>
-                  <a href={parent.detailsUrl(repository_id,offer_id)}>More Details...</a>
+                  <li style={parent.cssStyleRules(secondary_color)} class="type" id={id}>{type}</li>
+                  <a href={parent.formatDetailsUrl(repository_id,offer_id)}>More Details...</a>
                   <li class="usage message">Rotate for description </li>
                   <button class="button_span up" id={id}><img src="../ui_elem/caret-top.svg"></img></button>
                   <div class="container" id={id}><div class="content" id={id}><li class="usage"><raw content="{description}"></raw></li></div></div>
                   <button class="button_span down" id={id}><img src="../ui_elem/caret-bottom.svg"></img></button>
                 </ul>
-                <div class="price"> <a href="#" class="button color" id={id}> Buy for {parent.formatMoney(price.value, price.unit)}</a></div>
+                <div class="price"> <a href="#" style={parent.cssStyleRules('#fff', primary_color)} class="button" id={id}> Buy for {parent.formatMoney(price.value, price.unit)}</a></div>
                 <div class="footer-logo">
                   <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
                 </div>
@@ -67,18 +67,18 @@
             <div each = {items} class="swiper-slide">
               <div class="card_table" id="mobile">
 
-                <div class="logo" id={id}>
-                  <img src={organisation.logo}></img>
+                <div style={parent.cssStyleRules(undefined, primary_color)} class="logo" id={id}>
+                  <img src={logo}></img>
                 </div>
                 <ul>
-                  <li class="type" id={id}>{type}</li>
-                  <a href={parent.detailsUrl(repository_id,offer_id)}>More Details...</a>
+                  <li style={parent.cssStyleRules(secondary_color)} class="type" id={id}>{type}</li>
+                  <a href={parent.formatDetailsUrl(repository_id,offer_id)}>More Details...</a>
                   <li class="usage message">Rotate for description </li>
                   <button class="button_span up" id={id}><img src="../ui_elem/caret-top.svg"></img></button>
                   <div class="container" id={id}><div class="content" id={id}><li class="usage"><raw content="{description}"></raw></li></div></div>
                   <button class="button_span down" id={id}><img src="../ui_elem/caret-bottom.svg"></img></button>
                 </ul>
-                <div class="price"> <a href="#" class="button color" id={id}> Buy for {parent.formatMoney(price.value, price.unit)}</a></div>
+                <div class="price"> <a href="#" style={parent.cssStyleRules('#fff', primary_color)} class="button" id={id}> Buy for {parent.formatMoney(price.value, price.unit)}</a></div>
                 <div class="footer-logo">
                   <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
                 </div>
@@ -97,18 +97,18 @@
             <div each = {items} class="swiper-slide">
               <div class="card_table" id="mobile">
 
-                <div class="logo" id={id}>
-                  <img src={organisation.logo}></img>
+                <div style={parent.cssStyleRules(undefined, primary_color)} class="logo" id={id}>
+                  <img src={logo}></img>
                 </div>
                 <ul>
-                  <li class="type" id={id}>{type}</li>
-                  <a href={parent.detailsUrl(repository_id,offer_id)}>More Details...</a>
+                  <li style={parent.cssStyleRules(secondary_color)} class="type" id={id}>{type}</li>
+                  <a href={parent.formatDetailsUrl(repository_id,offer_id)}>More Details...</a>
                   <li class="usage message">Rotate for description </li>
                   <button class="button_span up" id={id}><img src="../ui_elem/caret-top.svg"></img></button>
                   <div class="container" id={id}><div class="content" id={id}><li class="usage"><raw content="{description}"></raw></li></div></div>
                   <button class="button_span down" id={id}><img src="../ui_elem/caret-bottom.svg"></img></button>
                 </ul>
-                <div class="price"> <a href="#" class="button color" id={id}> Buy for {parent.formatMoney(price.value, price.unit)}</a></div>
+                <div class="price"> <a href="#" style={parent.cssStyleRules('#fff', primary_color)} class="button" id={id}> Buy for {parent.formatMoney(price.value, price.unit)}</a></div>
                 <div class="footer-logo">
                   <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
                 </div>
@@ -129,26 +129,13 @@
 
   const helper = require('../helper');
   this.formatMoney = helper.formatMoney;
+  this.cssStyleRules = helper.cssStyleRules
+  this.formatDetailsUrl = helper.formatDetailsUrl
 
   window.onresize = helper.render_swiper;
 
-  detailsUrl(repoId, offerId) {
-    var url = "http://offer.digicat.io?repository="+repoId+"&offer="+offerId;
-    return url
-  }
-
   this.on('mount', function(){
     helper.render_swiper();
-
-    var item_length = opts.items.length;
-    //
-    for(var i = 0 ; i<item_length; i++)
-    helper.change_color(opts.items[i].id,opts.items[i].title_color, opts.items[i].logo_color, opts.items[i].btn_text_color, opts.items[i].primary_color, helper.gradient_Color(opts.items[i].primary_color,40));
-
-    /* This is just an example of how to change background colors on mobile */
-    var colors = ["#9DC8C8","#6E7783","#555273","#87314E"];
-    helper.background_changer(colors);
-
     /* Scroller */
     helper.scroller();
   });
