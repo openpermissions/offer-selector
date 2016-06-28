@@ -1,7 +1,8 @@
 import expect from 'expect.js'
 import fetchMock from 'fetch-mock'
+import sinon from 'sinon'
 
-import * as offer from '../src/offer'
+import parser from '../src/offer'
 
 describe('parseOffer', () => {
   let options;
@@ -34,7 +35,7 @@ describe('parseOffer', () => {
       }
     };
 
-    return offer.parseOffer(data, options)
+    return parser.parseOffer(data, options)
       .then(result => {
         expect(fetchMock.called(options.organisations)).to.be.true;
         expect(result).to.eql(expected);
@@ -126,7 +127,7 @@ describe('parseOffer', () => {
       }
     };
 
-    return offer.parseOffer(data, options)
+    return parser.parseOffer(data, options)
       .then(result => { expect(result).to.eql(expected); });
   });
 
@@ -188,7 +189,7 @@ describe('parseOffer', () => {
     };
 
     let opt = {...options, defaults: {...options.defaults, price: {unit: '😱 '}}};
-    return offer.parseOffer(data, opt)
+    return parser.parseOffer(data, opt)
       .then(result => { expect(result).to.eql(expected); });
   });
 
@@ -209,7 +210,7 @@ describe('parseOffer', () => {
       secondary_color: '#000000',
     };
 
-    return offer.parseOffer(data, options)
+    return parser.parseOffer(data, options)
       .then(result => { expect(result).to.eql(expected); });
   });
   it('should get the compensate duty if there are multiple duties', () => {
@@ -293,7 +294,7 @@ describe('parseOffer', () => {
       }
     };
 
-    return offer.parseOffer(data, options)
+    return parser.parseOffer(data, options)
       .then(result => { expect(result).to.eql(expected); });
   });
 
@@ -383,7 +384,7 @@ describe('parseOffer', () => {
       }
     };
 
-    return offer.parseOffer(data, options)
+    return parser.parseOffer(data, options)
       .then(result => { expect(result).to.eql(expected); });
   });
 
@@ -391,7 +392,7 @@ describe('parseOffer', () => {
     let original = {...options, defaults: {...options.defaults}}
     let data = require('./fixtures/offer.json');
 
-    return offer.parseOffer(data, options)
+    return parser.parseOffer(data, options)
       .then(() => expect(options).to.eql(original));
   })
 
@@ -401,7 +402,157 @@ describe('parseOffer', () => {
 
     let data = require('./fixtures/offer.json');
 
-    return offer.parseOffer(data, opt)
+    return parser.parseOffer(data, opt)
       .then(() => expect(opt).to.eql(original));
   })
+});
+
+describe('Offer Selector parseOffers', () => {
+  let repoId = '7421a6d45d39616d17313a4248008608';
+  let asset1 = {
+    source_id: 140,
+    entity_id: 'entity2',
+    source_id_type: 'examplecopictureid',
+    repository: {
+      repository_id: repoId,
+      entity_id: '91ede339f3df4450aff99a868a40074a'
+    },
+    offers: [
+      {
+        '@context': {
+          '@vocab': 'http://www.w3.org/ns/odrl/2/',
+          'duty': {
+            'type': '@id',
+            '@container': '@set'
+          },
+          'id': 'http://openpermissions.org/ns/id/'
+        },
+        '@graph': [{
+          '@id': 'id:offer1',
+          'type': 'offer',
+          'duty': [
+            {
+              '@id': 'id:duty1'
+            }
+          ]
+        }]
+      },
+      {
+        '@context': {
+          '@vocab': 'http://www.w3.org/ns/odrl/2/',
+          'duty': {
+            'type': '@id',
+            '@container': '@set'
+          },
+          'id': 'http://openpermissions.org/ns/id/'
+        },
+        '@graph': [{
+          '@id': 'id:offer2',
+          'type': 'offer',
+          'duty': [
+            {
+              '@id': 'id:duty2'
+            }
+          ]
+        }]
+      }
+    ]
+  };
+  let asset2 = {
+    source_id: 140,
+    entity_id: 'entity2',
+    source_id_type: 'examplecopictureid',
+    repository: {
+      repository_id: repoId,
+      entity_id: '91ede339f3df4450aff99a868a40074a'
+    },
+    offers: [
+      {
+        '@context': {
+          '@vocab': 'http://www.w3.org/ns/odrl/2/',
+          'duty': {
+            'type': '@id',
+            '@container': '@set'
+          },
+          'id': 'http://openpermissions.org/ns/id/'
+        },
+        '@graph': [{
+          '@id': 'id:offer3',
+          'type': 'offer',
+          'duty': [
+            {
+              '@id': 'id:duty3'
+            }
+          ]
+        }]
+      },
+      {
+        '@context': {
+          '@vocab': 'http://www.w3.org/ns/odrl/2/',
+          'duty': {
+            'type': '@id',
+            '@container': '@set'
+          },
+          'id': 'http://openpermissions.org/ns/id/'
+        },
+        '@graph': [{
+          '@id': 'id:offer4',
+          'type': 'offer',
+          'duty': [
+            {
+              '@id': 'id:duty4'
+            }
+          ]
+        }]
+      }
+    ]
+  };
+
+  beforeEach(() => {
+    sinon.stub(parser, 'parseOffer', offer => Promise.resolve({id: offer[0]['@id']}));
+  });
+
+  afterEach(() => {
+    parser.parseOffer.restore();
+  });
+
+  it('should expand JSON-LD and then parse each offer', () => {
+    return parser.parseOffers([asset1])
+      .then(result => {
+        expect(parser.parseOffer.calledTwice).to.be(true);
+
+        expect(result).to.eql([
+          {repository_id: repoId, id: 'http://openpermissions.org/ns/id/offer1'},
+          {repository_id: repoId, id: 'http://openpermissions.org/ns/id/offer2'}
+        ]);
+      });
+  });
+
+  it("should expand JSON-LD and then parse each asset's offers", () => {
+    return parser.parseOffers([asset1, asset2])
+      .then(result => {
+        expect(parser.parseOffer.callCount).to.be(4);
+
+        expect(result).to.eql([
+          {repository_id: repoId, id: 'http://openpermissions.org/ns/id/offer1'},
+          {repository_id: repoId, id: 'http://openpermissions.org/ns/id/offer2'},
+          {repository_id: repoId, id: 'http://openpermissions.org/ns/id/offer3'},
+          {repository_id: repoId, id: 'http://openpermissions.org/ns/id/offer4'}
+        ]);
+      });
+  });
+
+  it('should return an empty array if no data', () => {
+    return parser.parseOffers([]).then(result => expect(result).to.eql([]));
+  });
+
+  it("should return an empty array if no offers", () => {
+    let data = [{repository: {repository_id: 1}, offers: []}];
+    return parser.parseOffers(data).then(result => expect(result).to.eql([]));
+  });
+
+  it("should return an empty array if missing offers", () => {
+    let data = [{repository: {repository_id: 1}}];
+    return parser.parseOffers(data).then(result => expect(result).to.eql([]));
+  });
 });

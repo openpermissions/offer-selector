@@ -116,51 +116,55 @@ function addPrice(result, grouped) {
   return Promise.resolve(result);
 }
 
-/**
- * Parse an expanded JSON-LD response
- */
-export function parseOffer(data, options={}) {
-  let defaults = defaultsDeep({}, options.defaults || {});
-  let grouped = {};
-  // loop over each item in the offer and apply relevant async transformations
-  let chain = data.reduce((promise, obj) => {
-    grouped[obj['@id']] = obj;
-    if (!obj['@type']) { return promise; }
-    if (!obj['@type'].includes(names.offer)) { return promise; }
+export default {
+  /**
+   * Parse an expanded JSON-LD response
+   */
+  parseOffer: function (data, options={}) {
+    let defaults = defaultsDeep({}, options.defaults || {});
+    let grouped = {};
+    // loop over each item in the offer and apply relevant async transformations
+    let chain = data.reduce((promise, obj) => {
+      grouped[obj['@id']] = obj;
+      if (!obj['@type']) { return promise; }
+      if (!obj['@type'].includes(names.offer)) { return promise; }
 
-    return promise.then(result => transformOffer(result, obj));
-  }, Promise.resolve(defaults));
+      return promise.then(result => transformOffer(result, obj));
+    }, Promise.resolve(defaults));
 
-  return chain
-    .then(result => getOrganisation(result, grouped, options.organisations))
-    .then(result => addPrice(result, grouped)) ;
-}
+    return chain
+      .then(result => getOrganisation(result, grouped, options.organisations))
+      .then(result => addPrice(result, grouped)) ;
+  },
 
-/**
- * Parse a set of offers
- */
-export function parseOffers(data, options={}) {
-  let offers = data.map( asset => {
-    return asset.offers.map( offer => {
-      return {
-        offer: offer,
-        repositoryId: asset.repository.repository_id,
-        entityId: asset.entity_id
-      }
-    });
-  });
-  offers = [].concat.apply([], offers);
+  /**
+   * Parse a set of offers
+   */
+  parseOffers: function (data, options={}) {
+    let offers = data.map(asset => {
+      if (!asset.offers) { return []; }
 
-  let promises = offers.map(offer => {
-    let promise = jsonld.promises.expand(offer.offer)
-      .then(expanded => parseOffer(expanded, options))
-      .then(parsed => {
-        parsed.repository_id = offer.repositoryId;
-        return parsed;
+      return asset.offers.map( offer => {
+        return {
+          offer: offer,
+          repositoryId: asset.repository.repository_id,
+          entityId: asset.entity_id
+        }
       });
+    });
+    offers = [].concat.apply([], offers);
 
-    return promise;
-  });
+    let promises = offers.map(offer => {
+      let promise = jsonld.promises.expand(offer.offer)
+        .then(expanded => this.parseOffer(expanded, options))
+        .then(parsed => {
+          parsed.repository_id = offer.repositoryId;
+          return parsed;
+        });
 
-  return Promise.all(promises);
+      return promise;
+    });
+
+    return Promise.all(promises);
+  }
 }

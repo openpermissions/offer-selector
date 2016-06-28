@@ -20,7 +20,7 @@ import riot from 'riot'
 import _defaultsDeep from 'lodash.defaultsdeep'
 import fetch from 'isomorphic-fetch'
 
-import {parseOffers} from './offer'
+import parser from './offer'
 import './templates/offers.tag'
 
 class OfferSelector {
@@ -65,7 +65,7 @@ class OfferSelector {
         if (!response.ok) { throw Error(response.statusText); }
         return response.json();
       })
-      .then(response => parseOffers(response.data, this.options))
+      .then(response => parser.parseOffers(response.data, this.options))
       .then(val => this.displayOffers(val));
   }
 }
