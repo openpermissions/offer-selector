@@ -1,6 +1,5 @@
 import expect from 'expect.js'
 import fetchMock from 'fetch-mock'
-import defaultsDeep from 'lodash.defaultsdeep'
 
 import * as offer from '../src/offer'
 
@@ -10,7 +9,6 @@ describe('parseOffer', () => {
   beforeEach(() => {
     let response = '{"status": 200, "data": {"id": "orgid1", "name": "Organisation 1"}}';
     fetchMock.mock(/organisations\/exampleco$/, response);
-
     options = {
       organisations: 'https://acc.copyrighthub.org/v1/accounts/organisations',
       defaults: {
@@ -20,7 +18,7 @@ describe('parseOffer', () => {
         btn_text_color: 'white',
         primary_color: '#CE6D39'
       }
-    }
+    };
   });
 
   it('should reduce the array into an object', () => {
@@ -204,7 +202,8 @@ describe('parseOffer', () => {
       }
     };
 
-    return offer.parseOffer(data, defaultsDeep(options, {defaults: {price: {unit: '😱 '}}}))
+    let opt = {...options, defaults: {...options.defaults, price: {unit: '😱 '}}};
+    return offer.parseOffer(data, opt)
       .then(result => { expect(result).to.eql(expected); });
   });
 
@@ -411,4 +410,22 @@ describe('parseOffer', () => {
     return offer.parseOffer(data, options)
       .then(result => { expect(result).to.eql(expected); });
   });
+
+  it('should not have side-effects on the options object', () => {
+    let original = {...options, defaults: {...options.defaults}}
+    let data = require('./fixtures/offer.json');
+
+    return offer.parseOffer(data, options)
+      .then(() => expect(options).to.eql(original));
+  })
+
+  it('should not have side-effects on the default price object', () => {
+    let opt = {...options, defaults: {...options.defaults, price: {unit: 'GBP'}}};
+    let original = {...options, defaults: {...options.defaults, price: {unit: 'GBP'}}};
+
+    let data = require('./fixtures/offer.json');
+
+    return offer.parseOffer(data, opt)
+      .then(() => expect(opt).to.eql(original));
+  })
 });

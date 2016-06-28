@@ -14,6 +14,7 @@
  */
 
 'use strict';
+import defaultsDeep from 'lodash.defaultsdeep'
 import pickBy from 'lodash.pickby'
 import jsonld from 'jsonld'
 import 'isomorphic-fetch'
@@ -77,7 +78,7 @@ function transformOffer(result, obj) {
 
   items = pickBy(items, value => value !== undefined);
 
-  return Promise.resolve(Object.assign(result, items));
+  return Promise.resolve({...result, ...items});
 }
 
 function getCompensateDuty(duties, grouped) {
@@ -98,12 +99,12 @@ function addPrice(result, grouped) {
   let constraintId = getValue(grouped[dutyId][names.constraint], '@id');
   let constraint = grouped[constraintId];
   if (!constraint) { return Promise.resolve(result); }
-
-
   if (!constraint[names.payAmount]) { return Promise.resolve(result); }
-  if (!result.price) { result.price = {}; }
 
-  result.price.value = getValue(constraint[names.payAmount]);
+  result.price = {
+    ...result.price || {},
+    value: getValue(constraint[names.payAmount])
+  };
 
   let unit = getValue(constraint[names.unit], '@id');
   if (unit) {
@@ -117,7 +118,7 @@ function addPrice(result, grouped) {
  * Parse an expanded JSON-LD response
  */
 export function parseOffer(data, options={}) {
-  let defaults = Object.assign({}, options.defaults || {});
+  let defaults = defaultsDeep({}, options.defaults || {});
   let grouped = {};
   // loop over each item in the offer and apply relevant async transformations
   let chain = data.reduce((promise, obj) => {
