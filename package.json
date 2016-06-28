@@ -8,9 +8,15 @@
     "url": "https://github.com/openpermissions/offer-selector.git"
   },
   "dependencies": {
+    "accounting": "^0.4.1",
+    "isomorphic-fetch": "^2.2.1",
     "jsonld": "^0.4.8",
+    "lodash.defaultsdeep": "^4.4.0",
+    "lodash.pickby": "^4.4.0",
+    "lodash.uniq": "^4.3.0",
     "riot": "2.0.15",
-    "riotify": "0.0.9"
+    "riotify": "0.0.9",
+    "swiper": "^3.3.1"
   },
   "devDependencies": {
     "babel": "5.1.11",
@@ -20,13 +26,30 @@
     "browserify-versionify": "1.0.4",
     "eslint": "^2.11.1",
     "eslint-plugin-riot": "^0.1.5",
+    "expect.js": "0.3.1",
+    "fetch-mock": "^4.5.4",
+    "karma": "0.12.31",
+    "karma-browserify": "4.1.2",
+    "karma-chrome-launcher": "0.1.10",
+    "karma-detect-browsers": "2.0.0",
+    "karma-firefox-launcher": "0.1.6",
+    "karma-ie-launcher": "0.1.5",
+    "karma-mocha": "0.1.10",
+    "karma-opera-launcher": "0.1.0",
+    "karma-phantomjs-launcher": "0.1.4",
+    "karma-safari-launcher": "0.1.1",
+    "karma-spec-reporter": "0.0.19",
+    "mocha": "2.2.4",
+    "sinon": "1.12.2",
+    "sinon-as-promised": "3.0.0",
     "uglify-js": "2.4.20",
     "watchify": "3.1.2"
   },
   "scripts": {
     "build": "browserify src/main.js --s OfferSelector -o dist/offer-selector.js --debug",
     "build:watch": "watchify src/main.js --s OfferSelector -v -o dist/offer-selector.js --debug",
-    "build:min": "browserify src/main.js --s OfferSelector | uglifyjs -c -m > dist/offer-selector.min.js"
+    "build:min": "browserify src/main.js --s OfferSelector | uglifyjs -c -m > dist/offer-selector.min.js",
+    "test": "mocha --compilers js:babel/register test/offer.js"
   },
   "browserify": {
     "transform": [
