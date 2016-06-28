@@ -64,7 +64,7 @@ function transformOffer(result, obj) {
   let description = getValue(obj[names.description]);
   let offerId = obj['@id'].split('/').slice(-1)[0];
   let assignerId = getValue(obj[names.assigner], '@id');
-  let duties = obj[names.duty].map(duty => duty['@id']);
+  let duties = (obj[names.duty] || []).map(duty => duty['@id']);
 
   let items = {
     id: offerId,
