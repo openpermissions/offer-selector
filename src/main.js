@@ -16,12 +16,12 @@
  */
 'use strict';
 
-import riot from 'riot'
-import _defaultsDeep from 'lodash.defaultsdeep'
-import fetch from 'isomorphic-fetch'
+import riot from 'riot';
+import _defaultsDeep from 'lodash.defaultsdeep';
+import 'isomorphic-fetch';
 
-import parser from './offer'
-import './templates/offers.tag'
+import parser from './offer';
+import './templates/offers.tag';
 
 class OfferSelector {
   constructor(options) {
@@ -60,7 +60,7 @@ class OfferSelector {
       body: JSON.stringify(sourceIds)
     };
 
-    fetch(this.options.offers, init)
+    return fetch(this.options.offers, init)
       .then(response => {
         if (!response.ok) { throw Error(response.statusText); }
         return response.json();

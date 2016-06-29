@@ -40,6 +40,7 @@
     "karma-safari-launcher": "0.1.1",
     "karma-spec-reporter": "0.0.19",
     "mocha": "2.2.4",
+    "proxyquire": "^1.7.9",
     "sinon": "1.12.2",
     "sinon-as-promised": "3.0.0",
     "uglify-js": "2.4.20",
@@ -49,7 +50,7 @@
     "build": "browserify src/main.js --s OfferSelector -o dist/offer-selector.js --debug",
     "build:watch": "watchify src/main.js --s OfferSelector -v -o dist/offer-selector.js --debug",
     "build:min": "browserify src/main.js --s OfferSelector | uglifyjs -c -m > dist/offer-selector.min.js",
-    "test": "mocha --compilers js:babel/register test/offer.js"
+    "test": "mocha --compilers js:babel/register test/offer.js test/main.js"
   },
   "browserify": {
     "transform": [

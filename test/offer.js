@@ -19,6 +19,10 @@ describe('parseOffer', () => {
     };
   });
 
+  afterEach(() => {
+    fetchMock.restore();
+  })
+
   it('should reduce the array into an object', () => {
     let data = require('./fixtures/offer.json');
     let expected = {
