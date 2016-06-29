@@ -31,8 +31,8 @@ class OfferSelector {
       organisations: 'https://acc.copyrighthub.org/v1/accounts/organisations',
       tag: 'offer-selector',
       defaults: {
-        primary_color: '#353866',
-        secondary_color: '#379392',
+        'primary_color': '#353866',
+        'secondary_color': '#379392',
         price: {unit: 'GBP'}
       }
     });
@@ -48,7 +48,7 @@ class OfferSelector {
     riot.mount('offers', {
       title: 'OPP Licence Offers',
       items: offers
-    })
+    });
   }
 
   loadOffers(sourceIds) {

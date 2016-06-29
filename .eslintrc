@@ -12,7 +12,8 @@
     "modules": true,
     "destructuring": true,
     "blockBindings": true,
-    "forOf": true
+    "forOf": true,
+    "experimentalObjectRestSpread": true
   },
   "rules": {
     "prefer-const": 1,
@@ -31,5 +32,9 @@
     }],
     "quotes": [2, "single", "avoid-escape"],
     "semi": [2, "always"]
+  },
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "sourceType": "module"
   }
 }
