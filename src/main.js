@@ -16,12 +16,12 @@
  */
 'use strict';
 
-import riot from 'riot'
-import _defaultsDeep from 'lodash.defaultsdeep'
-import fetch from 'isomorphic-fetch'
+import riot from 'riot';
+import _defaultsDeep from 'lodash.defaultsdeep';
+import 'isomorphic-fetch';
 
-import {parseOffers} from './offer'
-import './templates/offers.tag'
+import parser from './offer';
+import './templates/offers.tag';
 
 class OfferSelector {
   constructor(options) {
@@ -31,8 +31,8 @@ class OfferSelector {
       organisations: 'https://acc.copyrighthub.org/v1/accounts/organisations',
       tag: 'offer-selector',
       defaults: {
-        primary_color: '#353866',
-        secondary_color: '#379392',
+        'primary_color': '#353866',
+        'secondary_color': '#379392',
         price: {unit: 'GBP'}
       }
     });
@@ -48,7 +48,7 @@ class OfferSelector {
     riot.mount('offers', {
       title: 'OPP Licence Offers',
       items: offers
-    })
+    });
   }
 
   loadOffers(sourceIds) {
@@ -60,12 +60,12 @@ class OfferSelector {
       body: JSON.stringify(sourceIds)
     };
 
-    fetch(this.options.offers, init)
+    return fetch(this.options.offers, init)
       .then(response => {
         if (!response.ok) { throw Error(response.statusText); }
         return response.json();
       })
-      .then(response => parseOffers(response.data, this.options))
+      .then(response => parser.parseOffers(response.data, this.options))
       .then(val => this.displayOffers(val));
   }
 }

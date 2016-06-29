@@ -15,8 +15,8 @@
 
 // TODO: Add more...
 export const currencySymbols = {
-    'GBP': '£',
-    'USD': '$'
+  'GBP': '£',
+  'USD': '$'
 };
 
 export const names = {
@@ -31,4 +31,4 @@ export const names = {
   payAmount: 'http://www.w3.org/ns/odrl/2/payAmount',
   unit: 'http://www.w3.org/ns/odrl/2/unit',
   offer: 'http://www.w3.org/ns/odrl/2/Offer'
-}
+};
