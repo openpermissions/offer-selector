@@ -22,6 +22,8 @@ import 'isomorphic-fetch';
 
 import parser from './offer';
 import './templates/offers.tag';
+import './templates/error.tag';
+
 
 class OfferSelector {
   constructor(options) {
@@ -36,19 +38,26 @@ class OfferSelector {
         price: {unit: 'GBP'}
       }
     });
-  }
-
-  displayOffers(offers) {
     const nodes = document.getElementsByTagName(this.options.tag);
     if (nodes.length == 0) {
       throw Error(`Tag ${tag} not found in html`);
     }
-    nodes[0].innerHTML = '<offers></offers>';
+    this.parent = nodes[0];
+  }
 
+  displayOffers(offers) {
+    this.parent.innerHTML = '<offers></offers>';
     riot.mount('offers', {
       title: 'OPP Licence Offers',
       items: offers
     });
+  }
+
+  displayError(err) {
+    this.parent.innerHTML = '<error></error>';
+    riot.mount('error', {
+      error: err
+    })
   }
 
   loadOffers(sourceIds) {
@@ -62,11 +71,25 @@ class OfferSelector {
 
     return fetch(this.options.offers, init)
       .then(response => {
-        if (!response.ok) { throw Error(response.statusText); }
         return response.json();
       })
-      .then(response => parser.parseOffers(response.data, this.options))
-      .then(val => this.displayOffers(val));
+      .then(response => {
+        if (response.status == 200) {
+          parser.parseOffers(response.data, this.options)
+            .then(val => this.displayOffers(val))
+            .catch(err => {
+              this.displayError(err);
+              throw err;
+          })
+        } else {
+          this.displayError(response);
+          throw response;
+        }
+      })
+      .catch(err => {
+        this.displayError(err);
+        throw err;
+      });
   }
 }
 

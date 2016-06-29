@@ -95,6 +95,7 @@
       display:none;
   }
 }
+
 /* Class for the card */
 .card_table {
   position:relative;
@@ -202,7 +203,7 @@
 .footer-logo{
   position:absolute;
   height:40px;
-  width:250px;
+  width:100%;
   bottom: 0;
   border-top: solid 1px;
   border-color: #6C7A89;

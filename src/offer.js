@@ -38,8 +38,14 @@ function getOrganisation(result, grouped, orgUrl) {
   if (!request) {
     request = fetch(`${orgUrl}/${orgId}`)
       .then(response => {
-        if (!response.ok) { throw Error(response.statusText); }
         return response.json();
+      })
+      .then(response => {
+        if (response.status != 200) {
+          throw response;
+        } else {
+          return response;
+        }
       });
 
     getOrganisation.cache[orgId] = request;
