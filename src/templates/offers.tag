@@ -107,14 +107,16 @@
   this.cssStyleRules = helper.cssStyleRules
   this.formatDetailsUrl = helper.formatDetailsUrl
 
-  window.onresize = helper.render_swiper;
+  const swiper = require('../swiper');
+
+  window.onresize = swiper.renderSwiper();
 
   this.on('mount', function(){
-    helper.render_swiper();
+    swiper.renderSwiper();
   });
 
   this.on('updated', function(){
-    helper.render_swiper();
+    swiper.renderSwiper();
   });
 </script>
 </offers>
