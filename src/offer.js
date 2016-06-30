@@ -69,7 +69,7 @@ function transformOffer(result, obj) {
 
   let items = {
     id: offerId,
-    type : title,
+    name : title,
     description: description,
     assignerId: assignerId,
     duties: duties

@@ -21,9 +21,11 @@ import _defaultsDeep from 'lodash.defaultsdeep';
 import 'isomorphic-fetch';
 
 import {parseResponse} from './helper'
-import parser from './offer';
-import './templates/offers.tag';
+import offerParser from './offer';
+import licensorParser from './licensor';
+import './templates/cards.tag';
 import './templates/error.tag';
+
 
 class OfferSelector {
   constructor(options) {
@@ -31,6 +33,7 @@ class OfferSelector {
     this.options = _defaultsDeep(options || {}, {
       offers: 'https://query.copyrighthub.org/v1/query/search/offers',
       organisations: 'https://acc.copyrighthub.org/v1/accounts/organisations',
+      licensors: 'https://query.copyrighthub.org/v1/query/licensors',
       tag: 'offer-selector',
       defaults: {
         'primary_color': '#353866',
@@ -40,15 +43,16 @@ class OfferSelector {
     });
   }
 
-  displayOffers(offers) {
+  displayCards(items, type) {
     const nodes = document.getElementsByTagName(this.options.tag);
     if (nodes.length == 0) {
       throw Error(`Tag ${tag} not found in html`);
     }
-    nodes[0].innerHTML = '<offers></offers>';
-    riot.mount('offers', {
-      title: 'OPP Licence Offers',
-      items: offers
+    nodes[0].innerHTML = '<cards></cards>';
+
+    riot.mount('cards', {
+      items: items,
+      type: type
     });
   }
 
@@ -74,8 +78,16 @@ class OfferSelector {
 
     return fetch(this.options.offers, init)
       .then(parseResponse)
-      .then(response => parser.parseOffers(response.data, this.options))
-      .then(val => this.displayOffers(val))
+      .then(response => {
+        if (response.data.length !== 0) {
+          return offerParser.parseOffers(response.data, this.options)
+            .then(result => Promise.resolve([result, 'offer']));
+        } else {
+          return licensorParser.parseLicensors(sourceIds, this.options)
+            .then(result => Promise.resolve([result, 'licensor']));
+        }
+      })
+      .then(result => this.displayCards(result[0], result[1]))
       .catch(err => {
         this.displayError(err);
         throw err;
