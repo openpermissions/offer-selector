@@ -1,3 +1,21 @@
+<failure>
+  <div class="all">
+      <div class="error_card">
+        <h1>Not Found</h1>
+        <div class="body">
+            <p> Unfortunately we could not find any information about this asset.</p>
+        </div>
+        <div class="footer">
+            <p> If this asset belongs to you and you would like to know more about registering it with the Open Permissions Platform,
+            please contact <a href="mailto:support@openpermissions.org" target="_top">OPP Support</a> for more information.</p>
+        </div>
+        <div class="footer-logo">
+          <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
+        </div>
+      </div>
+  </div>
+</failure>
+
 <error>
   <div class="all">
       <div class="error_card">
@@ -52,6 +70,11 @@
     }
 
     .error_card .body {
+        margin: 0 20px;
+    }
+
+    .error_card .footer {
+        font-size: 12px;
         margin: 0 20px;
     }
 

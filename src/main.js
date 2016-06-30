@@ -42,26 +42,29 @@ class OfferSelector {
       }
     });
   }
-
-  displayCards(items, type) {
+  _parentNode()  {
     const nodes = document.getElementsByTagName(this.options.tag);
     if (nodes.length == 0) {
       throw Error(`Tag ${tag} not found in html`);
     }
-    nodes[0].innerHTML = '<cards></cards>';
+    return nodes[0]
+  }
 
+  displayCards(items, type) {
+    this._parentNode().innerHTML = '<cards></cards>';
     riot.mount('cards', {
       items: items,
       type: type
     });
   }
 
+  displayFailure() {
+    this._parentNode().innerHTML = '<failure></failure>';
+    riot.mount('failure');
+  }
+
   displayError(err) {
-    const nodes = document.getElementsByTagName(this.options.tag);
-    if (nodes.length == 0) {
-      throw Error(`Tag ${tag} not found in html`);
-    }
-    nodes[0].innerHTML = '<error></error>';
+    this._parentNode().innerHTML = '<error></error>';
     riot.mount('error', {
       error: err
     })
@@ -87,7 +90,13 @@ class OfferSelector {
             .then(result => Promise.resolve([result, 'licensor']));
         }
       })
-      .then(result => this.displayCards(result[0], result[1]))
+      .then(result => {
+        if (result[0].length !== 0) {
+          this.displayCards(result[0], result[1])
+        } else {
+          this.displayFailure();
+        }
+      })
       .catch(err => {
         this.displayError(err);
         throw err;
