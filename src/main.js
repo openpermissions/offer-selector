@@ -20,10 +20,10 @@ import riot from 'riot';
 import _defaultsDeep from 'lodash.defaultsdeep';
 import 'isomorphic-fetch';
 
+import {parseResponse} from './helper'
 import parser from './offer';
 import './templates/offers.tag';
 import './templates/error.tag';
-
 
 class OfferSelector {
   constructor(options) {
@@ -70,22 +70,9 @@ class OfferSelector {
     };
 
     return fetch(this.options.offers, init)
-      .then(response => {
-        return response.json();
-      })
-      .then(response => {
-        if (response.status == 200) {
-          parser.parseOffers(response.data, this.options)
-            .then(val => this.displayOffers(val))
-            .catch(err => {
-              this.displayError(err);
-              throw err;
-          })
-        } else {
-          this.displayError(response);
-          throw response;
-        }
-      })
+      .then(parseResponse)
+      .then(response => parser.parseOffers(response.data, this.options))
+      .then(val => this.displayOffers(val))
       .catch(err => {
         this.displayError(err);
         throw err;

@@ -3,6 +3,14 @@ import * as accounting from 'accounting'
 import {currencySymbols} from './constants'
 
 module.exports = {
+  parseResponse: function(response) {
+    if (!response.ok) {
+      return response.json()
+        .then(result => Promise.reject(result));
+    }
+    return response.json();
+  },
+
   render_swiper: function() {
 
     var width = window.innerWidth;
