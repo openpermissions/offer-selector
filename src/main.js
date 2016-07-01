@@ -26,7 +26,6 @@ import licensorParser from './licensor';
 import './templates/cards.tag';
 import './templates/error.tag';
 
-
 class OfferSelector {
   constructor(options) {
     this.version = '__VERSION__';
@@ -42,6 +41,7 @@ class OfferSelector {
       }
     });
   }
+
   _parentNode()  {
     const nodes = document.getElementsByTagName(this.options.tag);
     if (nodes.length == 0) {
@@ -64,7 +64,6 @@ class OfferSelector {
   }
 
   displayError(err) {
-    console.log(err)
     this._parentNode().innerHTML = '<error></error>';
     riot.mount('error', {
       error: err

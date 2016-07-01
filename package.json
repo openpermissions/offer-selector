@@ -51,7 +51,7 @@
     "build": "browserify src/main.js --s OfferSelector -o dist/offer-selector.js --debug",
     "build:watch": "watchify src/main.js --s OfferSelector -v -o dist/offer-selector.js --debug",
     "build:min": "browserify src/main.js --s OfferSelector | uglifyjs -c -m > dist/offer-selector.min.js",
-    "test": "mocha --compilers js:babel/register test/offer.js test/main.js"
+    "test": "mocha --compilers js:babel/register test/*.js"
   },
   "browserify": {
     "transform": [
