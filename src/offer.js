@@ -14,8 +14,9 @@
  */
 
 'use strict';
-import defaultsDeep from 'lodash.defaultsdeep';
-import pickBy from 'lodash.pickby';
+import _defaultsDeep from 'lodash.defaultsdeep';
+import _get from 'lodash.get';
+import _pickBy from 'lodash.pickby';
 import jsonld from 'jsonld';
 import 'isomorphic-fetch';
 
@@ -26,7 +27,7 @@ getOrganisation.cache = {};
 /**
  * Get an organisation using it's ID
  */
-function getOrganisation(result, grouped, orgUrl) {
+function getOrganisation(result, grouped, sourceId, sourceIdType, orgUrl) {
   if (!result.assignerId) { return Promise.resolve(result); }
 
   const assigner = grouped[result.assignerId];
@@ -44,9 +45,17 @@ function getOrganisation(result, grouped, orgUrl) {
   }
 
   return request.then(response => {
-    result.logo = response.data.logo || result.logo;
-    result.primary_color = response.data.primary_color || result.primary_color;
-    result.secondary_color = response.data.secondary_color || result.secondary_color;
+    const data = response.data;
+
+    result.logo = data.logo || result.logo;
+    result.primary_color = data.primary_color || result.primary_color;
+    result.secondary_color = data.secondary_color || result.secondary_color;
+
+    if (_get(data, 'payment.source_id_type') === sourceIdType && _get(data, 'payment.url')) {
+      result.paymentUrl = data.payment.url.replace('{source_id}', sourceId)
+                                          .replace('{offer_id}', result.id);
+    }
+
     return result;
   });
 }
@@ -75,7 +84,7 @@ function transformOffer(result, obj) {
     duties: duties
   };
 
-  items = pickBy(items, value => value !== undefined);
+  items = _pickBy(items, value => value !== undefined);
 
   return Promise.resolve({...result, ...items});
 }
@@ -117,8 +126,8 @@ export default {
   /**
    * Parse an expanded JSON-LD response
    */
-  parseOffer: function (data, options={}) {
-    const defaults = defaultsDeep({}, options.defaults || {});
+  parseOffer: function (data, sourceId, sourceIdType, options={}) {
+    const defaults = _defaultsDeep({}, options.defaults || {});
     const grouped = {};
     // loop over each item in the offer and apply relevant async transformations
     const chain = data.reduce((promise, obj) => {
@@ -130,7 +139,7 @@ export default {
     }, Promise.resolve(defaults));
 
     return chain
-      .then(result => getOrganisation(result, grouped, options.organisations))
+      .then(result => getOrganisation(result, grouped, sourceId, sourceIdType, options.organisations))
       .then(result => addPrice(result, grouped)) ;
   },
 
@@ -145,7 +154,9 @@ export default {
         return {
           offer: offer,
           repositoryId: asset.repository.repository_id,
-          entityId: asset.entity_id
+          entityId: asset.entity_id,
+          sourceId: asset.source_id,
+          sourceIdType: asset.source_id_type
         };
       });
     });
@@ -153,7 +164,7 @@ export default {
 
     const promises = offers.map(offer => {
       const promise = jsonld.promises.expand(offer.offer)
-        .then(expanded => this.parseOffer(expanded, options))
+        .then(expanded => this.parseOffer(expanded, offer.sourceId, offer.sourceIdType, options))
         .then(parsed => {
           parsed.repositoryId = offer.repositoryId;
           return parsed;

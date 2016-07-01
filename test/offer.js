@@ -6,6 +6,8 @@ import parser from '../src/offer';
 
 describe('parseOffer', () => {
   let options;
+  const sourceId = 140;
+  const sourceIdType = 'testid';
 
   beforeEach(() => {
     const response = '{"status": 200, "data": {"id": "orgid1", "name": "Organisation 1"}}';
@@ -38,7 +40,7 @@ describe('parseOffer', () => {
       }
     };
 
-    return parser.parseOffer(data, options)
+    return parser.parseOffer(data, sourceId, sourceIdType, options)
       .then(result => {
         expect(fetchMock.called(options.organisations)).to.be.true;
         expect(result).to.eql(expected);
@@ -129,7 +131,7 @@ describe('parseOffer', () => {
       }
     };
 
-    return parser.parseOffer(data, options)
+    return parser.parseOffer(data, sourceId, sourceIdType, options)
       .then(result => { expect(result).to.eql(expected); });
   });
 
@@ -190,7 +192,7 @@ describe('parseOffer', () => {
     };
 
     const opt = {...options, defaults: {...options.defaults, price: {unit: '😱 '}}};
-    return parser.parseOffer(data, opt)
+    return parser.parseOffer(data, sourceId, sourceIdType, opt)
       .then(result => { expect(result).to.eql(expected); });
   });
 
@@ -210,7 +212,7 @@ describe('parseOffer', () => {
       'secondary_color': '#000000'
     };
 
-    return parser.parseOffer(data, options)
+    return parser.parseOffer(data, sourceId, sourceIdType, options)
       .then(result => { expect(result).to.eql(expected); });
   });
   it('should get the compensate duty if there are multiple duties', () => {
@@ -293,7 +295,7 @@ describe('parseOffer', () => {
       }
     };
 
-    return parser.parseOffer(data, options)
+    return parser.parseOffer(data, sourceId, sourceIdType, options)
       .then(result => { expect(result).to.eql(expected); });
   });
 
@@ -382,7 +384,7 @@ describe('parseOffer', () => {
       }
     };
 
-    return parser.parseOffer(data, options)
+    return parser.parseOffer(data, sourceId, sourceIdType, options)
       .then(result => { expect(result).to.eql(expected); });
   });
 
@@ -390,7 +392,7 @@ describe('parseOffer', () => {
     const original = {...options, defaults: {...options.defaults}};
     const data = require('./fixtures/offer.json');
 
-    return parser.parseOffer(data, options)
+    return parser.parseOffer(data, sourceId, sourceIdType, options)
       .then(() => expect(options).to.eql(original));
   });
 
@@ -400,7 +402,7 @@ describe('parseOffer', () => {
 
     const data = require('./fixtures/offer.json');
 
-    return parser.parseOffer(data, opt)
+    return parser.parseOffer(data, sourceId, sourceIdType, opt)
       .then(() => expect(opt).to.eql(original));
   });
 });

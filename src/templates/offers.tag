@@ -11,7 +11,7 @@
             <h1 style={parent.cssStyleRules(secondary_color)} class="type" id={id}>{type}</h1>
             <raw class="usage" content="{description}"></raw>
             <a class ="details" style={parent.cssStyleRules(secondary_color)} href={parent.formatDetailsUrl(repositoryId,id)}>More Details</a>
-            <a href="#" style={parent.cssStyleRules('#fff', primary_color)} class="button" id={id}> Buy for {parent.formatMoney(price.value, price.unit)}</a>
+            <a target="_blank" href="{paymentUrl}"  style={parent.cssStyleRules('#fff', primary_color)} class="button" id={id}> Buy for {parent.formatMoney(price.value, price.unit)}</a>
             <div class="footer-logo">
               <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
             </div>
@@ -35,7 +35,7 @@
             <h1 style={parent.cssStyleRules(secondary_color)} class="type" id={id}>{type}</h1>
             <raw class="usage" content="{description}"></raw>
             <a class ="details" style={parent.cssStyleRules(secondary_color)} href={parent.formatDetailsUrl(repositoryId,id)}>More Details</a>
-            <a href="#" style={parent.cssStyleRules('#fff', primary_color)} class="button" id={id}> Buy for {parent.formatMoney(price.value, price.unit)}</a>
+            <a target="_blank" href="{paymentUrl}" style={parent.cssStyleRules('#fff', primary_color)} class="button" id={id}> Buy for {parent.formatMoney(price.value, price.unit)}</a>
             <div class="footer-logo">
               <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
             </div>
@@ -60,7 +60,7 @@
             <h1 style={parent.cssStyleRules(secondary_color)} class="type" id={id}>{type}</h1>
             <raw class="usage" content="{description}"></raw>
             <a class ="details" style={parent.cssStyleRules(secondary_color)} href={parent.formatDetailsUrl(repositoryId,id)}>More Details</a>
-            <a href="#" style={parent.cssStyleRules('#fff', primary_color)} class="button" id={id}> Buy for {parent.formatMoney(price.value, price.unit)}</a>
+            <a target="_blank" href="{paymentUrl}"  style={parent.cssStyleRules('#fff', primary_color)} class="button" id={id}> Buy for {parent.formatMoney(price.value, price.unit)}</a>
             <div class="footer-logo">
               <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
             </div>
@@ -85,7 +85,7 @@
             <h1 style={parent.cssStyleRules(secondary_color)} class="type" id={id}>{type}</h1>
             <raw class="usage" content="{description}"></raw>
             <a class ="details" style={parent.cssStyleRules(secondary_color)} href={parent.formatDetailsUrl(repositoryId,id)}>More Details</a>
-            <a href="#" style={parent.cssStyleRules('#fff', primary_color)} class="button" id={id}> Buy for {parent.formatMoney(price.value, price.unit)}</a>
+            <a target="_blank" href="{paymentUrl}"  style={parent.cssStyleRules('#fff', primary_color)} class="button" id={id}> Buy for {parent.formatMoney(price.value, price.unit)}</a>
             <div class="footer-logo">
               <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
             </div>
