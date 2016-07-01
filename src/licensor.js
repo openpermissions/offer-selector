@@ -62,7 +62,7 @@ export default {
         } else if (response.status == 404) {
           return Promise.resolve([]);
         } else {
-          throw response;
+          return Promise.reject(response);
         }
 
       });
