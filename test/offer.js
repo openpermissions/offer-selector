@@ -9,9 +9,9 @@ describe('parseOffer', () => {
 
   beforeEach(() => {
     const response = '{"status": 200, "data": {"id": "orgid1", "name": "Organisation 1"}}';
-    fetchMock.mock(/organisations\/exampleco$/, response);
+    fetchMock.mock('https://acc.copyrighthub.org/v1/accounts/organisations/exampleco', response);
     options = {
-      organisations: 'https://acc.copyrighthub.org/v1/accounts/organisations',
+      accounts: 'https://acc.copyrighthub.org/v1/accounts',
       defaults: {
         'primary_color': '#ffffff',
         'secondary_color': '#000000'
@@ -40,7 +40,7 @@ describe('parseOffer', () => {
 
     return parser.parseOffer(data, options)
       .then(result => {
-        expect(fetchMock.called(options.organisations)).to.be.true;
+        expect(fetchMock.called(`${options.accounts}/exampleco`)).to.be.true;
         expect(result).to.eql(expected);
       });
   });

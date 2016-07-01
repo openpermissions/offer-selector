@@ -130,7 +130,7 @@ export default {
     }, Promise.resolve(defaults));
 
     return chain
-      .then(result => getOrganisation(result, grouped, options.organisations))
+      .then(result => getOrganisation(result, grouped, `${options.accounts}/organisations`))
       .then(result => addPrice(result, grouped)) ;
   },
 

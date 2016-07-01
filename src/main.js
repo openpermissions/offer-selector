@@ -31,10 +31,8 @@ class OfferSelector {
   constructor(options) {
     this.version = '__VERSION__';
     this.options = _defaultsDeep(options || {}, {
-      offers: 'https://query.copyrighthub.org/v1/query/search/offers',
-      organisations: 'https://acc.copyrighthub.org/v1/accounts/organisations',
-      licensors: 'https://query.copyrighthub.org/v1/query/licensors',
-      links: 'https://acc.copyrighthub.org/v1/accounts/links',
+      query: 'https://query.copyrighthub.org/v1/query',
+      accounts: 'https://acc.copyrighthub.org/v1/accounts',
       tag: 'offer-selector',
       defaults: {
         'primary_color': '#353866',
@@ -81,7 +79,8 @@ class OfferSelector {
       body: JSON.stringify(sourceIds)
     };
 
-    return fetch(this.options.offers, init)
+    const offersUrl = `${this.options.query}/search/offers`;
+    return fetch(offersUrl, init)
       .then(parseResponse)
       .then(response => {
         //If there are offers, parse the offers
@@ -104,7 +103,6 @@ class OfferSelector {
         }
       })
       .then(result => {
-        console.log(result);
         if (result[0].length !== 0) {
           this.displayCards(result[0], result[1])
         } else {

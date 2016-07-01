@@ -44,7 +44,7 @@ export default {
    * Parse a source id/source id type to get licensor information
    */
   parseLicensor: function (data, options={}) {
-    const url = `${options.licensors}?source_id=${data.source_id}&source_id_type=${data.source_id_type}`;
+    const url = `${options.query}/licensors?source_id=${data.source_id}&source_id_type=${data.source_id_type}`;
     return fetch(url)
       .then(response => {
         return response.json();

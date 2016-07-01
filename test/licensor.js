@@ -13,7 +13,7 @@ describe('parseLicensor', () => {
     const response = '{"status": 200, "data": [{"id": "orgid1", "name": "Organisation 1"}]}';
     fetchMock.mock(url, response);
     options = {
-      licensors: 'https://query.copyrighthub.org/v1/query/licensors'
+      query: 'https://query.copyrighthub.org/v1/query'
     };
   });
 
@@ -129,7 +129,7 @@ describe('parseLicensors', () => {
           "id": "orgid1",
           "name": "Organisation 1",
           "reference_links": {"links": {"testidtype": "https://example.com/{source_id_type}/{source_id}"}},
-          "url": "https://example.com/testidtype/12345"
+          "link": "https://example.com/testidtype/12345"
         },
           {
             "id": "orgid2",
@@ -161,13 +161,13 @@ describe('parseLicensors', () => {
           "id": "orgid1",
           "name": "Organisation 1",
           "reference_links": {"links": {"testidtype": "https://example.com/{source_id_type}/{source_id}"}},
-          "url": "https://example.com/testidtype/12345"
+          "link": "https://example.com/testidtype/12345"
         },
         {
           "id": "orgid2",
           "name": "Organisation 2",
           "website": "https://example.com",
-          "url": "https://example.com"
+          "link": "https://example.com"
         },
         {
           "id": "orgid3",

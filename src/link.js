@@ -51,10 +51,11 @@ export default {
       body: JSON.stringify(id)
     };
 
-    return fetch(options.links, init)
+    const linksUrl = `${options.accounts}/links`;
+    return fetch(linksUrl, init)
       .then(parseResponse)
       .then(response => Promise.all(response.data.map(link =>
-        getOrganisation(link, options.organisations, options.defaults))))
+        getOrganisation(link, `${options.accounts}/organisations`, options.defaults))))
   },
 
   /**
