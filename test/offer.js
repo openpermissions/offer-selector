@@ -9,9 +9,9 @@ describe('parseOffer', () => {
 
   beforeEach(() => {
     const response = '{"status": 200, "data": {"id": "orgid1", "name": "Organisation 1"}}';
-    fetchMock.mock('https://acc.copyrighthub.org/v1/accounts/organisations/exampleco', response);
+    fetchMock.mock('https://localhost:8006/v1/accounts/organisations/exampleco', response);
     options = {
-      accounts: 'https://acc.copyrighthub.org/v1/accounts',
+      accounts: 'https://localhost:8006/v1/accounts',
       defaults: {
         'primary_color': '#ffffff',
         'secondary_color': '#000000'

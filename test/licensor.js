@@ -7,13 +7,13 @@ import parser from '../src/licensor';
 describe('parseLicensor', () => {
   let options;
   const sourceId = {source_id: '12345', source_id_type: 'testidtype'};
-  const url = 'https://query.copyrighthub.org/v1/query/licensors?source_id=12345&source_id_type=testidtype'
+  const url = 'https://localhost:8008/v1/query/licensors?source_id=12345&source_id_type=testidtype'
 
   beforeEach(() => {
     const response = '{"status": 200, "data": [{"id": "orgid1", "name": "Organisation 1"}]}';
     fetchMock.mock(url, response);
     options = {
-      query: 'https://query.copyrighthub.org/v1/query'
+      query: 'https://localhost:8008/v1/query'
     };
   });
 
