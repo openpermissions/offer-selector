@@ -55,7 +55,7 @@ module.exports = {
     } else if (width < 1025) {
       options.slidesPerView = 2;
       options.spaceBetween = 5;
-    } else if (width <= 1700) {
+    } else if (width < 1700) {
       options.slidesPerView = 4;
       options.spaceBetween = 5;
     } else if (width >= 1700) {
