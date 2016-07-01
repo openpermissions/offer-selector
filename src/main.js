@@ -94,17 +94,17 @@ class OfferSelector {
         }
       })
       //If there are no offers or licensors, look for links.
-      .then(response => {
-        if (response[0].length === 0) {
+      .then(([response, type]) => {
+        if (response.length === 0) {
           return linksParser.parseLinks(sourceIds, this.options)
             .then(result => Promise.resolve([result, 'link']));
         } else {
-          return response;
+          return [response, type];
         }
       })
-      .then(result => {
-        if (result[0].length !== 0) {
-          this.displayCards(result[0], result[1])
+      .then(([response, type]) => {
+        if (response.length !== 0) {
+          this.displayCards(response, type)
         } else {
           this.displayFailure();
         }

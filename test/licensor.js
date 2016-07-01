@@ -27,7 +27,7 @@ describe('parseLicensor', () => {
       source_id_type: 'testidtype',
       licensor: {"id": "orgid1", "name": "Organisation 1"}
     }];
-    
+
     return parser.parseLicensor(sourceId, options)
       .then(result => {
         expect(fetchMock.called(url)).to.be.true;
@@ -37,7 +37,7 @@ describe('parseLicensor', () => {
 
   it('should return an empty list if response is a 404', () => {
     fetchMock.restore();
-    fetchMock.mock(url, '{"status": 404, "error": "Not Found"}');
+    fetchMock.mock(url, {status: 404, body:'{"status": 404, "error": "Not Found"}'});
 
     const expected = [];
 
@@ -50,7 +50,7 @@ describe('parseLicensor', () => {
   
   it('should throw an error if response is a non-404 error', () => {
     fetchMock.restore();
-    fetchMock.mock(url, '{"status": 500, "error": "Internal Server Error"}');
+    fetchMock.mock(url, {status: 500, body:'{"status": 500, "error": "Internal Server Error"}'});
 
     return parser.parseLicensor(sourceId, options)
       .catch(error => {

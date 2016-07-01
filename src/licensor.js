@@ -47,24 +47,24 @@ export default {
     const url = `${options.query}/licensors?source_id=${data.source_id}&source_id_type=${data.source_id_type}`;
     return fetch(url)
       .then(response => {
+        if (!response.ok && response.status != 404) {
+          return response.json()
+            .then(result => Promise.reject(result));
+        }
         return response.json();
       })
       .then(response => {
-        if (response.status == 200) {
-          return Promise.resolve(response.data.map(licensor => {
-              return {
-                source_id: data.source_id,
-                source_id_type: data.source_id_type,
-                licensor: licensor
-              }
-            })
-          )
-        } else if (response.status == 404) {
+        if (response.status == 404) {
           return Promise.resolve([]);
-        } else {
-          return Promise.reject(response);
         }
-
+        return Promise.resolve(response.data.map(licensor => {
+            return {
+              source_id: data.source_id,
+              source_id_type: data.source_id_type,
+              licensor: licensor
+            }
+          })
+        )
       });
   },
 

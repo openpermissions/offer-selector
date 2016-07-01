@@ -43,194 +43,195 @@
         </div>
     </div>
 
-<script>
-  this.items = opts.items;
-  this.type = opts.type;
-  const helper = require('../helper');
-  this.formatMoney = helper.formatMoney;
-  this.cssStyleRules = helper.cssStyleRules
-  this.formatDetailsUrl = helper.formatDetailsUrl
+    <script>
+      this.items = opts.items;
+      this.type = opts.type;
+      const helper = require('../helper');
+      this.formatMoney = helper.formatMoney;
+      this.cssStyleRules = helper.cssStyleRules
+      this.formatDetailsUrl = helper.formatDetailsUrl
 
-  const swiper = require('../swiper');
-  window.onresize = swiper.renderSwiper;
+      const swiper = require('../swiper');
+      window.onresize = swiper.renderSwiper;
 
-  this.on('mount', function(){
-    swiper.renderSwiper();
-  });
+      this.on('mount', function(){
+        swiper.renderSwiper();
+      });
 
-  this.on('updated', function(){
-    swiper.renderSwiper();
-  });
-</script>
-<style>
-    .all{
-      border-top: solid 0.08em #FFF;
-      border-bottom: solid 0.08em #FFF;
-      width:100%;
-      height:470px;
-      margin: 0 auto;
-    }
-    /* Container class for swiper */
-    .swiper-container {
-        width: 100%;
-        height: 100%;
-        margin: 0 auto;
-    }
-    /* Container class for swiper slider */
-    .swiper-slide {
-        width: 100%;
-        /* Center slide text vertically */
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-        -webkit-justify-content: center;
-        justify-content: center;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        -webkit-align-items: center;
-        align-items: center;
-    }
+      this.on('updated', function(){
+        swiper.renderSwiper();
+      });
+    </script>
 
-    /* Media queries for different screen sizes to stop showing the Swiper classes in case someone **really** wants to resize the window continuosly */
-    @media screen and (max-width: 320px)
-    {
-
-        .swiper-button-prev {
-            margin-left: -6px;
+    <style>
+        .all{
+          border-top: solid 0.08em #FFF;
+          border-bottom: solid 0.08em #FFF;
+          width:100%;
+          height:470px;
+          margin: 0 auto;
         }
-        .swiper-button-next {
-            margin-right: -6px;
+        /* Container class for swiper */
+        .swiper-container {
+            width: 100%;
+            height: 100%;
+            margin: 0 auto;
         }
-    }
+        /* Container class for swiper slider */
+        .swiper-slide {
+            width: 100%;
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
 
-    /* Class for the card */
-    .card_table {
-      position:relative;
-      width:250px;
-      height:400px;
-      background: #fff;
+        /* Media queries for different screen sizes to stop showing the Swiper classes in case someone **really** wants to resize the window continuosly */
+        @media screen and (max-width: 320px)
+        {
 
-      -webkit-box-shadow: 2px 2px 9px rgba(0,0,0,0.3);
-         -moz-box-shadow: 2px 2px 9px rgba(0,0,0,0.3);
-              box-shadow: 2px 2px 9px rgba(0,0,0,0.3);
-    }
-    /* Centered version for Swiper */
-    .card_table#mobile{
-        margin:0 auto;
+            .swiper-button-prev {
+                margin-left: -6px;
+            }
+            .swiper-button-next {
+                margin-right: -6px;
+            }
+        }
 
-    }
-    /* Responsive version for Desktop */
-    .card_table#desk {
-      float:left;
-      margin-top:50px;
-      margin-left:50px;
-      margin-bottom:50px;
-    }
-    .button_span {
-       float: right;
-       position: relative;
-       left: -50%; /* or right 50% */
-       text-align: left;
-       border: none;
-       background-color:white;
-    }
+        /* Class for the card */
+        .card_table {
+          position:relative;
+          width:250px;
+          height:400px;
+          background: #fff;
 
-    .details {
-      font-size:14px;
-      font-family: 'Signika', sans-serif;
-    }
+          -webkit-box-shadow: 2px 2px 9px rgba(0,0,0,0.3);
+             -moz-box-shadow: 2px 2px 9px rgba(0,0,0,0.3);
+                  box-shadow: 2px 2px 9px rgba(0,0,0,0.3);
+        }
+        /* Centered version for Swiper */
+        .card_table#mobile{
+            margin:0 auto;
 
-    .card_table h1 {
-      margin: 0;
-      padding:0 0 10px 0;
-      height: 10%;
-      text-align:center;
-      font-family: 'Lato', sans-serif; font-weight: 400; line-height: 58px;
-    }
-    .name{
-      font-size:20px;
-      position: relative;
-      margin-left: 10px;
-      margin-top:15px;
-      font-family: 'Signika', sans-serif; line-height: 35px;
-    }
+        }
+        /* Responsive version for Desktop */
+        .card_table#desk {
+          float:left;
+          margin-top:50px;
+          margin-left:50px;
+          margin-bottom:50px;
+        }
+        .button_span {
+           float: right;
+           position: relative;
+           left: -50%; /* or right 50% */
+           text-align: left;
+           border: none;
+           background-color:white;
+        }
 
-    .usage{
-      display:block;
-      font-family: 'Lucida Sans', Arial, sans-serif;
-      font-size: 14px;
-      padding:0 20px;
-      height:48%;
-    }
+        .details {
+          font-size:14px;
+          font-family: 'Signika', sans-serif;
+        }
 
-    .details {
-        display: block;
-        position: absolute;
-        bottom: 85px;
-        left: 50px;
-        width: 100px;
-        margin: auto;
-        margin-bottom: 5px;
-        padding: 0 20px;
-        text-align: center;
-        text-decoration: none;
-        font: bold 14px/20px Arial, sans-serif;
-    }
+        .card_table h1 {
+          margin: 0;
+          padding:0 0 10px 0;
+          height: 10%;
+          text-align:center;
+          font-family: 'Lato', sans-serif; font-weight: 400; line-height: 58px;
+        }
+        .name{
+          font-size:20px;
+          position: relative;
+          margin-left: 10px;
+          margin-top:15px;
+          font-family: 'Signika', sans-serif; line-height: 35px;
+        }
 
-    .button {
-        display: block;
-        position: absolute;
-        bottom: 50px;
-        left: 50px;
-        color: #fff;
-        width: 100px;
-        margin: auto;
-        padding: 0 20px;
-        text-align: center;
-        text-decoration: none;
-        font: bold 12px/35px Arial, sans-serif;
-        -webkit-box-shadow: 1px 1px 1px rgba(0,0,0, .29), inset 1px 1px 1px rgba(255,255,255, .44);
-        -moz-box-shadow: 1px 1px 1px rgba(0,0,0, .29), inset 1px 1px 1px rgba(255,255,255, .44);
-        box-shadow: 1px 1px 1px rgba(0,0,0, .29), inset 1px 1px 1px rgba(255,255,255, .44);
-    }
+        .usage{
+          display:block;
+          font-family: 'Lucida Sans', Arial, sans-serif;
+          font-size: 14px;
+          padding:0 20px;
+          height:48%;
+        }
 
-    .logo{
-      background: #2A2A28;
-      width:250px;
-      height:50px;
-    }
+        .details {
+            display: block;
+            position: absolute;
+            bottom: 85px;
+            left: 50px;
+            width: 100px;
+            margin: auto;
+            margin-bottom: 5px;
+            padding: 0 20px;
+            text-align: center;
+            text-decoration: none;
+            font: bold 14px/20px Arial, sans-serif;
+        }
 
-    .logo img{
-      width:220px;
-      height:40px;
-      display:block;
-      margin: 0 auto;
-      padding-top: 7px;
-    }
-    .footer-logo{
-      position:absolute;
-      height:40px;
-      width:100%;
-      bottom: 0;
-      border-top: solid 1px;
-      border-color: #6C7A89;
-      background: #DADFE1;
-    }
-    .footer-logo img{
-      height:40px;
-      float:left;
-    }
-    .footer-logo p{
-      font-family: 'Lucida Sans', Arial, sans-serif;
-      font-size: 12px;
-      float:left;
-      margin-top:15px;
-      margin-left:10px;
-    }
-</style>
+        .button {
+            display: block;
+            position: absolute;
+            bottom: 50px;
+            left: 50px;
+            color: #fff;
+            width: 100px;
+            margin: auto;
+            padding: 0 20px;
+            text-align: center;
+            text-decoration: none;
+            font: bold 12px/35px Arial, sans-serif;
+            -webkit-box-shadow: 1px 1px 1px rgba(0,0,0, .29), inset 1px 1px 1px rgba(255,255,255, .44);
+            -moz-box-shadow: 1px 1px 1px rgba(0,0,0, .29), inset 1px 1px 1px rgba(255,255,255, .44);
+            box-shadow: 1px 1px 1px rgba(0,0,0, .29), inset 1px 1px 1px rgba(255,255,255, .44);
+        }
+
+        .logo{
+          background: #2A2A28;
+          width:250px;
+          height:50px;
+        }
+
+        .logo img{
+          width:220px;
+          height:40px;
+          display:block;
+          margin: 0 auto;
+          padding-top: 7px;
+        }
+        .footer-logo{
+          position:absolute;
+          height:40px;
+          width:100%;
+          bottom: 0;
+          border-top: solid 1px;
+          border-color: #6C7A89;
+          background: #DADFE1;
+        }
+        .footer-logo img{
+          height:40px;
+          float:left;
+        }
+        .footer-logo p{
+          font-family: 'Lucida Sans', Arial, sans-serif;
+          font-size: 12px;
+          float:left;
+          margin-top:15px;
+          margin-left:10px;
+        }
+    </style>
 </cards>
 
 
