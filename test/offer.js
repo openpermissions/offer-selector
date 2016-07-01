@@ -6,12 +6,25 @@ import parser from '../src/offer';
 
 describe('parseOffer', () => {
   let options;
+  let response;
+  const sourceId = 140;
+  const sourceIdType = 'examplecopictureid';
 
   beforeEach(() => {
-    const response = '{"status": 200, "data": {"id": "orgid1", "name": "Organisation 1"}}';
-    fetchMock.mock('https://localhost:8006/v1/accounts/organisations/exampleco', response);
+    response = {
+      status: 200,
+      data: {
+        id: 'orgid1',
+        name: 'Organisation 1',
+        payment: {
+          url: 'http://example.com/pay'
+        }
+      }
+    };
+
+    fetchMock.mock('https://example.com/v1/accounts/organisations/exampleco', () => {return {body: response};});
     options = {
-      accounts: 'https://localhost:8006/v1/accounts',
+      accounts: 'https://example.com/v1/accounts',
       defaults: {
         'primary_color': '#ffffff',
         'secondary_color': '#000000'
@@ -32,17 +45,91 @@ describe('parseOffer', () => {
       logo: undefined,
       'primary_color': '#ffffff',
       'secondary_color': '#000000',
+      paymentUrl: response.data.payment.url,
       price: {
         value: '1',
         unit: 'GBP'
       }
     };
 
-    return parser.parseOffer(data, options)
+    return parser.parseOffer(data, sourceId, sourceIdType, options)
       .then(result => {
         expect(fetchMock.called(`${options.accounts}/exampleco`)).to.be.true;
         expect(result).to.eql(expected);
       });
+  });
+
+  it('should replace the source ID if have a matching source ID type', () => {
+    const data = require('./fixtures/offer.json');
+    response.data.payment = {
+      url: 'http://example.com/{source_id}/{offer_id}/pay',
+      'source_id_type': sourceIdType
+    };
+    fetchMock.reMock(/exampleco$/, {body: response});
+    parser.clearCache();
+    const expected = 'http://example.com/140/e3138acd145f484e9c5601685d5166f8/pay';
+
+    return parser.parseOffer(data, sourceId, sourceIdType, options)
+      .then(result => expect(result.paymentUrl).to.equal(expected));
+  });
+
+  it('should replace just the offer ID if there is not a source ID type', () => {
+    const data = require('./fixtures/offer.json');
+    response.data.payment = {
+      url: 'http://example.com/{source_id}/{offer_id}/pay'
+    };
+    fetchMock.reMock(/exampleco$/, {body: response});
+    parser.clearCache();
+    const expected = 'http://example.com/{source_id}/e3138acd145f484e9c5601685d5166f8/pay';
+
+    return parser.parseOffer(data, sourceId, sourceIdType, options)
+      .then(result => expect(result.paymentUrl).to.equal(expected));
+  });
+
+  it('should not include payment url if source ID types do not match', () => {
+    const data = require('./fixtures/offer.json');
+
+    response.data.payment = {
+      url: 'http://example.com/{source_id}/{offer_id}/pay',
+      'source_id_type': 'something else'
+    };
+
+    fetchMock.reMock(/exampleco$/, {body: response});
+    parser.clearCache();
+
+    return parser.parseOffer(data, sourceId, sourceIdType, options)
+      .then(result => expect(result).to.not.have.property('paymentUrl'));
+  });
+
+  it('should replace all offer ID placeholders', () => {
+    const data = require('./fixtures/offer.json');
+
+    response.data.payment = {
+      url: 'http://example.com/{offer_id}/{offer_id}/pay'
+    };
+
+    fetchMock.reMock(/exampleco$/, {body: response});
+    parser.clearCache();
+    const expected = 'http://example.com/e3138acd145f484e9c5601685d5166f8/e3138acd145f484e9c5601685d5166f8/pay';
+
+    return parser.parseOffer(data, sourceId, sourceIdType, options)
+      .then(result => expect(result.paymentUrl).to.equal(expected));
+  });
+
+  it('should replace all source ID placeholders', () => {
+    const data = require('./fixtures/offer.json');
+
+    response.data.payment = {
+      url: 'http://example.com/{source_id}/{source_id}/pay',
+      'source_id_type': sourceIdType
+    };
+
+    fetchMock.reMock(/exampleco$/, {body: response});
+    parser.clearCache();
+    const expected = 'http://example.com/140/140/pay';
+
+    return parser.parseOffer(data, sourceId, sourceIdType, options)
+      .then(result => expect(result.paymentUrl).to.equal(expected));
   });
 
   it("should get the price from the offer's duties", () => {
@@ -120,17 +207,12 @@ describe('parseOffer', () => {
     ];
 
     const expected = {
-      id: 'e3138acd145f484e9c5601685d5166f8',
-      'primary_color': '#ffffff',
-      'secondary_color': '#000000',
-      price: {
-        value: '1',
-        unit: 'GBP'
-      }
+      value: '1',
+      unit: 'GBP'
     };
 
-    return parser.parseOffer(data, options)
-      .then(result => { expect(result).to.eql(expected); });
+    return parser.parseOffer(data, sourceId, sourceIdType, options)
+      .then(result => { expect(result.price).to.eql(expected); });
   });
 
   it('should use the default unit if not specified in the offer', () => {
@@ -180,18 +262,13 @@ describe('parseOffer', () => {
     ];
 
     const expected = {
-      id: 'e3138acd145f484e9c5601685d5166f8',
-      'primary_color': '#ffffff',
-      'secondary_color': '#000000',
-      price: {
-        value: '1',
-        unit: '😱 '
-      }
+      value: '1',
+      unit: '😱 '
     };
 
     const opt = {...options, defaults: {...options.defaults, price: {unit: '😱 '}}};
-    return parser.parseOffer(data, opt)
-      .then(result => { expect(result).to.eql(expected); });
+    return parser.parseOffer(data, sourceId, sourceIdType, opt)
+      .then(result => { expect(result.price).to.eql(expected); });
   });
 
   it('should not include price if there are no duties', () => {
@@ -204,14 +281,8 @@ describe('parseOffer', () => {
       }
     ];
 
-    const expected = {
-      id: 'e3138acd145f484e9c5601685d5166f8',
-      'primary_color': '#ffffff',
-      'secondary_color': '#000000'
-    };
-
-    return parser.parseOffer(data, options)
-      .then(result => { expect(result).to.eql(expected); });
+    return parser.parseOffer(data, sourceId, sourceIdType, options)
+      .then(result => { expect(result).to.not.have.property('price'); });
   });
   it('should get the compensate duty if there are multiple duties', () => {
     const data = [
@@ -284,17 +355,12 @@ describe('parseOffer', () => {
     ];
 
     const expected = {
-      id: 'e3138acd145f484e9c5601685d5166f8',
-      'primary_color': '#ffffff',
-      'secondary_color': '#000000',
-      price: {
-        value: '1',
-        unit: 'GBP'
-      }
+      value: '1',
+      unit: 'GBP'
     };
 
-    return parser.parseOffer(data, options)
-      .then(result => { expect(result).to.eql(expected); });
+    return parser.parseOffer(data, sourceId, sourceIdType, options)
+      .then(result => { expect(result.price).to.eql(expected); });
   });
 
   it('should get the first compensate duty if there are multiple compensate duties', () => {
@@ -373,24 +439,19 @@ describe('parseOffer', () => {
     ];
 
     const expected = {
-      id: 'e3138acd145f484e9c5601685d5166f8',
-      'primary_color': '#ffffff',
-      'secondary_color': '#000000',
-      price: {
-        value: '1',
-        unit: 'GBP'
-      }
+      value: '1',
+      unit: 'GBP'
     };
 
-    return parser.parseOffer(data, options)
-      .then(result => { expect(result).to.eql(expected); });
+    return parser.parseOffer(data, sourceId, sourceIdType, options)
+      .then(result => { expect(result.price).to.eql(expected); });
   });
 
   it('should not have side-effects on the options object', () => {
     const original = {...options, defaults: {...options.defaults}};
     const data = require('./fixtures/offer.json');
 
-    return parser.parseOffer(data, options)
+    return parser.parseOffer(data, sourceId, sourceIdType, options)
       .then(() => expect(options).to.eql(original));
   });
 
@@ -400,7 +461,7 @@ describe('parseOffer', () => {
 
     const data = require('./fixtures/offer.json');
 
-    return parser.parseOffer(data, opt)
+    return parser.parseOffer(data, sourceId, sourceIdType, opt)
       .then(() => expect(opt).to.eql(original));
   });
 });

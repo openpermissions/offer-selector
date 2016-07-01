@@ -13,6 +13,7 @@
     "jsonld": "^0.4.8",
     "lodash.defaultsdeep": "^4.4.0",
     "lodash.get": "^4.3.0",
+    "lodash.has": "^4.4.0",
     "lodash.pickby": "^4.4.0",
     "lodash.uniq": "^4.3.0",
     "riot": "2.0.15",
