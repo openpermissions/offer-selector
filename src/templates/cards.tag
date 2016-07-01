@@ -13,19 +13,19 @@
     </div>
 </offer-card>
 
-<licensor-card>
+<organisation-card>
     <div class="card_table">
         <div class="logo" style={parent.cssStyleRules(undefined, item.primary_color)} id={item.id}>
             <img src={item.logo}></img>
         </div>
         <h1 style={parent.cssStyleRules(item.secondary_color)} class="name" id={item.id}>{item.name}</h1>
         <raw class="usage" content="{item.description}"></raw>
-        <a if={item.url} href={item.url} style={parent.cssStyleRules('#fff', item.primary_color)}  class="button" id={item.id}> Go to Site</a>
+        <a if={item.link} href={item.link} style={parent.cssStyleRules('#fff', item.primary_color)}  class="button" id={item.id}> Go to Site</a>
         <div class="footer-logo">
             <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
         </div>
     </div>
-</licensor-card>
+</organisation-card>
 
 <cards>
     <div class="all">
@@ -33,7 +33,8 @@
             <div class="swiper-wrapper" id="wrapper">
                 <div each={item in this.items} class="swiper-slide">
                     <offer-card if={parent.type=='offer'} item={item}/>
-                    <licensor-card if={parent.type=='licensor'} item={item}/>
+                    <organisation-card if={parent.type=='licensor'} item={item}/>
+                    <organisation-card if={parent.type=='link'} item={item}/>
                 </div>
             </div>
             <div class="swiper-pagination swiper-pagination-white" id="pagination"></div>

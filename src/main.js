@@ -23,6 +23,7 @@ import 'isomorphic-fetch';
 import {parseResponse} from './helper'
 import offerParser from './offer';
 import licensorParser from './licensor';
+import linksParser from './link';
 import './templates/cards.tag';
 import './templates/error.tag';
 
@@ -33,6 +34,7 @@ class OfferSelector {
       offers: 'https://query.copyrighthub.org/v1/query/search/offers',
       organisations: 'https://acc.copyrighthub.org/v1/accounts/organisations',
       licensors: 'https://query.copyrighthub.org/v1/query/licensors',
+      links: 'https://acc.copyrighthub.org/v1/accounts/links',
       tag: 'offer-selector',
       defaults: {
         'primary_color': '#353866',
@@ -82,15 +84,27 @@ class OfferSelector {
     return fetch(this.options.offers, init)
       .then(parseResponse)
       .then(response => {
+        //If there are offers, parse the offers
         if (response.data.length !== 0) {
           return offerParser.parseOffers(response.data, this.options)
             .then(result => Promise.resolve([result, 'offer']));
+        //If there are no offers look for licensors
         } else {
           return licensorParser.parseLicensors(sourceIds, this.options)
             .then(result => Promise.resolve([result, 'licensor']));
         }
       })
+      //If there are no offers or licensors, look for links.
+      .then(response => {
+        if (response[0].length === 0) {
+          return linksParser.parseLinks(sourceIds, this.options)
+            .then(result => Promise.resolve([result, 'link']));
+        } else {
+          return response;
+        }
+      })
       .then(result => {
+        console.log(result);
         if (result[0].length !== 0) {
           this.displayCards(result[0], result[1])
         } else {

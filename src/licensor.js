@@ -27,14 +27,14 @@ import {names} from './constants';
  */
 function transformLicensor(data, options) {
   let licensor = defaultsDeep({}, data.licensor, options);
-  //Get navigation url
-  let url = _get(licensor, ['reference_links', 'links', data.source_id_type]);
-  if (url) {
-    url = url.replace(/{source_id}/g, data.source_id);
-    url = url.replace(/{source_id_type}/g, data.source_id_type);
-    licensor.url = url;
+  //Get navigation link
+  let link = _get(licensor, ['reference_links', 'links', data.source_id_type]);
+  if (link) {
+    link = link.replace(/{source_id}/g, data.source_id);
+    link = link.replace(/{source_id_type}/g, data.source_id_type);
+    licensor.link = link;
   } else if (licensor.website) {
-    licensor.url = licensor.website;
+    licensor.link = licensor.website;
   }
   return licensor;
 }
