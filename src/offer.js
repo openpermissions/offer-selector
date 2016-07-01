@@ -16,6 +16,7 @@
 'use strict';
 import _defaultsDeep from 'lodash.defaultsdeep';
 import _get from 'lodash.get';
+import _has from 'lodash.has';
 import _pickBy from 'lodash.pickby';
 import jsonld from 'jsonld';
 import 'isomorphic-fetch';
@@ -51,9 +52,17 @@ function getOrganisation(result, grouped, sourceId, sourceIdType, orgUrl) {
     result.primary_color = data.primary_color || result.primary_color;
     result.secondary_color = data.secondary_color || result.secondary_color;
 
-    if (_get(data, 'payment.source_id_type') === sourceIdType && _get(data, 'payment.url')) {
-      result.paymentUrl = data.payment.url.replace('{source_id}', sourceId)
-                                          .replace('{offer_id}', result.id);
+    const matchSourceId = _get(data, 'payment.source_id_type') == sourceIdType;
+    const hasPaymentSourceId = _has(data, 'payment.source_id_type');
+    const hasPaymentUrl = _has(data, 'payment.url');
+    const includePayment = hasPaymentUrl && (matchSourceId || !hasPaymentSourceId);
+
+    if (includePayment) {
+      result.paymentUrl = data.payment.url.replace(/{offer_id}/g, result.id);
+
+      if (matchSourceId) {
+        result.paymentUrl = result.paymentUrl.replace(/{source_id}/g, sourceId);
+      }
     }
 
     return result;
@@ -174,5 +183,7 @@ export default {
     });
 
     return Promise.all(promises);
-  }
+  },
+
+  clearCache: function () { getOrganisation.cache = {}; }
 };
