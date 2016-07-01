@@ -4,8 +4,9 @@ import proxyquire from 'proxyquire';
 import sinon from 'sinon';
 import 'sinon-as-promised';
 
-const parserStub = {parseOffers: sinon.stub().resolves({id: 1})};
-const OfferSelector = proxyquire('../src/main', {'./offer': parserStub});
+const offerParserStub = {parseOffers: sinon.stub().resolves({id: 1})};
+const licensorParserStub = {parseLicensors: sinon.stub().resolves({id: 2})};
+const OfferSelector = proxyquire('../src/main', {'./offer': offerParserStub, './licensor': licensorParserStub});
 
 describe('OfferSelector constructor', () => {
   it('should be be possible to override options', () => {
@@ -31,13 +32,18 @@ describe('OfferSelector loadOffers', () => {
 
   beforeEach(() => {
     fetchMock.mock(searchUrl, response);
-    sinon.stub(selector, 'displayOffers');
+    sinon.stub(selector, 'displayCards');
+    sinon.stub(selector, 'displayError');
+    sinon.stub(selector, 'displayFailure');
   });
 
   afterEach(() => {
-    selector.displayOffers.restore();
+    selector.displayCards.restore();
+    selector.displayError.restore();
+    selector.displayFailure.restore();
     fetchMock.restore();
-    parserStub.parseOffers.reset();
+    offerParserStub.parseOffers.reset();
+    licensorParserStub.parseLicensors.reset();
   });
 
   it('should fetch offers',  () => {
@@ -49,13 +55,13 @@ describe('OfferSelector loadOffers', () => {
   it('should call parseOffers with the API response',  () => {
     return selector.loadOffers(sourceIds).then(() => {
       const expected = [{'offers': [{'@context': {}, '@graph': []}]}];
-      expect(parserStub.parseOffers.calledWith(expected)).to.be(true);
+      expect(offerParserStub.parseOffers.calledWith(expected)).to.be(true);
     });
   });
 
-  it('should display the parsed offers',  () => {
+  it('should display the parsed offers if they exist',  () => {
     return selector.loadOffers(sourceIds).then(() => {
-      expect(selector.displayOffers.calledWith({id: 1})).to.be(true);
+      expect(selector.displayCards.calledWith({id: 1})).to.be(true);
     });
   });
 
@@ -64,17 +70,55 @@ describe('OfferSelector loadOffers', () => {
     fetchMock.mock(searchUrl, {status: 404});
 
     return selector.loadOffers(sourceIds).catch(() => {
-      expect(parserStub.parseOffers.calledOnce).to.be(false);
+      expect(offerParserStub.parseOffers.calledOnce).to.be(false);
     });
   });
 
-  it('should not error if the API responds with a 200 but no offers', () => {
+  it('should display the error if the API responds with an error', () => {
+    fetchMock.restore();
+    fetchMock.mock(searchUrl, {status: 404});
+
+    return selector.loadOffers(sourceIds).catch(() => {
+     expect(selector.displayError.called).to.be(true);
+    });
+  });
+
+  it('should display the error if the parseOffers responds with an error', () => {
+    offerParserStub.parseOffers.rejects(Error('TypeError'));
+
+    return selector.loadOffers(sourceIds).catch(() => {
+      expect(offerParserStub.parseOffers.calledOnce).to.be(true);
+      expect(selector.displayError.called).to.be(true);
+    });
+  });
+
+
+  it('should call parseLicensors if the API responds with a 200 but no offers', () => {
     fetchMock.restore();
     fetchMock.mock(searchUrl, {data: []});
 
     return selector.loadOffers(sourceIds).then(() => {
-      expect(parserStub.parseOffers.calledWith([])).to.be(true);
-      expect(selector.displayOffers.calledOnce).to.be(true);
+      expect(offerParserStub.parseOffers.calledOnce).to.be(false);
+      expect(licensorParserStub.parseLicensors.calledWith(sourceIds)).to.be(true);
+    });
+  });
+
+  it('should call display licensors if they are returned', () => {
+    fetchMock.restore();
+    fetchMock.mock(searchUrl, {data: []});
+
+    return selector.loadOffers(sourceIds).then(() => {
+      expect(selector.displayCards.calledWith({id: 2})).to.be(true);
+    });
+  });
+
+  it('should call display failure message if no licensors are returned', () => {
+    fetchMock.restore();
+    fetchMock.mock(searchUrl, {data: []});
+    licensorParserStub.parseLicensors.resolves([]);
+
+    return selector.loadOffers(sourceIds).then(() => {
+      expect(selector.displayFailure.calledOnce).to.be(true);
     });
   });
 });

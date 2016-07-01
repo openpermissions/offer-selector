@@ -27,7 +27,7 @@ describe('parseOffer', () => {
     const data = require('./fixtures/offer.json');
     const expected = {
       id: 'e3138acd145f484e9c5601685d5166f8',
-      type : 'Non-commercial Website',
+      name : 'Non-commercial Website',
       description: 'Use an image on a blog or website<br/><br/>Site does not carry advertising or sell products or services.<br/>Site receives no more than 50,000 views per month<br/>Maximum size of image 400 x 400px.',
       logo: undefined,
       'primary_color': '#ffffff',

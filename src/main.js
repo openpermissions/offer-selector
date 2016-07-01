@@ -64,6 +64,7 @@ class OfferSelector {
   }
 
   displayError(err) {
+    console.log(err)
     this._parentNode().innerHTML = '<error></error>';
     riot.mount('error', {
       error: err
