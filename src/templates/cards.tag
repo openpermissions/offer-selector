@@ -5,7 +5,7 @@
         </div>
         <h1 style={parent.cssStyleRules(item.secondary_color)} class="name" id={item.id}>{item.name}</h1>
         <raw class="usage" content="{item.description}"></raw>
-        <a class ="details" style={parent.cssStyleRules(item.secondary_color)} href={parent.formatDetailsUrl(item.repository_id, item.id)}>More Details</a>
+        <a class ="details" style={parent.cssStyleRules(item.secondary_color)} href={parent.formatDetailsUrl(item.repositoryId, item.id)}>More Details</a>
         <a href="#" style={parent.cssStyleRules('#fff', item.primary_color)} class="button" id={item.id}> Buy for {parent.formatMoney(item.price.value, item.price.unit)}</a>
         <div class="footer-logo">
             <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
