@@ -2,7 +2,6 @@ import Swiper from 'swiper'
 
 module.exports = {
   renderSwiper: function() {
-
     var width = window.innerWidth;
     var height = window.innerHeight;
 
@@ -14,18 +13,32 @@ module.exports = {
       }
     }
 
+    var all = document.getElementsByClassName('all');
+    var cardTable = document.getElementsByClassName('card_table');
     var usages = document.getElementsByClassName('usage');
-    for (var i = 0; i < usages.length; i++) {
-      ellipsizeTextBox(usages[i])
-    }
+
+    var allHeight, cardHeight, usageVisibility;
     if (height <= 420) {
-      $('.card_table').css('height', "250px");
-      $('.all').css('height', "300px");
-      $('.usage').hide();
+      allHeight = "300px";
+      cardHeight = "250px";
+      usageVisibility = "hidden";
     } else {
-      $('.card_table').css('height', "400px");
-      $('.all').css('height', "470px");
-      $('.usage').show();
+      allHeight = "470px";
+      cardHeight = "400px";
+      usageVisibility = "visible";
+    }
+
+    for (var i = 0; i < all.length; i++) {
+      all[i].style.height = allHeight;
+    }
+
+    for (var i = 0; i < cardTable.length; i++) {
+      cardTable[i].style.height = cardHeight;
+    }
+
+    for (var i = 0; i < usages.length; i++) {
+      usages[i].style.visibility = usageVisibility;
+      if (usageVisibility == "visible") {ellipsizeTextBox(usages[i])};
     }
 
     var options = {
