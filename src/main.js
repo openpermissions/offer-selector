@@ -20,8 +20,10 @@ import riot from 'riot';
 import _defaultsDeep from 'lodash.defaultsdeep';
 import 'isomorphic-fetch';
 
+import {parseResponse} from './helper'
 import parser from './offer';
 import './templates/offers.tag';
+import './templates/error.tag';
 
 class OfferSelector {
   constructor(options) {
@@ -44,11 +46,21 @@ class OfferSelector {
       throw Error(`Tag ${tag} not found in html`);
     }
     nodes[0].innerHTML = '<offers></offers>';
-
     riot.mount('offers', {
       title: 'OPP Licence Offers',
       items: offers
     });
+  }
+
+  displayError(err) {
+    const nodes = document.getElementsByTagName(this.options.tag);
+    if (nodes.length == 0) {
+      throw Error(`Tag ${tag} not found in html`);
+    }
+    nodes[0].innerHTML = '<error></error>';
+    riot.mount('error', {
+      error: err
+    })
   }
 
   loadOffers(sourceIds) {
@@ -61,12 +73,13 @@ class OfferSelector {
     };
 
     return fetch(this.options.offers, init)
-      .then(response => {
-        if (!response.ok) { throw Error(response.statusText); }
-        return response.json();
-      })
+      .then(parseResponse)
       .then(response => parser.parseOffers(response.data, this.options))
-      .then(val => this.displayOffers(val));
+      .then(val => this.displayOffers(val))
+      .catch(err => {
+        this.displayError(err);
+        throw err;
+      });
   }
 }
 

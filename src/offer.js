@@ -19,6 +19,7 @@ import pickBy from 'lodash.pickby';
 import jsonld from 'jsonld';
 import 'isomorphic-fetch';
 
+import {parseResponse} from './helper';
 import {names} from './constants';
 
 getOrganisation.cache = {};
@@ -37,10 +38,7 @@ function getOrganisation(result, grouped, orgUrl) {
 
   if (!request) {
     request = fetch(`${orgUrl}/${orgId}`)
-      .then(response => {
-        if (!response.ok) { throw Error(response.statusText); }
-        return response.json();
-      });
+      .then(parseResponse);
 
     getOrganisation.cache[orgId] = request;
   }
