@@ -10,7 +10,7 @@
             please contact <a href="mailto:support@openpermissions.org" target="_top">OPP Support</a> for more information.</p>
         </div>
         <div class="footer-logo">
-          <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
+          <p>Powered by </p> <img src="https://s3-eu-west-1.amazonaws.com/copyrighthub-matrix-images/opp-logo.png"></img>
         </div>
       </div>
   </div>
@@ -40,7 +40,7 @@
         </div>
 
         <div class="footer-logo">
-          <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
+          <p>Powered by </p> <img src="https://s3-eu-west-1.amazonaws.com/copyrighthub-matrix-images/opp-logo.png"></img>
         </div>
       </div>
   </div>

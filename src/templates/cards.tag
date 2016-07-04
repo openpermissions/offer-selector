@@ -7,7 +7,7 @@
     <a class ="details" style={parent.cssStyleRules(item.secondary_color)} href={parent.formatDetailsUrl(item.repositoryId, item.id)}>More Details</a>
     <a target="_blank" href="{item.paymentUrl}" style={parent.cssStyleRules('#fff', item.primary_color)} class="button" id={item.id}> Buy for {parent.formatMoney(item.price.value, item.price.unit)}</a>
     <div class="footer-logo">
-        <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
+        <p>Powered by </p> <img src="https://s3-eu-west-1.amazonaws.com/copyrighthub-matrix-images/opp-logo.png"></img>
     </div>
 </offer-card>
 
@@ -19,7 +19,7 @@
     <raw class="usage" content="{item.description}"></raw>
     <a if={item.link} href={item.link} style={parent.cssStyleRules('#fff', item.primary_color)}  class="button" id={item.id}> Go to Site</a>
     <div class="footer-logo">
-        <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
+        <p>Powered by </p> <img src="https://s3-eu-west-1.amazonaws.com/copyrighthub-matrix-images/opp-logo.png"></img>
     </div>
 </organisation-card>
 
