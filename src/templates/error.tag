@@ -1,5 +1,5 @@
 <failure>
-  <div class="all">
+  <div id="container">
       <div class="error_card">
         <h1>Not Found</h1>
         <div class="body">
@@ -17,7 +17,7 @@
 </failure>
 
 <error>
-  <div class="all">
+  <div id="container">
       <div class="error_card">
         <h1> Error </h1>
         <div class="body">
