@@ -1,51 +1,8 @@
-const expect = require('expect.js');
-const sinon = require('sinon');
-require('sinon-as-promised');
-const helper = require('../src/helper');
-require('whatwg-fetch');
-
-describe('getAssigner', () => {
-  it('should return provider id if exists', () => {
-    let offer = [{
-      '@type': ["http://www.w3.org/ns/odrl/2/Offer"],
-      '@id': 'offerid',
-      'http://www.w3.org/ns/odrl/2/assigner': [{'@id': 'partyid'}]
-    },{
-      '@id': 'partyid',
-      'http://openpermissions.org/ns/op/1.1/provider': [{'@value': 'providerid'}]
-    }];
-    let result = helper.getAssigner(offer);
-    expect(result).to.be('providerid');
-  });
-
-  it('should return undefined if no offer element', () => {
-    let offer = [];
-    let result = helper.getAssigner(offer);
-    expect(result).to.be(undefined);
-  });
-
-  it('should return undefined if offer has no assigner id', () => {
-    let offer = [{
-      '@type': ["http://www.w3.org/ns/odrl/2/Offer"],
-      '@id': 'offerid'
-    }];
-    let result = helper.getAssigner(offer);
-    expect(result).to.be(undefined);
-  });
-
-  it('should return undefined if offer has no assigner element', () => {
-    let offer = [{
-      '@type': ["http://www.w3.org/ns/odrl/2/Offer"],
-      '@id': 'offerid',
-      'http://www.w3.org/ns/odrl/2/assigner': 'partyid'
-    }];
-    let result = helper.getAssigner(offer);
-    expect(result).to.be(undefined);
-  });
-});
+import expect from 'expect.js';
+import helper from '../src/helper';
 
 describe('parseResponse', () => {
-  it('should return json if status code is 200', done => {
+  it('should return json if status code is ok', done => {
     var response = new Response('{"status": 200, "data": [{"offers": [{"@context": {}, "@graph": []}]}]}', {
       status: 200,
       headers: {
@@ -60,8 +17,8 @@ describe('parseResponse', () => {
       .then(done, done)
   });
 
-  it('should throw an error if status code is not 200', () => {
-    var response = new Response('{"status": 200, "data": [{"offers": [{"@context": {}, "@graph": []}]}]}', {
+  it('should return a rejected promise an error if status code is not ok', done => {
+    var response = new Response('{"status": 500, "error": "Internal Server Error"}', {
       status: 500,
       statusText: "Internal Server Error",
       headers: {
@@ -69,12 +26,12 @@ describe('parseResponse', () => {
       }
     });
 
-    expect(()=> {
-      helper.parseResponse(response)
-    }).to.throwException(e => {
-      expect(e.message).to.be('Internal Server Error');
-    });
-  })
+    helper.parseResponse(response)
+      .catch(result => {
+        expect(result).to.eql({"status": 500, "error": "Internal Server Error"})
+    })
+      .then(done, done)
+  });
 });
 
 describe('formatMoney', () => {

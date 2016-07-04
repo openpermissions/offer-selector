@@ -87,7 +87,7 @@ function transformOffer(result, obj) {
 
   let items = {
     id: offerId,
-    type : title,
+    name : title,
     description: description,
     assignerId: assignerId,
     duties: duties
@@ -148,7 +148,7 @@ export default {
     }, Promise.resolve(defaults));
 
     return chain
-      .then(result => getOrganisation(result, grouped, sourceId, sourceIdType, options.organisations))
+      .then(result => getOrganisation(result, grouped, sourceId, sourceIdType, `${options.accounts}/organisations`))
       .then(result => addPrice(result, grouped)) ;
   },
 

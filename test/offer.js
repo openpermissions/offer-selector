@@ -22,9 +22,9 @@ describe('parseOffer', () => {
       }
     };
 
-    fetchMock.mock(/exampleco$/, () => {return {body: response};});
+    fetchMock.mock('https://example.com/v1/accounts/organisations/exampleco', () => {return {body: response};});
     options = {
-      organisations: 'https://example.com/v1/accounts/organisations',
+      accounts: 'https://example.com/v1/accounts',
       defaults: {
         'primary_color': '#ffffff',
         'secondary_color': '#000000'
@@ -40,7 +40,7 @@ describe('parseOffer', () => {
     const data = require('./fixtures/offer.json');
     const expected = {
       id: 'e3138acd145f484e9c5601685d5166f8',
-      type : 'Non-commercial Website',
+      name : 'Non-commercial Website',
       description: 'Use an image on a blog or website<br/><br/>Site does not carry advertising or sell products or services.<br/>Site receives no more than 50,000 views per month<br/>Maximum size of image 400 x 400px.',
       logo: undefined,
       'primary_color': '#ffffff',
@@ -54,7 +54,7 @@ describe('parseOffer', () => {
 
     return parser.parseOffer(data, sourceId, sourceIdType, options)
       .then(result => {
-        expect(fetchMock.called(options.organisations)).to.be.true;
+        expect(fetchMock.called(`${options.accounts}/exampleco`)).to.be.true;
         expect(result).to.eql(expected);
       });
   });

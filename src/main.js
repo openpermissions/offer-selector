@@ -21,16 +21,18 @@ import _defaultsDeep from 'lodash.defaultsdeep';
 import 'isomorphic-fetch';
 
 import {parseResponse} from './helper'
-import parser from './offer';
-import './templates/offers.tag';
+import offerParser from './offer';
+import licensorParser from './licensor';
+import linksParser from './link';
+import './templates/cards.tag';
 import './templates/error.tag';
 
 class OfferSelector {
   constructor(options) {
     this.version = '__VERSION__';
     this.options = _defaultsDeep(options || {}, {
-      offers: 'https://query.copyrighthub.org/v1/query/search/offers',
-      organisations: 'https://acc.copyrighthub.org/v1/accounts/organisations',
+      query: 'https://query.copyrighthub.org/v1/query',
+      accounts: 'https://acc.copyrighthub.org/v1/accounts',
       tag: 'offer-selector',
       defaults: {
         'primary_color': '#353866',
@@ -40,24 +42,29 @@ class OfferSelector {
     });
   }
 
-  displayOffers(offers) {
+  _parentNode()  {
     const nodes = document.getElementsByTagName(this.options.tag);
     if (nodes.length == 0) {
       throw Error(`Tag ${tag} not found in html`);
     }
-    nodes[0].innerHTML = '<offers></offers>';
-    riot.mount('offers', {
-      title: 'OPP Licence Offers',
-      items: offers
+    return nodes[0]
+  }
+
+  displayCards(items, type) {
+    this._parentNode().innerHTML = '<cards></cards>';
+    riot.mount('cards', {
+      items: items,
+      type: type
     });
   }
 
+  displayFailure() {
+    this._parentNode().innerHTML = '<failure></failure>';
+    riot.mount('failure');
+  }
+
   displayError(err) {
-    const nodes = document.getElementsByTagName(this.options.tag);
-    if (nodes.length == 0) {
-      throw Error(`Tag ${tag} not found in html`);
-    }
-    nodes[0].innerHTML = '<error></error>';
+    this._parentNode().innerHTML = '<error></error>';
     riot.mount('error', {
       error: err
     })
@@ -72,10 +79,36 @@ class OfferSelector {
       body: JSON.stringify(sourceIds)
     };
 
-    return fetch(this.options.offers, init)
+    const offersUrl = `${this.options.query}/search/offers`;
+    return fetch(offersUrl, init)
       .then(parseResponse)
-      .then(response => parser.parseOffers(response.data, this.options))
-      .then(val => this.displayOffers(val))
+      .then(response => {
+        //If there are offers, parse the offers
+        if (response.data.length !== 0) {
+          return offerParser.parseOffers(response.data, this.options)
+            .then(result => Promise.resolve([result, 'offer']));
+        //If there are no offers look for licensors
+        } else {
+          return licensorParser.parseLicensors(sourceIds, this.options)
+            .then(result => Promise.resolve([result, 'licensor']));
+        }
+      })
+      //If there are no offers or licensors, look for links.
+      .then(([response, type]) => {
+        if (response.length === 0) {
+          return linksParser.parseLinks(sourceIds, this.options)
+            .then(result => Promise.resolve([result, 'link']));
+        } else {
+          return [response, type];
+        }
+      })
+      .then(([response, type]) => {
+        if (response.length !== 0) {
+          this.displayCards(response, type)
+        } else {
+          this.displayFailure();
+        }
+      })
       .catch(err => {
         this.displayError(err);
         throw err;
