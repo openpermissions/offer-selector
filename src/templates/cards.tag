@@ -1,46 +1,40 @@
 <offer-card>
-    <div class="card_table">
-        <div class="logo" style={parent.cssStyleRules(undefined, item.primary_color)} id={item.id}>
-            <img src={item.logo}></img>
-        </div>
-        <h1 style={parent.cssStyleRules(item.secondary_color)} class="name" id={item.id}>{item.name}</h1>
-        <raw class="usage" content="{item.description}"></raw>
-        <a class ="details" style={parent.cssStyleRules(item.secondary_color)} href={parent.formatDetailsUrl(item.repositoryId, item.id)}>More Details</a>
-        <a target="_blank" href="{item.paymentUrl}" style={parent.cssStyleRules('#fff', item.primary_color)} class="button" id={item.id}> Buy for {parent.formatMoney(item.price.value, item.price.unit)}</a>
-        <div class="footer-logo">
-            <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
-        </div>
+    <div class="logo" style={parent.cssStyleRules(undefined, item.primary_color)} id={item.id}>
+        <img src={item.logo}></img>
+    </div>
+    <h1 style={parent.cssStyleRules(item.secondary_color)} class="name" id={item.id}>{item.name}</h1>
+    <raw class="usage" content="{item.description}"></raw>
+    <a class ="details" style={parent.cssStyleRules(item.secondary_color)} href={parent.formatDetailsUrl(item.repositoryId, item.id)}>More Details</a>
+    <a target="_blank" href="{item.paymentUrl}" style={parent.cssStyleRules('#fff', item.primary_color)} class="button" id={item.id}> Buy for {parent.formatMoney(item.price.value, item.price.unit)}</a>
+    <div class="footer-logo">
+        <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
     </div>
 </offer-card>
 
 <organisation-card>
-    <div class="card_table">
-        <div class="logo" style={parent.cssStyleRules(undefined, item.primary_color)} id={item.id}>
-            <img src={item.logo}></img>
-        </div>
-        <h1 style={parent.cssStyleRules(item.secondary_color)} class="name" id={item.id}>{item.name}</h1>
-        <raw class="usage" content="{item.description}"></raw>
-        <a if={item.link} href={item.link} style={parent.cssStyleRules('#fff', item.primary_color)}  class="button" id={item.id}> Go to Site</a>
-        <div class="footer-logo">
-            <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
-        </div>
+    <div class="logo" style={parent.cssStyleRules(undefined, item.primary_color)} id={item.id}>
+        <img src={item.logo}></img>
+    </div>
+    <h1 style={parent.cssStyleRules(item.secondary_color)} class="name" id={item.id}>{item.name}</h1>
+    <raw class="usage" content="{item.description}"></raw>
+    <a if={item.link} href={item.link} style={parent.cssStyleRules('#fff', item.primary_color)}  class="button" id={item.id}> Go to Site</a>
+    <div class="footer-logo">
+        <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
     </div>
 </organisation-card>
 
 <cards>
-    <div class="all">
-        <div class="swiper-container swiper" id="container">
-            <div class="swiper-wrapper" id="wrapper">
-                <div each={item in this.items} class="swiper-slide">
-                    <offer-card if={parent.type=='offer'} item={item}/>
-                    <organisation-card if={parent.type=='licensor'} item={item}/>
-                    <organisation-card if={parent.type=='link'} item={item}/>
-                </div>
+    <div class="swiper-container swiper" id="container">
+        <div class="swiper-wrapper" id="wrapper">
+            <div each={item in this.items} class="swiper-slide">
+                <offer-card if={parent.type=='offer'} item={item}/>
+                <organisation-card if={parent.type=='licensor'} item={item}/>
+                <organisation-card if={parent.type=='link'} item={item}/>
             </div>
-            <div class="swiper-pagination swiper-pagination-white" id="pagination"></div>
-            <div class="swiper-button-next swiper-button-white"></div>
-            <div class="swiper-button-prev swiper-button-white"></div>
         </div>
+        <div class="swiper-pagination swiper-pagination-white" id="pagination"></div>
+        <div class="swiper-button-next swiper-button-white"></div>
+        <div class="swiper-button-prev swiper-button-white"></div>
     </div>
 
     <script>
@@ -64,73 +58,31 @@
     </script>
 
     <style>
-        .all{
-          border-top: solid 0.08em #FFF;
-          border-bottom: solid 0.08em #FFF;
-          width:100%;
-          height:470px;
-          margin: 0 auto;
-        }
-        /* Container class for swiper */
-        .swiper-container {
-            width: 100%;
-            height: 100%;
-            margin: 0 auto;
-        }
-        /* Container class for swiper slider */
-        .swiper-slide {
-            width: 100%;
-            /* Center slide text vertically */
-            display: -webkit-box;
-            display: -ms-flexbox;
-            display: -webkit-flex;
-            display: flex;
-            -webkit-box-pack: center;
-            -ms-flex-pack: center;
-            -webkit-justify-content: center;
-            justify-content: center;
-            -webkit-box-align: center;
-            -ms-flex-align: center;
-            -webkit-align-items: center;
-            align-items: center;
-        }
+    #container {
+      border-top: solid 0.08em #FFF;
+      border-bottom: solid 0.08em #FFF;
+      width:100%;
+      height:470px;
+      margin: 0 auto;
+    }
 
-        /* Media queries for different screen sizes to stop showing the Swiper classes in case someone **really** wants to resize the window continuosly */
-        @media screen and (max-width: 320px)
-        {
+    #container .swiper-slide {
+      width:250px;
+      height:400px;
+      margin: 20px;
+      background: #fff;
+      -webkit-box-shadow: 2px 2px 9px rgba(0,0,0,0.3);
+         -moz-box-shadow: 2px 2px 9px rgba(0,0,0,0.3);
+              box-shadow: 2px 2px 9px rgba(0,0,0,0.3);
+	}
 
-            .swiper-button-prev {
-                margin-left: -6px;
-            }
-            .swiper-button-next {
-                margin-right: -6px;
-            }
-        }
+	#container .swiper-button-prev,
+	#container .swiper-button-next {
+	    height: 20px;
+	    top: 98%;
+	}
 
-        /* Class for the card */
-        .card_table {
-          position:relative;
-          width:250px;
-          height:400px;
-          background: #fff;
-
-          -webkit-box-shadow: 2px 2px 9px rgba(0,0,0,0.3);
-             -moz-box-shadow: 2px 2px 9px rgba(0,0,0,0.3);
-                  box-shadow: 2px 2px 9px rgba(0,0,0,0.3);
-        }
-        /* Centered version for Swiper */
-        .card_table#mobile{
-            margin:0 auto;
-
-        }
-        /* Responsive version for Desktop */
-        .card_table#desk {
-          float:left;
-          margin-top:50px;
-          margin-left:50px;
-          margin-bottom:50px;
-        }
-        .button_span {
+	.button_span {
            float: right;
            position: relative;
            left: -50%; /* or right 50% */
@@ -144,7 +96,7 @@
           font-family: 'Signika', sans-serif;
         }
 
-        .card_table h1 {
+        .swiper-slide h1 {
           margin: 0;
           padding:0 0 10px 0;
           height: 10%;
