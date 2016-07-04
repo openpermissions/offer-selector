@@ -20,7 +20,7 @@ import riot from 'riot';
 import _defaultsDeep from 'lodash.defaultsdeep';
 import 'isomorphic-fetch';
 
-import {parseResponse} from './helper'
+import {parseResponse} from './helper';
 import offerParser from './offer';
 import licensorParser from './licensor';
 import linksParser from './link';
@@ -47,7 +47,7 @@ class OfferSelector {
     if (nodes.length == 0) {
       throw Error(`Tag ${tag} not found in html`);
     }
-    return nodes[0]
+    return nodes[0];
   }
 
   displayCards(items, type) {
@@ -67,7 +67,7 @@ class OfferSelector {
     this._parentNode().innerHTML = '<error></error>';
     riot.mount('error', {
       error: err
-    })
+    });
   }
 
   loadOffers(sourceIds) {
@@ -104,7 +104,7 @@ class OfferSelector {
       })
       .then(([response, type]) => {
         if (response.length !== 0) {
-          this.displayCards(response, type)
+          this.displayCards(response, type);
         } else {
           this.displayFailure();
         }
