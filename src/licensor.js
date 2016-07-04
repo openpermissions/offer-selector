@@ -16,17 +16,13 @@
 'use strict';
 import defaultsDeep from 'lodash.defaultsdeep';
 import _get from 'lodash.get';
-import pickBy from 'lodash.pickby';
-import jsonld from 'jsonld';
 import 'isomorphic-fetch';
-
-import {names} from './constants';
 
 /**
  * Extract relevant information and fetch the organisation
  */
 function transformLicensor(data, options) {
-  let licensor = defaultsDeep({}, data.licensor, options);
+  const licensor = defaultsDeep({}, data.licensor, options);
   //Get navigation link
   let link = _get(licensor, ['reference_links', 'links', data.source_id_type]);
   if (link) {
@@ -58,13 +54,12 @@ export default {
           return Promise.resolve([]);
         }
         return Promise.resolve(response.data.map(licensor => {
-            return {
-              source_id: data.source_id,
-              source_id_type: data.source_id_type,
-              licensor: licensor
-            }
-          })
-        )
+          return {
+            source_id: data.source_id,
+            source_id_type: data.source_id_type,
+            licensor: licensor
+          };
+        }));
       });
   },
 
@@ -82,7 +77,7 @@ export default {
       .then(values => {
         let licensors = [].concat.apply([], values);
         licensors = licensors.map(licensor => transformLicensor(licensor, defaults));
-        return Promise.resolve(licensors)
+        return Promise.resolve(licensors);
       });
   }
 };

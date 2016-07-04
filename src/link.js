@@ -16,7 +16,7 @@
 'use strict';
 import defaultsDeep from 'lodash.defaultsdeep';
 import 'isomorphic-fetch';
-import {parseResponse} from './helper'
+import {parseResponse} from './helper';
 
 getOrganisation.cache = {};
 /**

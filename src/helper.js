@@ -1,7 +1,7 @@
-import * as accounting from 'accounting'
-import {currencySymbols} from './constants'
+import * as accounting from 'accounting';
+import {currencySymbols} from './constants';
 
-module.exports = {
+export default {
   parseResponse: function(response) {
     if (!response.ok) {
       return response.json()
@@ -10,18 +10,18 @@ module.exports = {
     return response.json();
   },
 
- formatMoney: function (value, currencyCode) {
-   return accounting.formatMoney(value, currencySymbols[currencyCode] || currencyCode);
- },
+  formatMoney: function (value, currencyCode) {
+    return accounting.formatMoney(value, currencySymbols[currencyCode] || currencyCode);
+  },
 
-  cssStyleRules(fg, bg){
+  cssStyleRules: function (fg, bg){
     var rules = [];
-    if(bg) { rules.push("background-color:" + bg); }
-    if(fg) { rules.push("color:" + fg); }
+    if(bg) { rules.push('background-color:' + bg); }
+    if(fg) { rules.push('color:' + fg); }
     return rules.join(';');
   },
 
-  formatDetailsUrl(repoId, offerId) {
-    return "http://offer.digicat.io?repository="+repoId+"&offer="+offerId;
+  formatDetailsUrl: function (repoId, offerId) {
+    return `http://offer.digicat.io?repository=${repoId}&offer=${offerId}`;
   }
 };
