@@ -15,58 +15,38 @@
 
 'use strict';
 import _defaultsDeep from 'lodash.defaultsdeep';
-import _get from 'lodash.get';
-import _has from 'lodash.has';
 import _pickBy from 'lodash.pickby';
 import jsonld from 'jsonld';
-import 'isomorphic-fetch';
 
-import {parseResponse} from './helper';
 import {names} from './constants';
+import * as org from './organisation';
 
-getOrganisation.cache = {};
 /**
  * Get an organisation using it's ID
  */
-function getOrganisation(result, grouped, sourceId, sourceIdType, orgUrl) {
-  if (!result.assignerId) { return Promise.resolve(result); }
+function addOrganisation(obj, grouped, sourceId, sourceIdType, orgUrl) {
+  if (!obj.assignerId) { return Promise.resolve(obj); }
 
-  const assigner = grouped[result.assignerId];
-  delete result.assignerId;
+  const assigner = grouped[obj.assignerId];
+  if (!assigner) { return Promise.resolve(obj); }
 
-  if (!assigner) { return Promise.resolve(result); }
   const orgId = assigner[names.provider][0]['@value'];
-  let request = getOrganisation.cache[orgId];
 
-  if (!request) {
-    request = fetch(`${orgUrl}/${orgId}`)
-      .then(parseResponse);
+  return org.getOrganisation(orgId, orgUrl)
+    .then(response => {
+      let result = {};
+      const styles = org.styles(response.data);
+      const paymentUrl = org.paymentUrl(response.data, obj.id, sourceId, sourceIdType);
 
-    getOrganisation.cache[orgId] = request;
-  }
-
-  return request.then(response => {
-    const data = response.data;
-
-    result.logo = data.logo || result.logo;
-    result.primary_color = data.primary_color || result.primary_color;
-    result.secondary_color = data.secondary_color || result.secondary_color;
-
-    const matchSourceId = _get(data, 'payment.source_id_type') == sourceIdType;
-    const hasPaymentSourceId = _has(data, 'payment.source_id_type');
-    const hasPaymentUrl = _has(data, 'payment.url');
-    const includePayment = hasPaymentUrl && (matchSourceId || !hasPaymentSourceId);
-
-    if (includePayment) {
-      result.paymentUrl = data.payment.url.replace(/{offer_id}/g, result.id);
-
-      if (matchSourceId) {
-        result.paymentUrl = result.paymentUrl.replace(/{source_id}/g, sourceId);
+      if (paymentUrl) {
+        result.paymentUrl = paymentUrl;
       }
-    }
 
-    return result;
-  });
+      result = _defaultsDeep(result, styles, obj);
+      delete result.assignerId;
+
+      return result;
+    });
 }
 
 function getValue(array, key='@value') {
@@ -148,7 +128,7 @@ export default {
     }, Promise.resolve(defaults));
 
     return chain
-      .then(result => getOrganisation(result, grouped, sourceId, sourceIdType, `${options.accounts}/organisations`))
+      .then(result => addOrganisation(result, grouped, sourceId, sourceIdType, `${options.accounts}/organisations`))
       .then(result => addPrice(result, grouped)) ;
   },
 
@@ -183,7 +163,5 @@ export default {
     });
 
     return Promise.all(promises);
-  },
-
-  clearCache: function () { getOrganisation.cache = {}; }
+  }
 };
