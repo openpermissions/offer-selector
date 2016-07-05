@@ -36,10 +36,15 @@ function addOrganisation(obj, grouped, sourceId, sourceIdType, orgUrl) {
     .then(response => {
       let result = {};
       const styles = org.styles(response.data);
-      const paymentUrl = org.paymentUrl(response.data, obj.id, sourceId, sourceIdType);
 
+      const paymentUrl = org.paymentUrl(response.data, obj.id, sourceId, sourceIdType);
       if (paymentUrl) {
         result.paymentUrl = paymentUrl;
+      }
+
+      const link = org.referenceLink(response.data, sourceId, sourceIdType);
+      if (link) {
+        result.link = link;
       }
 
       result = _defaultsDeep(result, styles, obj);

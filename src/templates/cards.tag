@@ -5,7 +5,8 @@
     <h1 style={parent.cssStyleRules(item.secondary_color)} class="name" id={item.id}>{item.name}</h1>
     <raw class="usage" content="{item.description}"></raw>
     <a class ="details" style={parent.cssStyleRules(item.secondary_color)} href={parent.formatDetailsUrl(item.repositoryId, item.id)}>More Details</a>
-    <a target="_blank" href="{item.paymentUrl}" style={parent.cssStyleRules('#fff', item.primary_color)} class="button" id={item.id}> Buy for {parent.formatMoney(item.price.value, item.price.unit)}</a>
+    <a if={item.paymentUrl} target="_blank" href="{item.paymentUrl}" style={parent.cssStyleRules('#fff', item.primary_color)} class="button" id={item.id}> Buy for {parent.formatMoney(item.price.value, item.price.unit)}</a>
+    <a if={item.link && !item.paymentUrl} target="_blank" href={item.link} style={parent.cssStyleRules('#fff', item.primary_color)}  class="button" id={item.id}> Go to Site</a>
     <div class="footer-logo">
         <p>Powered by </p> <img src="../src/templates/logos/opp-logo.png"></img>
     </div>
@@ -28,8 +29,7 @@
         <div class="swiper-wrapper" id="wrapper">
             <div each={item in this.items} class="swiper-slide">
                 <offer-card if={parent.type=='offer'} item={item}/>
-                <organisation-card if={parent.type=='licensor'} item={item}/>
-                <organisation-card if={parent.type=='link'} item={item}/>
+                <organisation-card if={parent.type=='licensor' || parent.type=='link'} item={item}/>
             </div>
         </div>
         <div class="swiper-pagination swiper-pagination-white" id="pagination"></div>
