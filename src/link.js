@@ -17,26 +17,7 @@
 import defaultsDeep from 'lodash.defaultsdeep';
 import 'isomorphic-fetch';
 import {parseResponse} from './helper';
-
-getOrganisation.cache = {};
-/**
- * Get an organisation using it's ID
- */
-function getOrganisation(result, orgUrl, defaults) {
-  if (!result.organisation_id) { return Promise.resolve(result); }
-
-  const orgId = result.organisation_id;
-
-  let request = getOrganisation.cache[orgId];
-  if (!request) {
-    request = fetch(`${orgUrl}/${orgId}`)
-      .then(parseResponse);
-
-    getOrganisation.cache[orgId] = request;
-  }
-
-  return request.then(response => defaultsDeep({}, response.data, result, defaults));
-}
+import {getOrganisation} from './organisation';
 
 export default {
   /**
@@ -54,8 +35,15 @@ export default {
     const linksUrl = `${options.accounts}/links`;
     return fetch(linksUrl, init)
       .then(parseResponse)
-      .then(response => Promise.all(response.data.map(link =>
-        getOrganisation(link, `${options.accounts}/organisations`, options.defaults))))
+      .then(response => {
+        const orgUrl =  `${options.accounts}/organisations`;
+        const promises = response.data.map(link => {
+          return getOrganisation(link.organisation_id,orgUrl)
+            .then(response => defaultsDeep(response.data, link, options.defaults || {}));
+        });
+
+        return Promise.all(promises);
+      });
   },
 
   /**
@@ -63,9 +51,6 @@ export default {
    */
   parseLinks: function (ids, options={}) {
     return Promise.all(ids.map(id => this.parseLink(id, options)))
-      .then(values => {
-        let links = [].concat.apply([], values);
-        return Promise.resolve(links)
-      });
+      .then(values => [].concat.apply([], values));
   }
 };
