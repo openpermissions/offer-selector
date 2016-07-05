@@ -71,3 +71,19 @@ export function paymentUrl(organisation, offerId, sourceId, sourceIdType) {
 
   return paymentUrl;
 }
+
+/**
+ * Get the organisation's reference link for a source ID type
+ *
+ * Falls back to the organisation's website if there is not a link for the
+ * given source ID type
+ */
+export function referenceLink(organisation, sourceId, sourceIdType) {
+  let link = _get(organisation, ['reference_links', 'links', sourceIdType]);
+  if (!link) { return organisation.website; }
+
+  link = link.replace(/{source_id}/g, sourceId);
+  link = link.replace(/{source_id_type}/g, sourceIdType);
+
+  return link;
+}

@@ -14,33 +14,19 @@
  */
 
 'use strict';
-import defaultsDeep from 'lodash.defaultsdeep';
-import _get from 'lodash.get';
 import 'isomorphic-fetch';
+import defaultsDeep from 'lodash.defaultsdeep';
 
-/**
- * Extract relevant information and fetch the organisation
- */
-function transformLicensor(data, options) {
-  const licensor = defaultsDeep({}, data.licensor, options);
-  //Get navigation link
-  let link = _get(licensor, ['reference_links', 'links', data.source_id_type]);
-  if (link) {
-    link = link.replace(/{source_id}/g, data.source_id);
-    link = link.replace(/{source_id_type}/g, data.source_id_type);
-    licensor.link = link;
-  } else if (licensor.website) {
-    licensor.link = licensor.website;
-  }
-  return licensor;
-}
+import {referenceLink} from './organisation';
+
 
 export default {
   /**
    * Parse a source id/source id type to get licensor information
    */
-  parseLicensor: function (data, options={}) {
-    const url = `${options.query}/licensors?source_id=${data.source_id}&source_id_type=${data.source_id_type}`;
+  getLicensors: function (sourceId, sourceIdType, options={}) {
+    const url = `${options.query}/licensors?source_id=${sourceId}&source_id_type=${sourceIdType}`;
+
     return fetch(url)
       .then(response => {
         if (!response.ok && response.status != 404) {
@@ -54,11 +40,14 @@ export default {
           return Promise.resolve([]);
         }
         return Promise.resolve(response.data.map(licensor => {
-          return {
-            source_id: data.source_id,
-            source_id_type: data.source_id_type,
-            licensor: licensor
-          };
+          const result = defaultsDeep(licensor, options.defaults || {});
+
+          const link = referenceLink(licensor, sourceId, sourceIdType);
+          if (link) {
+            result.link = link;
+          }
+
+          return result;
         }));
       });
   },
@@ -71,13 +60,7 @@ export default {
       Ideally we should also be able to look up dependent source_ids/licensors, but this would require directly
       querying the index service, or updating the query service to be more flexible.
     */
-    const defaults = defaultsDeep({}, options.defaults || {});
-
-    return Promise.all(ids.map(id => this.parseLicensor(id, options)))
-      .then(values => {
-        let licensors = [].concat.apply([], values);
-        licensors = licensors.map(licensor => transformLicensor(licensor, defaults));
-        return Promise.resolve(licensors);
-      });
+    return Promise.all(ids.map(id => this.getLicensors(id.source_id, id.source_id_type, options)))
+      .then(values => [].concat.apply([], values));
   }
 };
