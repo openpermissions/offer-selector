@@ -1,28 +1,18 @@
 import expect from 'expect.js';
 import fetchMock from 'fetch-mock';
+import proxyquire from 'proxyquire';
 import sinon from 'sinon';
+import 'sinon-as-promised';
 
-import parser from '../src/offer';
+const orgStub = {getOrganisation: sinon.stub().resolves({data: {}})};
+const parser = proxyquire('../src/offer', {'./organisation': orgStub});
 
 describe('parseOffer', () => {
   let options;
-  let response;
   const sourceId = 140;
   const sourceIdType = 'examplecopictureid';
 
   beforeEach(() => {
-    response = {
-      status: 200,
-      data: {
-        id: 'orgid1',
-        name: 'Organisation 1',
-        payment: {
-          url: 'http://example.com/pay'
-        }
-      }
-    };
-
-    fetchMock.mock('https://example.com/v1/accounts/organisations/exampleco', () => {return {body: response};});
     options = {
       accounts: 'https://example.com/v1/accounts',
       defaults: {
@@ -33,104 +23,50 @@ describe('parseOffer', () => {
   });
 
   afterEach(() => {
-    fetchMock.restore();
+    orgStub.getOrganisation.reset();
+  });
+
+  it('should call getOrganisation', () => {
+    const data = require('./fixtures/offer.json');
+    return parser.parseOffer(data, sourceId, sourceIdType, options)
+      .then(() => {
+        const args = ['exampleco', options.accounts + '/organisations'];
+        expect(orgStub.getOrganisation.calledWith(...args)).to.equal(true);
+      });
   });
 
   it('should reduce the array into an object', () => {
     const data = require('./fixtures/offer.json');
-    const expected = {
+    const styles = {
+      'primary_color': 'white',
+      'secondary_color': 'blue',
+      'logo': 'test.svg'
+    };
+    const expected = Object.assign({
       id: 'e3138acd145f484e9c5601685d5166f8',
       name : 'Non-commercial Website',
       description: 'Use an image on a blog or website<br/><br/>Site does not carry advertising or sell products or services.<br/>Site receives no more than 50,000 views per month<br/>Maximum size of image 400 x 400px.',
-      logo: undefined,
-      'primary_color': '#ffffff',
-      'secondary_color': '#000000',
-      paymentUrl: response.data.payment.url,
       price: {
         value: '1',
         unit: 'GBP'
       }
-    };
+    }, styles);
+
+    orgStub.getOrganisation.resolves({data: styles});
 
     return parser.parseOffer(data, sourceId, sourceIdType, options)
-      .then(result => {
-        expect(fetchMock.called(`${options.accounts}/exampleco`)).to.be.true;
-        expect(result).to.eql(expected);
-      });
+      .then(result => expect(result).to.eql(expected));
   });
 
-  it('should replace the source ID if have a matching source ID type', () => {
+  it('should include the payment URL if provided', () => {
+    const paymentUrl = 'http://example.com/pay';
     const data = require('./fixtures/offer.json');
-    response.data.payment = {
-      url: 'http://example.com/{source_id}/{offer_id}/pay',
-      'source_id_type': sourceIdType
-    };
-    fetchMock.reMock(/exampleco$/, {body: response});
-    parser.clearCache();
-    const expected = 'http://example.com/140/e3138acd145f484e9c5601685d5166f8/pay';
+    orgStub.getOrganisation.resolves({data: {payment: {url: paymentUrl}}});
 
     return parser.parseOffer(data, sourceId, sourceIdType, options)
-      .then(result => expect(result.paymentUrl).to.equal(expected));
+      .then(result => expect(result.paymentUrl).to.eql(paymentUrl));
   });
 
-  it('should replace just the offer ID if there is not a source ID type', () => {
-    const data = require('./fixtures/offer.json');
-    response.data.payment = {
-      url: 'http://example.com/{source_id}/{offer_id}/pay'
-    };
-    fetchMock.reMock(/exampleco$/, {body: response});
-    parser.clearCache();
-    const expected = 'http://example.com/{source_id}/e3138acd145f484e9c5601685d5166f8/pay';
-
-    return parser.parseOffer(data, sourceId, sourceIdType, options)
-      .then(result => expect(result.paymentUrl).to.equal(expected));
-  });
-
-  it('should not include payment url if source ID types do not match', () => {
-    const data = require('./fixtures/offer.json');
-
-    response.data.payment = {
-      url: 'http://example.com/{source_id}/{offer_id}/pay',
-      'source_id_type': 'something else'
-    };
-
-    fetchMock.reMock(/exampleco$/, {body: response});
-    parser.clearCache();
-
-    return parser.parseOffer(data, sourceId, sourceIdType, options)
-      .then(result => expect(result).to.not.have.property('paymentUrl'));
-  });
-
-  it('should replace all offer ID placeholders', () => {
-    const data = require('./fixtures/offer.json');
-
-    response.data.payment = {
-      url: 'http://example.com/{offer_id}/{offer_id}/pay'
-    };
-
-    fetchMock.reMock(/exampleco$/, {body: response});
-    parser.clearCache();
-    const expected = 'http://example.com/e3138acd145f484e9c5601685d5166f8/e3138acd145f484e9c5601685d5166f8/pay';
-
-    return parser.parseOffer(data, sourceId, sourceIdType, options)
-      .then(result => expect(result.paymentUrl).to.equal(expected));
-  });
-
-  it('should replace all source ID placeholders', () => {
-    const data = require('./fixtures/offer.json');
-
-    response.data.payment = {
-      url: 'http://example.com/{source_id}/{source_id}/pay',
-      'source_id_type': sourceIdType
-    };
-
-    fetchMock.reMock(/exampleco$/, {body: response});
-    parser.clearCache();
-    const expected = 'http://example.com/140/140/pay';
-
-    return parser.parseOffer(data, sourceId, sourceIdType, options)
-      .then(result => expect(result.paymentUrl).to.equal(expected));
-  });
 
   it("should get the price from the offer's duties", () => {
     const data = [
