@@ -84,17 +84,20 @@
 
         .swiper-slide h1 {
           margin: 0;
-          padding:0 0 10px 0;
+          padding:10px 10px 0;
           height: 10%;
           text-align:center;
-          font-family: 'Lato', sans-serif; font-weight: 400; line-height: 58px;
+          font-family: 'Lato', sans-serif;
+          font-weight: 400;
+          line-height: 1em;
         }
         .opp_name{
           font-size:20px;
           position: relative;
           margin-left: 10px;
           margin-top:15px;
-          font-family: 'Signika', sans-serif; line-height: 35px;
+          font-family: 'Signika', sans-serif;
+          line-height: 1em;
         }
 
         .opp_usage{
@@ -103,6 +106,7 @@
           font-size: 14px;
           padding:0 20px;
           height:48%;
+          line-height:normal;
         }
 
         .opp_details {
