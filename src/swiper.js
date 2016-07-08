@@ -10,9 +10,9 @@ module.exports = {
       }
     }
 
-    var container = document.getElementById('container');
+    var container = document.getElementById('opp_container');
     var slides = document.getElementsByClassName('swiper-slide');
-    var usages = document.getElementsByClassName('usage');
+    var usages = document.getElementsByClassName('opp_usage');
 
     var height = window.innerHeight;
     
