@@ -1,0 +1,10 @@
+dist
+examples
+node_modules
+src
+test
+.eslintrc
+karma-conf.js
+*.swp
+.env
+.idea

@@ -1,8 +1,8 @@
 {
   "name": "offer-selector",
   "description": "Library to select an ODRL offer from a set of options",
-  "version": "0.0.0",
-  "main": "src/main.js",
+  "version": "0.1.0",
+  "main": "lib/main.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/openpermissions/offer-selector.git"
@@ -21,9 +21,9 @@
     "swiper": "^3.3.1"
   },
   "devDependencies": {
-    "babel": "5.1.11",
+    "babel": "^5.8.23",
+    "babelify": "^6.3.0",
     "babel-runtime": "5.3.1",
-    "babelify": "6.0.2",
     "browserify": "9.0.8",
     "browserify-versionify": "1.0.4",
     "eslint": "^2.11.1",
@@ -49,9 +49,11 @@
     "watchify": "3.1.2"
   },
   "scripts": {
-    "build": "browserify src/main.js --s OfferSelector -o dist/offer-selector.js --debug",
-    "build:watch": "watchify src/main.js --s OfferSelector -v -o dist/offer-selector.js --debug",
-    "build:min": "browserify src/main.js --s OfferSelector | uglifyjs -c -m > dist/offer-selector.min.js",
+    "build": "babel src --presets babel-preset-es2015 --out-dir lib | cp -r src/templates lib",
+    "prepublish": "npm run build",
+    "build-standalone": "browserify src/main.js --s OfferSelector -o dist/offer-selector.js --debug",
+    "build-standalone:watch": "watchify src/main.js --s OfferSelector -v -o dist/offer-selector.js --debug",
+    "build-standalone:min": "browserify src/main.js --s OfferSelector | uglifyjs -c -m > dist/offer-selector.min.js",
     "test": "mocha --compilers js:babel/register test/*.js"
   },
   "browserify": {
